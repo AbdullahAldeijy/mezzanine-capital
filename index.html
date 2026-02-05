@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mezzanine Capital - Elevating Business Financial Intelligence</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        
+        * { font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { background: #f7f4e8; }
+        [dir="rtl"] * { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .fade-up {
+            animation: fadeUp 0.8s ease-out;
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .hover-lift {
+            transition: all 0.3s ease;
+        }
+        .hover-lift:hover {
+            transform: translateY(-8px) scale(1.02);
+        }
+    </style>
+</head>
+<body class="text-slate-700">
+    <!-- Navbar -->
+    <nav class="sticky top-0 z-50 glass-card border-b border-white/20">
+        <div class="container mx-auto px-4 md:px-6 py-4 flex justify-between items-center">
+            <div class="text-lg md:text-xl font-bold text-slate-900" data-en="Mezzanine Capital" data-ar="ميزانين كابيتال">Mezzanine Capital</div>
+            <ul class="hidden md:flex space-x-8 text-sm font-medium text-slate-600">
+                <li><a href="#who-we-are" class="hover:text-teal-500 transition" data-en="Who We Are" data-ar="من نحن">Who We Are</a></li>
+                <li><a href="#ecosystem" class="hover:text-teal-500 transition" data-en="The Ecosystem" data-ar="النظام البيئي">The Ecosystem</a></li>
+                <li><a href="#vision" class="hover:text-teal-500 transition" data-en="Vision" data-ar="الرؤية">Vision</a></li>
+                <li><a href="#contact" class="hover:text-teal-500 transition" data-en="Contact" data-ar="اتصل بنا">Contact</a></li>
+            </ul>
+            <div class="flex items-center gap-3">
+                <button onclick="toggleLanguage()" class="bg-gradient-to-r from-teal-400 to-teal-600 text-white px-3 py-1.5 rounded-lg text-xs font-semibold hover:scale-105 transition-all flex items-center gap-1.5">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/>
+                    </svg>
+                    <span id="lang-btn" data-en="العربية" data-ar="English">العربية</span>
+                </button>
+                <button onclick="toggleMenu()" class="md:hidden text-teal-500">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden glass-card px-4 py-3">
+            <a href="#who-we-are" class="block py-2 text-sm hover:text-teal-500" data-en="Who We Are" data-ar="من نحن">Who We Are</a>
+            <a href="#ecosystem" class="block py-2 text-sm hover:text-teal-500" data-en="The Ecosystem" data-ar="النظام البيئي">The Ecosystem</a>
+            <a href="#vision" class="block py-2 text-sm hover:text-teal-500" data-en="Vision" data-ar="الرؤية">Vision</a>
+            <a href="#contact" class="block py-2 text-sm hover:text-teal-500" data-en="Contact" data-ar="اتصل بنا">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="min-h-screen flex items-center relative overflow-hidden py-12 md:py-0">
+        <div class="absolute inset-0 bg-gradient-to-br from-teal-50/30 to-transparent"></div>
+        <div class="container mx-auto px-4 md:px-6 py-12 md:py-20 relative z-10">
+            <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+                <div class="fade-up text-center md:text-left order-2 md:order-1">
+                    <h1 class="text-3xl md:text-5xl lg:text-6xl font-bold text-slate-900 mb-4 md:mb-6 leading-tight" data-en="Elevating Business Financial Intelligence" data-ar="رفع مستوى الذكاء المالي للأعمال">Elevating Business Financial Intelligence</h1>
+                    <p class="text-base md:text-lg text-slate-600 mb-6 md:mb-8 leading-relaxed" data-en="Bridging the gap between trade data and capital. We transform credit portfolios into Sustainability Sukuk." data-ar="سد الفجوة بين بيانات التجارة ورأس المال. نحول محافظ الائتمان إلى صكوك استدامة.">Bridging the gap between trade data and capital. We transform credit portfolios into Sustainability Sukuk.</p>
+                    <a href="#ecosystem" class="inline-block bg-gradient-to-r from-teal-400 to-teal-600 text-white px-6 md:px-8 py-3 md:py-4 rounded-full font-semibold shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 text-sm md:text-base" data-en="Explore the Ecosystem" data-ar="استكشف النظام البيئي">Explore the Ecosystem</a>
+                </div>
+                <div class="fade-up order-1 md:order-2">
+                    <img src="kafd.webp" alt="KAFD" class="rounded-2xl md:rounded-3xl shadow-2xl w-full">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- The Integrated Ecosystem -->
+    <section id="ecosystem" class="py-12 md:py-20 relative">
+        <div class="container mx-auto px-4 md:px-6">
+            <div class="text-center mb-12 md:mb-16 fade-up">
+                <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-4" data-en="Mezzanine Capital Subsidiaries" data-ar="الشركات التابعة لميزانين كابتل">Mezzanine Capital Subsidiaries</h2>
+                <p class="text-base md:text-lg text-slate-600 max-w-2xl mx-auto" data-en="Four specialized arms working together within one unified digital platform" data-ar="أربعة أذرع متخصصة تعمل معاً ضمن منصة رقمية موحدة">Four specialized arms working together within one unified digital platform</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-4 md:gap-6 max-w-6xl mx-auto">
+                <!-- Card 1 -->
+                <div class="glass-card p-6 md:p-8 rounded-2xl md:rounded-3xl shadow-xl hover-lift">
+                    <div class="w-14 h-14 md:w-16 md:h-16 bg-gradient-to-br from-teal-400 to-teal-600 rounded-xl md:rounded-2xl flex items-center justify-center mb-4 md:mb-6 shadow-lg">
+                        <svg class="w-7 h-7 md:w-8 md:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl md:text-2xl font-bold text-slate-900 mb-2 md:mb-3" data-en="Credit Intelligence" data-ar="الذكاء الائتماني">Credit Intelligence</h3>
+                    <p class="text-sm md:text-base text-slate-600 mb-3 md:mb-4" data-en="Tech-driven credit solutions optimizing corporate portfolios." data-ar="حلول ائتمانية تقنية لتحسين المحافظ المؤسسية.">Tech-driven credit solutions optimizing corporate portfolios.</p>
+                    <span class="inline-block px-3 py-1 bg-teal-100 text-teal-700 rounded-full text-xs font-semibold" data-en="Mezzanine Finance" data-ar="ميزانين المالية">Mezzanine Finance</span>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="glass-card p-6 md:p-8 rounded-2xl md:rounded-3xl shadow-xl hover-lift">
+                    <div class="w-14 h-14 md:w-16 md:h-16 bg-gradient-to-br from-teal-400 to-teal-600 rounded-xl md:rounded-2xl flex items-center justify-center mb-4 md:mb-6 shadow-lg">
+                        <svg class="w-7 h-7 md:w-8 md:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl md:text-2xl font-bold text-slate-900 mb-2 md:mb-3" data-en="B2B Platform" data-ar="منصة B2B">B2B Platform</h3>
+                    <p class="text-sm md:text-base text-slate-600 mb-3 md:mb-4" data-en="A unified CRM & Workplace platform for seamless trade." data-ar="منصة موحدة لإدارة العلاقات وبيئة العمل للتجارة السلسة.">A unified CRM & Workplace platform for seamless trade.</p>
+                    <span class="inline-block px-3 py-1 bg-teal-100 text-teal-700 rounded-full text-xs font-semibold" data-en="Mezzanine Tech" data-ar="ميزانين التقنية">Mezzanine Tech</span>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="glass-card p-6 md:p-8 rounded-2xl md:rounded-3xl shadow-xl hover-lift">
+                    <div class="w-14 h-14 md:w-16 md:h-16 bg-gradient-to-br from-teal-400 to-teal-600 rounded-xl md:rounded-2xl flex items-center justify-center mb-4 md:mb-6 shadow-lg">
+                        <svg class="w-7 h-7 md:w-8 md:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl md:text-2xl font-bold text-slate-900 mb-2 md:mb-3" data-en="Capital Markets" data-ar="أسواق رأس المال">Capital Markets</h3>
+                    <p class="text-sm md:text-base text-slate-600 mb-3 md:mb-4" data-en="Structuring Sustainability Sukuk & measuring economic impact." data-ar="هيكلة صكوك الاستدامة وقياس الأثر الاقتصادي.">Structuring Sustainability Sukuk & measuring economic impact.</p>
+                    <span class="inline-block px-3 py-1 bg-teal-100 text-teal-700 rounded-full text-xs font-semibold" data-en="Mezzanine Investments" data-ar="ميزانين الاستثمارية">Mezzanine Investments</span>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="glass-card p-6 md:p-8 rounded-2xl md:rounded-3xl shadow-xl hover-lift">
+                    <div class="w-14 h-14 md:w-16 md:h-16 bg-gradient-to-br from-teal-400 to-teal-600 rounded-xl md:rounded-2xl flex items-center justify-center mb-4 md:mb-6 shadow-lg">
+                        <svg class="w-7 h-7 md:w-8 md:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl md:text-2xl font-bold text-slate-900 mb-2 md:mb-3" data-en="AI Growth Engine" data-ar="محرك النمو بالذكاء الاصطناعي">AI Growth Engine</h3>
+                    <p class="text-sm md:text-base text-slate-600 mb-3 md:mb-4" data-en="AI-powered marketing engine embedded within the ecosystem." data-ar="محرك تسويق مدعوم بالذكاء الاصطناعي ضمن النظام البيئي.">AI-powered marketing engine embedded within the ecosystem.</p>
+                    <span class="inline-block px-3 py-1 bg-teal-100 text-teal-700 rounded-full text-xs font-semibold" data-en="Mezzanine Marketing" data-ar="ميزانين التسويقية">Mezzanine Marketing</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Who We Are -->
+    <section id="who-we-are" class="py-12 md:py-20">
+        <div class="container mx-auto px-4 md:px-6">
+            <div class="max-w-4xl mx-auto text-center fade-up">
+                <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-4 md:mb-6" data-en="Who We Are" data-ar="من نحن">Who We Are</h2>
+                <p class="text-lg md:text-xl text-slate-600 leading-relaxed" data-en="Mezzanine is not just a lender. We are a fintech ecosystem that interconnects finance, technology, and impact. We support enterprise sustainability to enhance financier confidence." data-ar="ميزانين ليست مجرد مقرض. نحن نظام بيئي للتكنولوجيا المالية يربط بين التمويل والتكنولوجيا والأثر. ندعم استدامة المؤسسات لتعزيز ثقة الممولين.">Mezzanine is not just a lender. We are a fintech ecosystem that interconnects finance, technology, and impact. We support enterprise sustainability to enhance financier confidence.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Vision & Mission -->
+    <section id="vision" class="py-12 md:py-20">
+        <div class="container mx-auto px-4 md:px-6">
+            <div class="grid md:grid-cols-2 gap-6 md:gap-8 max-w-5xl mx-auto">
+                <div class="glass-card p-8 md:p-10 rounded-2xl md:rounded-3xl shadow-xl hover-lift">
+                    <div class="w-12 h-12 bg-gradient-to-br from-teal-400 to-teal-600 rounded-xl flex items-center justify-center mb-6">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl md:text-3xl font-bold text-slate-900 mb-4" data-en="Our Vision" data-ar="رؤيتنا">Our Vision</h3>
+                    <p class="text-base md:text-lg text-slate-600" data-en="Leadership in developing a balanced investment system for trade credit." data-ar="الريادة في تطوير نظام استثماري متوازن للائتمان التجاري.">Leadership in developing a balanced investment system for trade credit.</p>
+                </div>
+
+                <div class="glass-card p-8 md:p-10 rounded-2xl md:rounded-3xl shadow-xl hover-lift">
+                    <div class="w-12 h-12 bg-gradient-to-br from-teal-400 to-teal-600 rounded-xl flex items-center justify-center mb-6">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl md:text-3xl font-bold text-slate-900 mb-4" data-en="Our Mission" data-ar="رسالتنا">Our Mission</h3>
+                    <p class="text-base md:text-lg text-slate-600" data-en="Supporting sustainability to build trust." data-ar="دعم الاستدامة لبناء الثقة.">Supporting sustainability to build trust.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact" class="bg-slate-900 text-white py-12 md:py-16">
+        <div class="container mx-auto px-4 md:px-6">
+            <div class="grid md:grid-cols-3 gap-8 md:gap-12 mb-8">
+                <div>
+                    <h3 class="text-xl md:text-2xl font-bold mb-4" data-en="Mezzanine Capital" data-ar="ميزانين كابيتال">Mezzanine Capital</h3>
+                    <p class="text-slate-400 text-sm md:text-base" data-en="A fintech ecosystem for sustainable impact." data-ar="نظام بيئي للتكنولوجيا المالية للأثر المستدام.">A fintech ecosystem for sustainable impact.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4" data-en="Quick Links" data-ar="روابط سريعة">Quick Links</h4>
+                    <ul class="space-y-2 text-slate-400 text-sm md:text-base">
+                        <li><a href="#who-we-are" class="hover:text-teal-400 transition" data-en="Who We Are" data-ar="من نحن">Who We Are</a></li>
+                        <li><a href="#ecosystem" class="hover:text-teal-400 transition" data-en="The Ecosystem" data-ar="النظام البيئي">The Ecosystem</a></li>
+                        <li><a href="#vision" class="hover:text-teal-400 transition" data-en="Vision & Mission" data-ar="الرؤية والرسالة">Vision & Mission</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4" data-en="Contact" data-ar="اتصل بنا">Contact</h4>
+                    <p class="text-slate-400 mb-2 text-sm md:text-base" data-en="Riyadh, Kingdom of Saudi Arabia" data-ar="الرياض، المملكة العربية السعودية">Riyadh, Kingdom of Saudi Arabia</p>
+                    <a href="mailto:info@mezzanine.sa" class="text-teal-400 hover:text-teal-300 transition text-sm md:text-base">info@mezzanine.sa</a>
+                    <div class="flex gap-3 mt-4">
+                        <a href="#" class="w-9 h-9 bg-white/10 hover:bg-teal-500 rounded-lg flex items-center justify-center transition">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="w-9 h-9 bg-white/10 hover:bg-teal-500 rounded-lg flex items-center justify-center transition">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                            </svg>
+                        </a>
+                        <a href="mailto:info@mezzanine.sa" class="w-9 h-9 bg-white/10 hover:bg-teal-500 rounded-lg flex items-center justify-center transition">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-slate-800 pt-6 md:pt-8 text-center text-slate-400 text-sm">
+                <p data-en="© 2026 Mezzanine Capital. All rights reserved." data-ar="© 2026 ميزانين كابيتال. جميع الحقوق محفوظة.">© 2026 Mezzanine Capital. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let currentLang = 'en';
+        
+        function toggleMenu() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        }
+        
+        function toggleLanguage() {
+            currentLang = currentLang === 'en' ? 'ar' : 'en';
+            document.documentElement.setAttribute('lang', currentLang);
+            document.documentElement.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
+            
+            document.querySelectorAll('[data-en]').forEach(el => {
+                el.textContent = el.getAttribute('data-' + currentLang);
+            });
+        }
+    </script>
+</body>
+</html>
