@@ -9,6 +9,7 @@
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
         
         * { font-family: 'Plus Jakarta Sans', sans-serif; }
+        html { scroll-behavior: smooth; }
         body { background: #f7f4e8; }
         [dir="rtl"] * { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         
@@ -40,10 +41,10 @@
         <div class="container mx-auto px-4 md:px-6 py-4 flex justify-between items-center">
             <img src="mezzanine-logo.png" alt="Mezzanine Capital" class="h-8 md:h-10">
             <ul class="hidden md:flex space-x-8 rtl:space-x-reverse text-sm font-medium text-slate-600">
-                <li><a href="#who-we-are" class="hover:text-teal-500 transition" data-en="Who We Are" data-ar="من نحن">Who We Are</a></li>
                 <li><a href="#ecosystem" class="hover:text-teal-500 transition" data-en="The Ecosystem" data-ar="منظومة ميزانين">The Ecosystem</a></li>
+                <li><a href="#who-we-are" class="hover:text-teal-500 transition" data-en="Who We Are" data-ar="من نحن">Who We Are</a></li>
                 <li><a href="#vision" class="hover:text-teal-500 transition" data-en="Vision" data-ar="الرؤية">Vision</a></li>
-                <li><a href="#contact" class="hover:text-teal-500 transition" data-en="Contact" data-ar="اتصل بنا">Contact</a></li>
+                <li><a href="#contact-section" class="hover:text-teal-500 transition" data-en="Contact" data-ar="اتصل بنا">Contact</a></li>
             </ul>
             <div class="flex items-center gap-3">
                 <button onclick="toggleLanguage()" class="bg-gradient-to-r from-teal-400 to-teal-600 text-white px-3 py-1.5 rounded-lg text-xs font-semibold hover:scale-105 transition-all flex items-center gap-1.5">
@@ -60,10 +61,10 @@
             </div>
         </div>
         <div id="mobile-menu" class="hidden md:hidden glass-card px-4 py-3">
-            <a href="#who-we-are" class="block py-2 text-sm hover:text-teal-500" data-en="Who We Are" data-ar="من نحن">Who We Are</a>
             <a href="#ecosystem" class="block py-2 text-sm hover:text-teal-500" data-en="The Ecosystem" data-ar="منظومة ميزانين">The Ecosystem</a>
+            <a href="#who-we-are" class="block py-2 text-sm hover:text-teal-500" data-en="Who We Are" data-ar="من نحن">Who We Are</a>
             <a href="#vision" class="block py-2 text-sm hover:text-teal-500" data-en="Vision" data-ar="الرؤية">Vision</a>
-            <a href="#contact" class="block py-2 text-sm hover:text-teal-500" data-en="Contact" data-ar="اتصل بنا">Contact</a>
+            <a href="#contact-section" class="block py-2 text-sm hover:text-teal-500" data-en="Contact" data-ar="اتصل بنا">Contact</a>
         </div>
     </nav>
 
@@ -182,12 +183,65 @@
         </div>
     </section>
 
+    <!-- Contact Section -->
+    <section id="contact-section" class="py-12 md:py-20 relative">
+        <div class="container mx-auto px-4 md:px-6">
+            <div class="glass-card p-10 md:p-14 rounded-3xl text-center shadow-xl border border-teal-100 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-64 h-64 bg-teal-100/50 rounded-full blur-3xl -mr-20 -mt-20"></div>
+                <div class="absolute bottom-0 left-0 w-64 h-64 bg-slate-200/50 rounded-full blur-3xl -ml-20 -mb-20"></div>
+                
+                <div class="relative z-10 max-w-4xl mx-auto">
+                    <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-6" data-en="Ready to Connect?" data-ar="تواصل معنا">Ready to Connect?</h2>
+                    <p class="text-lg text-slate-600 mb-12 max-w-2xl mx-auto" data-en="We are here to facilitate your journey towards integrated financial intelligence. Reach out to us today." data-ar="نحن هنا لتسهيل رحلتك نحو الذكاء المالي المتكامل. تواصل معنا اليوم.">We are here to facilitate your journey towards integrated financial intelligence. Reach out to us today.</p>
+                    
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+                        <a href="https://linkedin.com" target="_blank" class="group flex flex-col items-center p-4 rounded-2xl hover:bg-white/50 transition-all duration-300">
+                            <div class="w-16 h-16 bg-white rounded-full shadow-md flex items-center justify-center mb-4 group-hover:scale-110 group-hover:shadow-lg transition-all">
+                                <svg class="w-8 h-8 text-[#0077b5]" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                                </svg>
+                            </div>
+                            <span class="font-semibold text-slate-800" data-en="LinkedIn" data-ar="لينكد إن">LinkedIn</span>
+                        </a>
+
+                        <a href="https://x.com" target="_blank" class="group flex flex-col items-center p-4 rounded-2xl hover:bg-white/50 transition-all duration-300">
+                            <div class="w-16 h-16 bg-white rounded-full shadow-md flex items-center justify-center mb-4 group-hover:scale-110 group-hover:shadow-lg transition-all">
+                                <svg class="w-7 h-7 text-slate-900" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                                </svg>
+                            </div>
+                            <span class="font-semibold text-slate-800">X Platform</span>
+                        </a>
+
+                        <a href="mailto:info@mezzanine.sa" class="group flex flex-col items-center p-4 rounded-2xl hover:bg-white/50 transition-all duration-300">
+                            <div class="w-16 h-16 bg-white rounded-full shadow-md flex items-center justify-center mb-4 group-hover:scale-110 group-hover:shadow-lg transition-all">
+                                <svg class="w-8 h-8 text-teal-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                                </svg>
+                            </div>
+                            <span class="font-semibold text-slate-800" data-en="Email Us" data-ar="راسلنا">Email Us</span>
+                        </a>
+
+                        <a href="#" class="group flex flex-col items-center p-4 rounded-2xl hover:bg-white/50 transition-all duration-300">
+                            <div class="w-16 h-16 bg-white rounded-full shadow-md flex items-center justify-center mb-4 group-hover:scale-110 group-hover:shadow-lg transition-all">
+                                <svg class="w-8 h-8 text-teal-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                                </svg>
+                            </div>
+                            <span class="font-semibold text-slate-800" data-en="Call Us" data-ar="اتصل بنا">Call Us</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Footer -->
     <footer id="contact" class="bg-slate-900 text-white py-12 md:py-16">
         <div class="container mx-auto px-4 md:px-6">
             <div class="grid md:grid-cols-3 gap-8 md:gap-12 mb-8">
                 <div>
-                    <img src="mezzanine-logo.png" alt="Mezzanine Capital" class="h-8 md:h-10 mb-4">
+                    <h3 class="text-xl md:text-2xl font-bold mb-4" data-en="Mezzanine Capital" data-ar="ميزانين كابيتال">Mezzanine Capital</h3>
                     <p class="text-slate-400 text-sm md:text-base" data-en="A fintech ecosystem for sustainable impact." data-ar="نظام بيئي للتكنولوجيا المالية للأثر المستدام.">A fintech ecosystem for sustainable impact.</p>
                 </div>
                 <div>
