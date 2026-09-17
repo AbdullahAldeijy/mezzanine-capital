@@ -2,288 +2,488 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Mezzanine Capital - Elevating Business Financial Intelligence</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
-        
-        * { font-family: 'Plus Jakarta Sans', sans-serif; }
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap');
+
+        :root {
+            --ink: #16233F;
+            --ink-deep: #101A30;
+            --navy-panel: #1A2B4F;
+            --slate: #47536A;
+            --teal: #4FA8AC;
+            --teal-deep: #2C7478;
+            --cream: #F6F1E3;
+            --cream-2: #ECE4CE;
+            --line: rgba(22, 35, 63, 0.15);
+            --line-on-dark: rgba(246, 241, 227, 0.18);
+        }
+
         html { scroll-behavior: smooth; }
-        body { background: #f7f4e8; }
-        [dir="rtl"] * { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        
-        .glass-card {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+        html, body { overflow-x: hidden; max-width: 100%; }
+        body {
+            background: var(--cream);
+            color: var(--slate);
+            font-family: 'IBM Plex Sans', sans-serif;
+            padding-left: env(safe-area-inset-left);
+            padding-right: env(safe-area-inset-right);
         }
-        
-        .fade-up {
-            animation: fadeUp 0.8s ease-out;
+        img { max-width: 100%; display: block; }
+        nav.site-nav { padding-top: env(safe-area-inset-top); }
+        html[dir="rtl"] body { font-family: 'IBM Plex Sans Arabic', sans-serif; }
+        html[dir="rtl"] * { font-family: 'IBM Plex Sans Arabic', sans-serif; }
+
+        .h1, .h2, .h3, .num {
+            font-family: 'Space Grotesk', sans-serif;
         }
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+        html[dir="rtl"] .h1, html[dir="rtl"] .h2, html[dir="rtl"] .h3 {
+            font-weight: 700;
+            letter-spacing: 0;
         }
-        
-        .hover-lift {
-            transition: all 0.3s ease;
+
+        .h1 { font-size: clamp(2.35rem, 4.4vw, 4.1rem); line-height: 1.08; letter-spacing: -0.02em; font-weight: 600; color: var(--ink); }
+        .h2 { font-size: clamp(1.9rem, 3.1vw, 2.85rem); line-height: 1.12; letter-spacing: -0.015em; font-weight: 600; color: var(--ink); }
+        .h3 { font-size: clamp(1.3rem, 1.7vw, 1.6rem); line-height: 1.25; font-weight: 500; color: var(--ink); }
+        .lede { font-size: clamp(1.05rem, 1.2vw, 1.2rem); line-height: 1.65; color: var(--slate); max-width: 42ch; }
+        html[dir="rtl"] .lede { max-width: 46ch; }
+
+        .num {
+            font-weight: 500;
+            font-variant-numeric: tabular-nums;
+            color: var(--teal-deep);
         }
-        .hover-lift:hover {
-            transform: translateY(-8px) scale(1.02);
+
+        .hairline { border-color: var(--line); }
+
+        .btn-primary {
+            display: inline-block;
+            background: var(--ink);
+            color: var(--cream);
+            padding: 0.9rem 1.85rem;
+            font-weight: 500;
+            font-size: 0.95rem;
+            border-radius: 2px;
+            transition: background-color .2s ease;
+        }
+        .btn-primary:hover { background: var(--teal-deep); }
+
+        .nav-link {
+            position: relative;
+            color: var(--slate);
+            transition: color .15s ease;
+        }
+        .nav-link:hover { color: var(--ink); }
+        .nav-link::after {
+            content: "";
+            position: absolute;
+            left: 0; right: 0; bottom: -6px;
+            height: 1px;
+            background: var(--teal-deep);
+            transform: scaleX(0);
+            transition: transform .2s ease;
+        }
+        .nav-link:hover::after { transform: scaleX(1); }
+
+        .lang-toggle { display: flex; align-items: center; gap: 0.4rem; font-size: 0.85rem; color: var(--slate); }
+        .lang-toggle button { font-weight: 500; padding-bottom: 2px; border-bottom: 1px solid transparent; transition: border-color .15s ease, color .15s ease; }
+        .lang-toggle button.is-active { color: var(--ink); border-color: var(--teal-deep); }
+
+        /* Directory rows */
+        .directory-row {
+            position: relative;
+            padding-inline-start: 0.75rem;
+            transition: background-color .2s ease;
+        }
+        @media (min-width: 768px) {
+            .directory-row { padding-inline-start: 1.25rem; }
+        }
+        .directory-row::before {
+            content: "";
+            position: absolute;
+            inset-inline-start: 0; top: 0; bottom: 0;
+            width: 3px;
+            background: transparent;
+            transition: background-color .2s ease;
+        }
+        .directory-row:hover, .directory-row:focus-within {
+            background: var(--cream-2);
+        }
+        .directory-row:hover::before, .directory-row:focus-within::before {
+            background: var(--teal);
+        }
+        .directory-row .row-icon { color: var(--ink); opacity: 0.75; transition: color .2s ease, opacity .2s ease; }
+        .directory-row:hover .row-icon { color: var(--teal-deep); opacity: 1; }
+        .tag-pill {
+            display: inline-block;
+            border: 1px solid var(--line);
+            color: var(--ink);
+            padding: 0.2rem 0.65rem;
+            border-radius: 2px;
+            font-size: 0.78rem;
+            font-weight: 500;
+        }
+
+        /* One deliberate load sequence, hero only */
+        .reveal { opacity: 0; transform: translateY(14px); animation: reveal .7s ease forwards; }
+        .reveal-1 { animation-delay: .05s; }
+        .reveal-2 { animation-delay: .2s; }
+        .reveal-3 { animation-delay: .35s; }
+        .reveal-4 { animation-delay: .5s; }
+        @keyframes reveal { to { opacity: 1; transform: translateY(0); } }
+        @media (prefers-reduced-motion: reduce) {
+            .reveal { animation: none; opacity: 1; transform: none; }
+        }
+
+        a:focus-visible, button:focus-visible {
+            outline: 2px solid var(--teal-deep);
+            outline-offset: 3px;
+        }
+
+        .skyline-rule {
+            width: 100%;
+            height: 34px;
+            opacity: 0.5;
+        }
+
+        .tap-44 {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 44px;
+            min-width: 44px;
+        }
+
+        /* Mobile slide-in menu */
+        .mobile-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(16, 26, 48, 0.45);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .25s ease;
+            z-index: 44;
+        }
+        .mobile-overlay.is-open { opacity: 1; pointer-events: auto; }
+
+        .mobile-panel {
+            position: fixed;
+            inset-inline-end: 0;
+            top: 0;
+            bottom: 0;
+            height: 100vh;
+            height: 100dvh;
+            width: min(20rem, 85vw);
+            background: var(--cream);
+            z-index: 45;
+            box-shadow: -12px 0 32px rgba(16, 26, 48, 0.18);
+            transform: translateX(100%);
+            transition: transform .3s ease;
+            overflow-y: auto;
+            padding-top: env(safe-area-inset-top);
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+        html[dir="rtl"] .mobile-panel {
+            box-shadow: 12px 0 32px rgba(16, 26, 48, 0.18);
+            transform: translateX(-100%);
+        }
+        .panel-link {
+            display: flex;
+            align-items: center;
+            min-height: 44px;
+            padding: 0 1.5rem;
+            color: var(--ink);
+        }
+
+        .site-footer {
+            padding-bottom: calc(2.5rem + env(safe-area-inset-bottom));
+        }
+        @media (min-width: 768px) {
+            .site-footer { padding-bottom: calc(3rem + env(safe-area-inset-bottom)); }
         }
     </style>
 </head>
-<body class="text-slate-700">
+<body>
     <!-- Navbar -->
-    <nav class="sticky top-0 z-50 glass-card border-b border-white/20">
+    <nav class="site-nav sticky top-0 z-50 bg-[var(--cream)] border-b hairline">
         <div class="container mx-auto px-4 md:px-6 py-4 flex justify-between items-center">
-            <img src="mezzanine-logo.png" alt="Mezzanine Capital" class="h-8 md:h-10">
-            <ul class="hidden md:flex space-x-8 rtl:space-x-reverse text-sm font-medium text-slate-600">
-                <li><a href="#ecosystem" class="hover:text-teal-500 transition" data-en="The Ecosystem" data-ar="منظومة ميزانين">The Ecosystem</a></li>
-                <li><a href="#who-we-are" class="hover:text-teal-500 transition" data-en="Who We Are" data-ar="من نحن">Who We Are</a></li>
-                <li><a href="#vision" class="hover:text-teal-500 transition" data-en="Vision" data-ar="الرؤية">Vision</a></li>
-                <li><a href="#contact-section" class="hover:text-teal-500 transition" data-en="Contact" data-ar="اتصل بنا">Contact</a></li>
+            <img src="mezzanine-logo.png" alt="Mezzanine Capital" class="h-7 md:h-9">
+            <ul class="hidden md:flex gap-9 text-sm">
+                <li><a href="#ecosystem" class="nav-link py-2" data-en="The Ecosystem" data-ar="منظومة ميزانين">The Ecosystem</a></li>
+                <li><a href="#who-we-are" class="nav-link py-2" data-en="Who We Are" data-ar="من نحن">Who We Are</a></li>
+                <li><a href="#vision" class="nav-link py-2" data-en="Vision" data-ar="الرؤية">Vision</a></li>
+                <li><a href="#contact-section" class="nav-link py-2" data-en="Contact" data-ar="اتصل بنا">Contact</a></li>
             </ul>
-            <div class="flex items-center gap-3">
-                <button onclick="toggleLanguage()" class="bg-gradient-to-r from-teal-400 to-teal-600 text-white px-3 py-1.5 rounded-lg text-xs font-semibold hover:scale-105 transition-all flex items-center gap-1.5">
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/>
+            <div class="flex items-center gap-2">
+                <div class="lang-toggle">
+                    <button onclick="setLanguage('en')" id="lang-en-btn" class="is-active tap-44" aria-label="English">EN</button>
+                    <span aria-hidden="true">/</span>
+                    <button onclick="setLanguage('ar')" id="lang-ar-btn" class="tap-44" aria-label="العربية">ع</button>
+                </div>
+                <button onclick="toggleMenu()" id="menu-btn" class="md:hidden tap-44 text-[var(--ink)]" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-panel">
+                    <svg id="menu-icon-open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"/>
                     </svg>
-                    <span id="lang-btn" data-en="العربية" data-ar="English">العربية</span>
-                </button>
-                <button onclick="toggleMenu()" class="md:hidden text-teal-500">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    <svg id="menu-icon-close" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/>
                     </svg>
                 </button>
             </div>
         </div>
-        <div id="mobile-menu" class="hidden md:hidden glass-card px-4 py-3">
-            <a href="#ecosystem" class="block py-2 text-sm hover:text-teal-500" data-en="The Ecosystem" data-ar="منظومة ميزانين">The Ecosystem</a>
-            <a href="#who-we-are" class="block py-2 text-sm hover:text-teal-500" data-en="Who We Are" data-ar="من نحن">Who We Are</a>
-            <a href="#vision" class="block py-2 text-sm hover:text-teal-500" data-en="Vision" data-ar="الرؤية">Vision</a>
-            <a href="#contact-section" class="block py-2 text-sm hover:text-teal-500" data-en="Contact" data-ar="اتصل بنا">Contact</a>
-        </div>
     </nav>
 
+    <!-- Mobile slide-in menu -->
+    <div id="mobile-overlay" class="mobile-overlay md:hidden" onclick="closeMenu()"></div>
+    <div id="mobile-panel" class="mobile-panel md:hidden" role="dialog" aria-modal="true" aria-label="Menu">
+        <nav aria-label="Mobile" class="py-2">
+            <a href="#ecosystem" onclick="closeMenu()" class="panel-link border-b hairline" data-en="The Ecosystem" data-ar="منظومة ميزانين">The Ecosystem</a>
+            <a href="#who-we-are" onclick="closeMenu()" class="panel-link border-b hairline" data-en="Who We Are" data-ar="من نحن">Who We Are</a>
+            <a href="#vision" onclick="closeMenu()" class="panel-link border-b hairline" data-en="Vision" data-ar="الرؤية">Vision</a>
+            <a href="#contact-section" onclick="closeMenu()" class="panel-link" data-en="Contact" data-ar="اتصل بنا">Contact</a>
+        </nav>
+    </div>
+
     <!-- Hero Section -->
-    <section class="min-h-screen flex items-center relative overflow-hidden py-12 md:py-0">
-        <div class="absolute inset-0 bg-gradient-to-br from-teal-50/30 to-transparent"></div>
-        <div class="container mx-auto px-4 md:px-6 py-12 md:py-20 relative z-10">
-            <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
-                <div class="fade-up text-center md:text-left order-2 md:order-1">
-                    <h1 class="text-3xl md:text-5xl lg:text-6xl font-bold text-slate-900 mb-4 md:mb-6 leading-tight" data-en="Elevating Business Financial Intelligence" data-ar="رفع مستوى الذكاء المالي للأعمال">Elevating Business Financial Intelligence</h1>
-                    <p class="text-base md:text-lg text-slate-600 mb-6 md:mb-8 leading-relaxed" data-en="Bridging the gap between trade data and capital. We don't just lend; we embed finance into the heart of B2B commerce." data-ar="سد الفجوة بين بيانات التجارة ورأس المال. نحن لا نقرض فقط؛ بل ندمج التمويل في قلب التجارة بين الشركات.">Bridging the gap between trade data and capital. We don't just lend; we embed finance into the heart of B2B commerce.</p>
-                    <a href="#ecosystem" class="inline-block bg-gradient-to-r from-teal-400 to-teal-600 text-white px-6 md:px-8 py-3 md:py-4 rounded-full font-semibold shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 text-sm md:text-base" data-en="Explore the Ecosystem" data-ar="استكشف منظومة ميزانين">Explore the Ecosystem</a>
+    <section class="relative overflow-hidden py-14 md:py-24">
+        <div class="container mx-auto px-4 md:px-6">
+            <div class="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+                <div>
+                    <h1 class="h1 reveal reveal-1 mb-5 md:mb-7" data-en="Elevating Business Financial Intelligence" data-ar="رفع مستوى الذكاء المالي للأعمال">Elevating Business Financial Intelligence</h1>
+                    <p class="lede reveal reveal-2 mb-8 md:mb-10" data-en="Bridging the gap between trade data and capital. We don't just lend; we embed finance into the heart of B2B commerce." data-ar="سد الفجوة بين بيانات التجارة ورأس المال. نحن لا نقرض فقط؛ بل ندمج التمويل في قلب التجارة بين الشركات.">Bridging the gap between trade data and capital. We don't just lend; we embed finance into the heart of B2B commerce.</p>
+                    <a href="#ecosystem" class="btn-primary reveal reveal-3 tap-44" data-en="Explore the Ecosystem" data-ar="استكشف منظومة ميزانين">Explore the Ecosystem</a>
                 </div>
-                <div class="fade-up order-1 md:order-2">
-                    <img src="kafd.webp" alt="KAFD" class="rounded-2xl md:rounded-3xl shadow-2xl w-full">
+                <div class="reveal reveal-4">
+                    <img src="kafd.webp" alt="KAFD" class="w-full aspect-[4/3] object-cover rounded-3xl shadow-2xl">
                 </div>
             </div>
         </div>
     </section>
 
     <!-- The Integrated Ecosystem -->
-    <section id="ecosystem" class="py-12 md:py-20 relative">
+    <section id="ecosystem" class="py-16 md:py-24 border-t hairline">
         <div class="container mx-auto px-4 md:px-6">
-            <div class="text-center mb-12 md:mb-16 fade-up">
-                <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-4" data-en="Mezzanine Capital Subsidiaries" data-ar="الشركات التابعة لميزانين كابتل">Mezzanine Capital Subsidiaries</h2>
-                <p class="text-base md:text-lg text-slate-600 max-w-2xl mx-auto" data-en="Four specialized arms working together within one unified digital platform" data-ar="أربعة أذرع متخصصة تعمل معاً ضمن منصة رقمية موحدة">Four specialized arms working together within one unified digital platform</p>
+            <div class="max-w-2xl mb-12 md:mb-16">
+                <h2 class="h2 mb-4" data-en="Mezzanine Capital Subsidiaries" data-ar="الشركات التابعة لميزانين كابتل">Mezzanine Capital Subsidiaries</h2>
+                <p class="lede" data-en="Four specialized arms working together within one unified digital platform." data-ar="أربعة أذرع متخصصة تعمل معاً ضمن منصة رقمية موحدة.">Four specialized arms working together within one unified digital platform.</p>
             </div>
-            
-            <div class="grid md:grid-cols-2 gap-4 md:gap-6 max-w-6xl mx-auto">
-                <!-- Card 1 -->
-                <div class="glass-card p-6 md:p-8 rounded-2xl md:rounded-3xl shadow-xl hover-lift">
-                    <div class="w-14 h-14 md:w-16 md:h-16 bg-gradient-to-br from-teal-400 to-teal-600 rounded-xl md:rounded-2xl flex items-center justify-center mb-4 md:mb-6 shadow-lg">
-                        <svg class="w-7 h-7 md:w-8 md:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
-                        </svg>
-                    </div>
-                    <h3 class="text-xl md:text-2xl font-bold text-slate-900 mb-2 md:mb-3" data-en="Embedded Financing" data-ar="التمويل المدمج">Embedded Financing</h3>
-                    <p class="text-sm md:text-base text-slate-600 mb-3 md:mb-4" data-en="Seamless access to working capital integrated directly within your daily trade operations." data-ar="وصول سلس لرأس المال العامل مدمج مباشرة في عملياتك التجارية اليومية.">Seamless access to working capital integrated directly within your daily trade operations.</p>
-                    <span class="inline-block px-3 py-1 bg-teal-100 text-teal-700 rounded-full text-xs font-semibold" data-en="Mezzanine Finance" data-ar="ميزانين المالية">Mezzanine Finance</span>
-                </div>
 
-                <!-- Card 2 -->
-                <div class="glass-card p-6 md:p-8 rounded-2xl md:rounded-3xl shadow-xl hover-lift">
-                    <div class="w-14 h-14 md:w-16 md:h-16 bg-gradient-to-br from-teal-400 to-teal-600 rounded-xl md:rounded-2xl flex items-center justify-center mb-4 md:mb-6 shadow-lg">
-                        <svg class="w-7 h-7 md:w-8 md:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"/>
+            <div class="max-w-5xl border-y hairline">
+                <!-- Row 1 -->
+                <div class="directory-row border-b hairline">
+                    <div class="grid grid-cols-[2.25rem_2rem_1fr] md:grid-cols-[4rem_3rem_1fr_auto] gap-x-4 md:gap-x-5 gap-y-3 items-center py-6 md:py-8 pe-4">
+                        <span class="num text-lg md:text-3xl">01</span>
+                        <svg class="row-icon w-5 h-5 md:w-7 md:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
                         </svg>
+                        <div class="col-span-3 md:col-span-1">
+                            <h3 class="h3 mb-1.5" data-en="Embedded Financing" data-ar="التمويل المدمج">Embedded Financing</h3>
+                            <p class="text-sm md:text-base max-w-lg" data-en="Seamless access to working capital integrated directly within your daily trade operations." data-ar="وصول سلس لرأس المال العامل مدمج مباشرة في عملياتك التجارية اليومية.">Seamless access to working capital integrated directly within your daily trade operations.</p>
+                        </div>
+                        <span class="tag-pill col-span-3 md:col-span-1 justify-self-start md:justify-self-end" data-en="Mezzanine Finance" data-ar="ميزانين المالية">Mezzanine Finance</span>
                     </div>
-                    <h3 class="text-xl md:text-2xl font-bold text-slate-900 mb-2 md:mb-3" data-en="B2B Platform" data-ar="منصة B2B">B2B Platform</h3>
-                    <p class="text-sm md:text-base text-slate-600 mb-3 md:mb-4" data-en="A unified CRM & Workplace platform for seamless trade." data-ar="منصة موحدة لإدارة العلاقات وبيئة العمل للتجارة السلسة.">A unified CRM & Workplace platform for seamless trade.</p>
-                    <span class="inline-block px-3 py-1 bg-teal-100 text-teal-700 rounded-full text-xs font-semibold" data-en="Mezzanine Tech" data-ar="ميزانين التقنية">Mezzanine Tech</span>
                 </div>
-
-                <!-- Card 3 -->
-                <div class="glass-card p-6 md:p-8 rounded-2xl md:rounded-3xl shadow-xl hover-lift">
-                    <div class="w-14 h-14 md:w-16 md:h-16 bg-gradient-to-br from-teal-400 to-teal-600 rounded-xl md:rounded-2xl flex items-center justify-center mb-4 md:mb-6 shadow-lg">
-                        <svg class="w-7 h-7 md:w-8 md:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                <!-- Row 2 -->
+                <div class="directory-row border-b hairline">
+                    <div class="grid grid-cols-[2.25rem_2rem_1fr] md:grid-cols-[4rem_3rem_1fr_auto] gap-x-4 md:gap-x-5 gap-y-3 items-center py-6 md:py-8 pe-4">
+                        <span class="num text-lg md:text-3xl">02</span>
+                        <svg class="row-icon w-5 h-5 md:w-7 md:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"/>
                         </svg>
+                        <div class="col-span-3 md:col-span-1">
+                            <h3 class="h3 mb-1.5" data-en="B2B Platform" data-ar="منصة B2B">B2B Platform</h3>
+                            <p class="text-sm md:text-base max-w-lg" data-en="A unified CRM & Workplace platform for seamless trade." data-ar="منصة موحدة لإدارة العلاقات وبيئة العمل للتجارة السلسة.">A unified CRM & Workplace platform for seamless trade.</p>
+                        </div>
+                        <span class="tag-pill col-span-3 md:col-span-1 justify-self-start md:justify-self-end" data-en="Mezzanine Tech" data-ar="ميزانين التقنية">Mezzanine Tech</span>
                     </div>
-                    <h3 class="text-xl md:text-2xl font-bold text-slate-900 mb-2 md:mb-3" data-en="Capital Allocation" data-ar="تخصيص رأس المال">Capital Allocation</h3>
-                    <p class="text-sm md:text-base text-slate-600 mb-3 md:mb-4" data-en="Connecting resilient trade assets with sustainable capital opportunities." data-ar="ربط الأصول التجارية المرنة بفرص رأس مال مستدامة.">Connecting resilient trade assets with sustainable capital opportunities.</p>
-                    <span class="inline-block px-3 py-1 bg-teal-100 text-teal-700 rounded-full text-xs font-semibold" data-en="Mezzanine Investments" data-ar="ميزانين الاستثمارية">Mezzanine Investments</span>
                 </div>
-
-                <!-- Card 4 -->
-                <div class="glass-card p-6 md:p-8 rounded-2xl md:rounded-3xl shadow-xl hover-lift">
-                    <div class="w-14 h-14 md:w-16 md:h-16 bg-gradient-to-br from-teal-400 to-teal-600 rounded-xl md:rounded-2xl flex items-center justify-center mb-4 md:mb-6 shadow-lg">
-                        <svg class="w-7 h-7 md:w-8 md:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                <!-- Row 3 -->
+                <div class="directory-row border-b hairline">
+                    <div class="grid grid-cols-[2.25rem_2rem_1fr] md:grid-cols-[4rem_3rem_1fr_auto] gap-x-4 md:gap-x-5 gap-y-3 items-center py-6 md:py-8 pe-4">
+                        <span class="num text-lg md:text-3xl">03</span>
+                        <svg class="row-icon w-5 h-5 md:w-7 md:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                         </svg>
+                        <div class="col-span-3 md:col-span-1">
+                            <h3 class="h3 mb-1.5" data-en="Capital Allocation" data-ar="تخصيص رأس المال">Capital Allocation</h3>
+                            <p class="text-sm md:text-base max-w-lg" data-en="Connecting resilient trade assets with sustainable capital opportunities." data-ar="ربط الأصول التجارية المرنة بفرص رأس مال مستدامة.">Connecting resilient trade assets with sustainable capital opportunities.</p>
+                        </div>
+                        <span class="tag-pill col-span-3 md:col-span-1 justify-self-start md:justify-self-end" data-en="Mezzanine Investments" data-ar="ميزانين الاستثمارية">Mezzanine Investments</span>
                     </div>
-                    <h3 class="text-xl md:text-2xl font-bold text-slate-900 mb-2 md:mb-3" data-en="AI Growth Engine" data-ar="محرك النمو بالذكاء الاصطناعي">AI Growth Engine</h3>
-                    <p class="text-sm md:text-base text-slate-600 mb-3 md:mb-4" data-en="AI-powered marketing engine embedded within the ecosystem." data-ar="محرك تسويق مدعوم بالذكاء الاصطناعي ضمن النظام البيئي.">AI-powered marketing engine embedded within the ecosystem.</p>
-                    <span class="inline-block px-3 py-1 bg-teal-100 text-teal-700 rounded-full text-xs font-semibold" data-en="Mezzanine Marketing" data-ar="ميزانين التسويقية">Mezzanine Marketing</span>
+                </div>
+                <!-- Row 4 -->
+                <div class="directory-row">
+                    <div class="grid grid-cols-[2.25rem_2rem_1fr] md:grid-cols-[4rem_3rem_1fr_auto] gap-x-4 md:gap-x-5 gap-y-3 items-center py-6 md:py-8 pe-4">
+                        <span class="num text-lg md:text-3xl">04</span>
+                        <svg class="row-icon w-5 h-5 md:w-7 md:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                        <div class="col-span-3 md:col-span-1">
+                            <h3 class="h3 mb-1.5" data-en="AI Growth Engine" data-ar="محرك النمو بالذكاء الاصطناعي">AI Growth Engine</h3>
+                            <p class="text-sm md:text-base max-w-lg" data-en="AI-powered marketing engine embedded within the ecosystem." data-ar="محرك تسويق مدعوم بالذكاء الاصطناعي ضمن النظام البيئي.">AI-powered marketing engine embedded within the ecosystem.</p>
+                        </div>
+                        <span class="tag-pill col-span-3 md:col-span-1 justify-self-start md:justify-self-end" data-en="Mezzanine Marketing" data-ar="ميزانين التسويقية">Mezzanine Marketing</span>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Who We Are -->
-    <section id="who-we-are" class="py-12 md:py-20">
+    <section id="who-we-are" class="py-16 md:py-24 border-t hairline">
         <div class="container mx-auto px-4 md:px-6">
-            <div class="max-w-4xl mx-auto text-center fade-up">
-                <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-4 md:mb-6" data-en="Who We Are" data-ar="من نحن">Who We Are</h2>
-                <p class="text-lg md:text-xl text-slate-600 leading-relaxed" data-en="Mezzanine is not just a lender. We are a fintech ecosystem that interconnects finance, technology, and impact. We support enterprise sustainability to enhance financier confidence." data-ar="ميزانين ليست مجرد مقرض. نحن نظام بيئي للتكنولوجيا المالية يربط بين التمويل والتكنولوجيا والأثر. ندعم استدامة المؤسسات لتعزيز ثقة الممولين.">Mezzanine is not just a lender. We are a fintech ecosystem that interconnects finance, technology, and impact. We support enterprise sustainability to enhance financier confidence.</p>
+            <div class="grid md:grid-cols-[1fr_2fr] gap-6 md:gap-12 max-w-5xl">
+                <h2 class="h2" data-en="Who We Are" data-ar="من نحن">Who We Are</h2>
+                <p class="text-lg md:text-2xl leading-relaxed text-[var(--ink)] font-normal max-w-2xl" data-en="Mezzanine is not just a lender. We are a fintech ecosystem that interconnects finance, technology, and impact. We support enterprise sustainability to enhance financier confidence." data-ar="ميزانين ليست مجرد مقرض. نحن نظام بيئي للتكنولوجيا المالية يربط بين التمويل والتكنولوجيا والأثر. ندعم استدامة المؤسسات لتعزيز ثقة الممولين.">Mezzanine is not just a lender. We are a fintech ecosystem that interconnects finance, technology, and impact. We support enterprise sustainability to enhance financier confidence.</p>
             </div>
         </div>
     </section>
 
     <!-- Vision & Mission -->
-    <section id="vision" class="py-12 md:py-20">
+    <section id="vision" class="py-16 md:py-24 border-t hairline">
         <div class="container mx-auto px-4 md:px-6">
-            <div class="grid md:grid-cols-2 gap-6 md:gap-8 max-w-5xl mx-auto">
-                <div class="glass-card p-8 md:p-10 rounded-2xl md:rounded-3xl shadow-xl hover-lift">
-                    <div class="w-12 h-12 bg-gradient-to-br from-teal-400 to-teal-600 rounded-xl flex items-center justify-center mb-6">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
-                        </svg>
-                    </div>
-                    <h3 class="text-2xl md:text-3xl font-bold text-slate-900 mb-4" data-en="Our Vision" data-ar="رؤيتنا">Our Vision</h3>
-                    <p class="text-base md:text-lg text-slate-600" data-en="Leadership in developing a balanced investment system for trade credit." data-ar="الريادة في تطوير نظام استثماري متوازن للائتمان التجاري.">Leadership in developing a balanced investment system for trade credit.</p>
+            <div class="grid md:grid-cols-2 max-w-5xl divide-y md:divide-y-0 md:divide-x rtl:md:divide-x-reverse hairline">
+                <div class="md:pe-12 pb-10 md:pb-0">
+                    <h3 class="h2 mb-4" style="font-size: clamp(1.6rem,2.4vw,2.1rem);" data-en="Our Vision" data-ar="رؤيتنا">Our Vision</h3>
+                    <p class="text-base md:text-lg" data-en="Leadership in developing a balanced investment system for trade credit." data-ar="الريادة في تطوير نظام استثماري متوازن للائتمان التجاري.">Leadership in developing a balanced investment system for trade credit.</p>
                 </div>
-
-                <div class="glass-card p-8 md:p-10 rounded-2xl md:rounded-3xl shadow-xl hover-lift">
-                    <div class="w-12 h-12 bg-gradient-to-br from-teal-400 to-teal-600 rounded-xl flex items-center justify-center mb-6">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
-                        </svg>
-                    </div>
-                    <h3 class="text-2xl md:text-3xl font-bold text-slate-900 mb-4" data-en="Our Mission" data-ar="رسالتنا">Our Mission</h3>
-                    <p class="text-base md:text-lg text-slate-600" data-en="Supporting sustainability to build trust." data-ar="دعم الاستدامة لبناء الثقة.">Supporting sustainability to build trust.</p>
+                <div class="md:ps-12 pt-10 md:pt-0">
+                    <h3 class="h2 mb-4" style="font-size: clamp(1.6rem,2.4vw,2.1rem);" data-en="Our Mission" data-ar="رسالتنا">Our Mission</h3>
+                    <p class="text-base md:text-lg" data-en="Supporting sustainability to build trust." data-ar="دعم الاستدامة لبناء الثقة.">Supporting sustainability to build trust.</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Contact Section -->
-    <section id="contact-section" class="py-12 md:py-20 relative">
+    <section id="contact-section" class="py-16 md:py-24 border-t hairline">
         <div class="container mx-auto px-4 md:px-6">
-            <div class="glass-card p-10 md:p-14 rounded-3xl text-center shadow-xl border border-teal-100 relative overflow-hidden">
-                <div class="absolute top-0 right-0 w-64 h-64 bg-teal-100/50 rounded-full blur-3xl -mr-20 -mt-20"></div>
-                <div class="absolute bottom-0 left-0 w-64 h-64 bg-slate-200/50 rounded-full blur-3xl -ml-20 -mb-20"></div>
-                
-                <div class="relative z-10 max-w-4xl mx-auto">
-                    <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-6" data-en="Ready to Connect?" data-ar="تواصل معنا">Ready to Connect?</h2>
-                    <p class="text-lg text-slate-600 mb-12 max-w-2xl mx-auto" data-en="We are here to facilitate your journey towards integrated financial intelligence. Reach out to us today." data-ar="نحن هنا لتسهيل رحلتك نحو الذكاء المالي المتكامل. تواصل معنا اليوم.">We are here to facilitate your journey towards integrated financial intelligence. Reach out to us today.</p>
-                    
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 md:gap-8 max-w-2xl mx-auto">
-                        <a href="https://www.linkedin.com/company/mezzanineai" target="_blank" rel="noopener" class="group flex flex-col items-center p-4 rounded-2xl hover:bg-white/50 transition-all duration-300">
-                            <div class="w-16 h-16 bg-white rounded-full shadow-md flex items-center justify-center mb-4 group-hover:scale-110 group-hover:shadow-lg transition-all">
-                                <svg class="w-8 h-8 text-[#0077b5]" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
-                                </svg>
-                            </div>
-                            <span class="font-semibold text-slate-800" data-en="LinkedIn" data-ar="لينكد إن">LinkedIn</span>
-                        </a>
+            <div class="max-w-3xl">
+                <h2 class="h2 mb-4" data-en="Ready to Connect?" data-ar="تواصل معنا">Ready to Connect?</h2>
+                <p class="lede mb-10 md:mb-12" data-en="We are here to facilitate your journey towards integrated financial intelligence. Reach out to us today." data-ar="نحن هنا لتسهيل رحلتك نحو الذكاء المالي المتكامل. تواصل معنا اليوم.">We are here to facilitate your journey towards integrated financial intelligence. Reach out to us today.</p>
 
-                        <a href="mailto:info@mezzanine.sa" class="group flex flex-col items-center p-4 rounded-2xl hover:bg-white/50 transition-all duration-300">
-                            <div class="w-16 h-16 bg-white rounded-full shadow-md flex items-center justify-center mb-4 group-hover:scale-110 group-hover:shadow-lg transition-all">
-                                <svg class="w-8 h-8 text-teal-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                                </svg>
-                            </div>
-                            <span class="font-semibold text-slate-800" data-en="Email Us" data-ar="راسلنا">Email Us</span>
-                        </a>
-
-                        <a href="tel:+966544043103" class="group flex flex-col items-center p-4 rounded-2xl hover:bg-white/50 transition-all duration-300">
-                            <div class="w-16 h-16 bg-white rounded-full shadow-md flex items-center justify-center mb-4 group-hover:scale-110 group-hover:shadow-lg transition-all">
-                                <svg class="w-8 h-8 text-teal-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
-                                </svg>
-                            </div>
-                            <span class="font-semibold text-slate-800" data-en="Call Us" data-ar="اتصل بنا">Call Us</span>
-                            <span class="text-sm text-slate-500 mt-1" dir="ltr">+966 54 404 3103</span>
-                        </a>
-                    </div>
+                <div class="grid grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-4 sm:gap-10">
+                    <a href="https://www.linkedin.com/company/mezzanineai" target="_blank" rel="noopener" class="group flex items-start gap-3 min-h-[44px]">
+                        <svg class="w-5 h-5 shrink-0 text-[var(--ink)] group-hover:text-[var(--teal-deep)] transition-colors" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                        </svg>
+                        <span class="font-medium text-[var(--ink)] border-b border-transparent group-hover:border-[var(--teal-deep)] transition-colors break-words" data-en="LinkedIn" data-ar="لينكد إن">LinkedIn</span>
+                    </a>
+                    <a href="mailto:info@mezzanine.sa" class="group flex items-start gap-3 min-h-[44px]">
+                        <svg class="w-5 h-5 shrink-0 text-[var(--ink)] group-hover:text-[var(--teal-deep)] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                        </svg>
+                        <span class="font-medium text-[var(--ink)] border-b border-transparent group-hover:border-[var(--teal-deep)] transition-colors break-words">info@mezzanine.sa</span>
+                    </a>
+                    <a href="tel:+966544043103" class="group flex items-start gap-3 min-h-[44px]">
+                        <svg class="w-5 h-5 shrink-0 text-[var(--ink)] group-hover:text-[var(--teal-deep)] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                        </svg>
+                        <span class="font-medium text-[var(--ink)] border-b border-transparent group-hover:border-[var(--teal-deep)] transition-colors" dir="ltr">+966 54 404 3103</span>
+                    </a>
+                    <a href="https://www.google.com/maps/search/?api=1&query=King+Abdullah+Financial+District+Riyadh" target="_blank" rel="noopener" class="group flex items-start gap-3 min-h-[44px]">
+                        <svg class="w-5 h-5 shrink-0 text-[var(--ink)] group-hover:text-[var(--teal-deep)] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/>
+                        </svg>
+                        <span class="font-medium text-[var(--ink)] border-b border-transparent group-hover:border-[var(--teal-deep)] transition-colors break-words" data-en="KAFD 4.07, Riyadh, Kingdom of Saudi Arabia" data-ar="كافد 4.07، الرياض، المملكة العربية السعودية">KAFD 4.07, Riyadh, Kingdom of Saudi Arabia</span>
+                    </a>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer id="contact" class="bg-slate-900 text-white py-12 md:py-16">
+    <footer id="contact" class="site-footer bg-[var(--ink-deep)] text-[var(--cream)] pt-14 md:pt-20">
         <div class="container mx-auto px-4 md:px-6">
-            <div class="grid md:grid-cols-3 gap-8 md:gap-12 mb-8">
+            <svg class="skyline-rule mb-10 md:mb-14" viewBox="0 0 800 40" preserveAspectRatio="none" fill="none" stroke="var(--teal)" stroke-width="1">
+                <path d="M0 38 L40 38 L40 20 L55 20 L55 10 L70 10 L70 38 L110 38 L110 25 L125 25 L125 5 L140 5 L140 25 L155 25 L155 38 L210 38 L210 15 L230 15 L230 38 L280 38 L280 28 L300 28 L300 12 L320 12 L320 28 L340 28 L340 38 L400 38 L400 8 L415 8 L415 22 L430 22 L430 38 L480 38 L480 18 L500 18 L500 38 L560 38 L560 25 L580 25 L580 2 L600 2 L600 25 L620 25 L620 38 L680 38 L680 15 L700 15 L700 30 L720 30 L720 38 L800 38"/>
+            </svg>
+            <div class="grid md:grid-cols-3 gap-10 md:gap-12 mb-10 md:mb-14">
                 <div>
-                    <h3 class="text-xl md:text-2xl font-bold mb-4" data-en="Mezzanine Capital" data-ar="ميزانين كابيتال">Mezzanine Capital</h3>
-                    <p class="text-slate-400 text-sm md:text-base" data-en="A fintech ecosystem for sustainable impact." data-ar="نظام بيئي للتكنولوجيا المالية للأثر المستدام.">A fintech ecosystem for sustainable impact.</p>
+                    <h3 class="h3 text-[var(--cream)] mb-3" data-en="Mezzanine Capital" data-ar="ميزانين كابيتال">Mezzanine Capital</h3>
+                    <p class="text-white/60 text-sm md:text-base" data-en="A fintech ecosystem for sustainable impact." data-ar="نظام بيئي للتكنولوجيا المالية للأثر المستدام.">A fintech ecosystem for sustainable impact.</p>
                 </div>
                 <div>
-                    <h4 class="font-semibold mb-4" data-en="Quick Links" data-ar="روابط سريعة">Quick Links</h4>
-                    <ul class="space-y-2 text-slate-400 text-sm md:text-base">
-                        <li><a href="#who-we-are" class="hover:text-teal-400 transition" data-en="Who We Are" data-ar="من نحن">Who We Are</a></li>
-                        <li><a href="#ecosystem" class="hover:text-teal-400 transition" data-en="The Ecosystem" data-ar="منظومة ميزانين">The Ecosystem</a></li>
-                        <li><a href="#vision" class="hover:text-teal-400 transition" data-en="Vision & Mission" data-ar="الرؤية والرسالة">Vision & Mission</a></li>
+                    <h4 class="font-medium mb-4 text-sm text-[var(--cream)]" data-en="Quick Links" data-ar="روابط سريعة">Quick Links</h4>
+                    <ul class="space-y-1 text-white/60 text-sm md:text-base">
+                        <li><a href="#who-we-are" class="inline-block py-1 hover:text-[var(--teal)] transition-colors" data-en="Who We Are" data-ar="من نحن">Who We Are</a></li>
+                        <li><a href="#ecosystem" class="inline-block py-1 hover:text-[var(--teal)] transition-colors" data-en="The Ecosystem" data-ar="منظومة ميزانين">The Ecosystem</a></li>
+                        <li><a href="#vision" class="inline-block py-1 hover:text-[var(--teal)] transition-colors" data-en="Vision & Mission" data-ar="الرؤية والرسالة">Vision & Mission</a></li>
                     </ul>
                 </div>
                 <div>
-                    <h4 class="font-semibold mb-4" data-en="Contact" data-ar="اتصل بنا">Contact</h4>
-                    <p class="text-slate-400 mb-2 text-sm md:text-base" data-en="Riyadh, Kingdom of Saudi Arabia" data-ar="الرياض، المملكة العربية السعودية">Riyadh, Kingdom of Saudi Arabia</p>
-                    <a href="mailto:info@mezzanine.sa" class="block text-teal-400 hover:text-teal-300 transition text-sm md:text-base">info@mezzanine.sa</a>
-                    <a href="tel:+966544043103" class="block text-teal-400 hover:text-teal-300 transition text-sm md:text-base mt-1" dir="ltr">+966 54 404 3103</a>
-                    <div class="flex gap-3 mt-4">
-                        <a href="https://www.linkedin.com/company/mezzanineai" target="_blank" rel="noopener" class="w-9 h-9 bg-white/10 hover:bg-teal-500 rounded-lg flex items-center justify-center transition">
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
-                            </svg>
-                        </a>
-                        <a href="mailto:info@mezzanine.sa" class="w-9 h-9 bg-white/10 hover:bg-teal-500 rounded-lg flex items-center justify-center transition">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                            </svg>
-                        </a>
-                    </div>
+                    <h4 class="font-medium mb-4 text-sm text-[var(--cream)]" data-en="Contact" data-ar="اتصل بنا">Contact</h4>
+                    <a href="https://www.google.com/maps/search/?api=1&query=King+Abdullah+Financial+District+Riyadh" target="_blank" rel="noopener" class="block py-1 text-white/60 hover:text-[var(--teal)] transition-colors text-sm md:text-base break-words" data-en="KAFD 4.07, Riyadh, Kingdom of Saudi Arabia" data-ar="كافد 4.07، الرياض، المملكة العربية السعودية">KAFD 4.07, Riyadh, Kingdom of Saudi Arabia</a>
+                    <a href="mailto:info@mezzanine.sa" class="block py-1 text-[var(--teal)] hover:text-white transition-colors text-sm md:text-base">info@mezzanine.sa</a>
+                    <a href="tel:+966544043103" class="block py-1 text-[var(--teal)] hover:text-white transition-colors text-sm md:text-base" dir="ltr">+966 54 404 3103</a>
                 </div>
             </div>
-            <div class="border-t border-slate-800 pt-6 md:pt-8 text-center text-slate-400 text-sm">
+            <div class="border-t border-[var(--line-on-dark)] pt-6 text-center text-white/50 text-sm">
                 <p data-en="© 2026 Mezzanine Capital. All rights reserved." data-ar="© 2026 ميزانين كابيتال. جميع الحقوق محفوظة.">© 2026 Mezzanine Capital. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
     <script>
-        let currentLang = 'en';
-        
-        function toggleMenu() {
-            document.getElementById('mobile-menu').classList.toggle('hidden');
+        const menuBtn = document.getElementById('menu-btn');
+        const mobilePanel = document.getElementById('mobile-panel');
+        const mobileOverlay = document.getElementById('mobile-overlay');
+        const siteNav = document.querySelector('nav.site-nav');
+        let menuOpen = false;
+
+        function syncPanelOffset() {
+            mobilePanel.style.paddingTop = 'calc(' + siteNav.getBoundingClientRect().height + 'px + env(safe-area-inset-top))';
         }
-        
-        function toggleLanguage() {
-            currentLang = currentLang === 'en' ? 'ar' : 'en';
-            document.documentElement.setAttribute('lang', currentLang);
-            document.documentElement.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
-            
+        syncPanelOffset();
+        window.addEventListener('resize', syncPanelOffset);
+
+        const menuIconOpen = document.getElementById('menu-icon-open');
+        const menuIconClose = document.getElementById('menu-icon-close');
+
+        function openMenu() {
+            mobilePanel.style.transform = 'translateX(0)';
+            mobileOverlay.classList.add('is-open');
+            document.body.style.overflow = 'hidden';
+            menuBtn.setAttribute('aria-expanded', 'true');
+            menuBtn.setAttribute('aria-label', 'Close menu');
+            menuIconOpen.classList.add('hidden');
+            menuIconClose.classList.remove('hidden');
+            menuOpen = true;
+        }
+
+        function closeMenu() {
+            mobilePanel.style.transform = '';
+            mobileOverlay.classList.remove('is-open');
+            document.body.style.overflow = '';
+            menuBtn.setAttribute('aria-expanded', 'false');
+            menuBtn.setAttribute('aria-label', 'Open menu');
+            menuIconOpen.classList.remove('hidden');
+            menuIconClose.classList.add('hidden');
+            menuOpen = false;
+        }
+
+        function toggleMenu() {
+            menuOpen ? closeMenu() : openMenu();
+        }
+
+        window.addEventListener('resize', () => {
+            if (menuOpen && window.innerWidth >= 768) closeMenu();
+        });
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && menuOpen) closeMenu();
+        });
+
+        function setLanguage(lang) {
+            document.documentElement.setAttribute('lang', lang);
+            document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+
             document.querySelectorAll('[data-en]').forEach(el => {
-                el.textContent = el.getAttribute('data-' + currentLang);
+                el.textContent = el.getAttribute('data-' + lang);
             });
+
+            document.getElementById('lang-en-btn').classList.toggle('is-active', lang === 'en');
+            document.getElementById('lang-ar-btn').classList.toggle('is-active', lang === 'ar');
         }
     </script>
 </body>
