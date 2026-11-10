@@ -7,9 +7,9 @@
 @media (min-width: 1120px) { .nav-links { display: flex; } }
 @media (min-width: 1280px) { .nav-links { gap: 2rem; font-size: .875rem; } }
 .nav-link { position: relative; display: inline-block; padding-block: .5rem; color: var(--slate); transition: color .15s ease; white-space: nowrap; }
-.nav-link:hover, .nav-link[aria-current="true"] { color: var(--ink); }
+.nav-link:hover, .nav-link[aria-current="page"] { color: var(--ink); }
 .nav-link::after { content: ""; position: absolute; inset-inline: 0; bottom: -6px; height: 1px; background: var(--teal-deep); transform: scaleX(0); transition: transform .2s ease; }
-.nav-link:hover::after, .nav-link[aria-current="true"]::after { transform: scaleX(1); }
+.nav-link:hover::after, .nav-link[aria-current="page"]::after { transform: scaleX(1); }
 .nav-end { display: flex; align-items: center; gap: .5rem; }
 .tap-44 { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; min-width: 44px; }
 .lang-toggle { display: flex; align-items: center; gap: .1rem; font-size: .85rem; color: var(--slate); }
@@ -37,3 +37,12 @@ html[dir="rtl"] .mobile-panel { box-shadow: 12px 0 32px rgba(16,26,48,.18); tran
 .to-top:hover { background: var(--teal-deep); }
 .to-top svg { width: 1.1rem; height: 1.1rem; }
 @media (prefers-reduced-motion: reduce) { .to-top { transition: none; } }
+
+/* contact link styled as a button */
+.nav-link.nav-cta { background: var(--ink); color: var(--cream); padding: .6rem 1.15rem; border-radius: 2px; min-height: 40px; display: inline-flex; align-items: center; transition: background-color .2s ease; }
+.nav-link.nav-cta::after { display: none; }
+.nav-link.nav-cta:hover, .nav-link.nav-cta[aria-current="page"] { background: var(--teal-deep); color: var(--cream); }
+.nav-links { align-items: center; }
+.panel-link.nav-cta { margin: 1rem 1.5rem; background: var(--ink); color: var(--cream); justify-content: center; border-radius: 2px; border-bottom: 0; }
+.panel-link[aria-current="page"] { color: var(--teal-deep); font-weight: 600; }
+.panel-link.nav-cta[aria-current="page"] { color: var(--cream); background: var(--teal-deep); }

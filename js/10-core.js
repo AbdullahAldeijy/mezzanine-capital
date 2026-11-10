@@ -1,4 +1,4 @@
-/* Core: mobile menu, scroll reveal, scroll-spy, back-to-top */
+/* Core: mobile menu, scroll reveal, back-to-top, sticky-bar height */
 var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 var $ = function (s, r) { return (r || document).querySelector(s); };
 var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
@@ -31,22 +31,6 @@ if ('IntersectionObserver' in window && !reduceMotion) {
   $$('.rv').forEach(function (el) { el.classList.add('in'); });
 }
 
-// Scroll-spy: highlight the nav link of the section crossing the upper third of the viewport
-var spyLinks = $$('[data-spy]');
-var spyTargets = [];
-spyLinks.forEach(function (a) {
-  var el = document.getElementById(a.getAttribute('data-spy'));
-  if (el && spyTargets.indexOf(el) < 0) spyTargets.push(el);
-});
-function updateSpy() {
-  var line = window.innerHeight * 0.35, current = null;
-  spyTargets.forEach(function (el) { if (el.getBoundingClientRect().top <= line) current = el.id; });
-  spyLinks.forEach(function (a) {
-    if (a.getAttribute('data-spy') === current) a.setAttribute('aria-current', 'true');
-    else a.removeAttribute('aria-current');
-  });
-}
-
 // Back to top
 var toTop = $('#to-top');
 toTop.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' }); });
@@ -56,11 +40,18 @@ function onScroll() {
   if (ticking) return;
   ticking = true;
   requestAnimationFrame(function () {
-    updateSpy();
     toTop.classList.toggle('is-visible', window.scrollY > 700);
     ticking = false;
   });
 }
 window.addEventListener('scroll', onScroll, { passive: true });
 window.addEventListener('resize', onScroll);
-updateSpy();
+
+// Keep content clear of the sticky CTA bar: expose its real height as --cta-h
+var bar = $('#cta-bar');
+if (bar) {
+  var setH = function () { document.documentElement.style.setProperty('--cta-h', bar.offsetHeight + 'px'); };
+  setH();
+  window.addEventListener('resize', setH);
+  if ('ResizeObserver' in window) new ResizeObserver(setH).observe(bar);
+}

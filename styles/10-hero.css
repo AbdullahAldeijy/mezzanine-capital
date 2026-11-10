@@ -1,21 +1,11 @@
 /* --- Hero ----------------------------------------------------------------- */
-.hero { position: relative; overflow: hidden; padding-block: 3.5rem 3rem; }
-@media (min-width: 768px) { .hero { padding-block: 6rem 4.5rem; } }
+.hero { position: relative; overflow: hidden; padding-block: 3.5rem 3.5rem; }
+@media (min-width: 768px) { .hero { padding-block: 6rem; } }
 .hero-grid { display: grid; gap: 2rem; align-items: center; }
 @media (min-width: 1024px) { .hero-grid { grid-template-columns: 1fr 1fr; gap: 4rem; } }
-.hero .eyebrow { display: block; margin-bottom: 1.1rem; }
 .hero .h1 { margin-bottom: 1.25rem; }
 @media (min-width: 768px) { .hero .h1 { margin-bottom: 1.5rem; } }
-.hero .lede { margin-bottom: 1.25rem; }
-.hero-ar { font-size: 1.05rem; font-weight: 500; color: var(--ink); max-width: 36ch; margin-bottom: 2rem; line-height: 1.8; font-family: var(--font-arabic); }
+.hero .lede { margin-bottom: 2rem; max-width: 46ch; }
+html[dir="rtl"] .hero .lede { max-width: 40ch; }
 .hero-cta { display: flex; flex-wrap: wrap; gap: .75rem; }
 .hero-img img { width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 1.5rem; box-shadow: 0 25px 50px -12px rgba(0,0,0,.25); }
-
-.flow { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem .6rem; margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--line); }
-@media (min-width: 768px) { .flow { margin-top: 3.5rem; } }
-.flow li { display: inline-flex; align-items: center; gap: .6rem; font-size: .72rem; font-weight: 600; letter-spacing: .14em; color: var(--ink); }
-html[dir="rtl"] .flow li { letter-spacing: 0; font-size: .85rem; }
-.flow li:last-child { color: var(--teal-deep); }
-.flow svg { width: 1.1rem; height: .8rem; color: var(--teal-deep); flex: none; }
-html[dir="rtl"] .flow svg { transform: scaleX(-1); }
-.flow li:last-child svg { display: none; }
