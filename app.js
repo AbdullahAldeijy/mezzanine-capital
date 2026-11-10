@@ -1,6 +1,6 @@
 (function () {
 "use strict";
-/* Core: mobile menu, scroll reveal, scroll-spy, back-to-top */
+/* Core: mobile menu, scroll reveal, back-to-top, sticky-bar height */
 var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 var $ = function (s, r) { return (r || document).querySelector(s); };
 var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
@@ -33,22 +33,6 @@ if ('IntersectionObserver' in window && !reduceMotion) {
   $$('.rv').forEach(function (el) { el.classList.add('in'); });
 }
 
-// Scroll-spy: highlight the nav link of the section crossing the upper third of the viewport
-var spyLinks = $$('[data-spy]');
-var spyTargets = [];
-spyLinks.forEach(function (a) {
-  var el = document.getElementById(a.getAttribute('data-spy'));
-  if (el && spyTargets.indexOf(el) < 0) spyTargets.push(el);
-});
-function updateSpy() {
-  var line = window.innerHeight * 0.35, current = null;
-  spyTargets.forEach(function (el) { if (el.getBoundingClientRect().top <= line) current = el.id; });
-  spyLinks.forEach(function (a) {
-    if (a.getAttribute('data-spy') === current) a.setAttribute('aria-current', 'true');
-    else a.removeAttribute('aria-current');
-  });
-}
-
 // Back to top
 var toTop = $('#to-top');
 toTop.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' }); });
@@ -58,71 +42,87 @@ function onScroll() {
   if (ticking) return;
   ticking = true;
   requestAnimationFrame(function () {
-    updateSpy();
     toTop.classList.toggle('is-visible', window.scrollY > 700);
     ticking = false;
   });
 }
 window.addEventListener('scroll', onScroll, { passive: true });
 window.addEventListener('resize', onScroll);
-updateSpy();
 
-/* Count-up for [data-count] when scrolled into view. Final value is already in the HTML,
-   so no-JS and reduced-motion users see the real figures immediately. */
+// Keep content clear of the sticky CTA bar: expose its real height as --cta-h
+var bar = $('#cta-bar');
+if (bar) {
+  var setH = function () { document.documentElement.style.setProperty('--cta-h', bar.offsetHeight + 'px'); };
+  setH();
+  window.addEventListener('resize', setH);
+  if ('ResizeObserver' in window) new ResizeObserver(setH).observe(bar);
+}
+
+/* Contact: segment picker + per-segment Netlify forms (progressive enhancement).
+   Without JS every form is visible and posts normally, landing on /thank-you/. */
 (function () {
-  var els = $$('[data-count]');
-  if (!els.length || reduceMotion || !('IntersectionObserver' in window)) return;
-  function run(el) {
-    var end = parseFloat(el.getAttribute('data-count')), dec = parseInt(el.getAttribute('data-decimals') || '0', 10);
-    var t0 = null, dur = 1300;
-    function frame(ts) {
-      if (t0 === null) t0 = ts;
-      var p = Math.min((ts - t0) / dur, 1), e = 1 - Math.pow(1 - p, 3);
-      el.textContent = (end * e).toFixed(dec);
-      if (p < 1) requestAnimationFrame(frame);
+  var picker = $('.seg-picker');
+  if (!picker) return;
+  var MZ = window.MZ || { track: function () {}, fillForm: function () {} };
+  var forms = $$('.seg-form'), radios = $$('input[name="seg"]', picker), done = $('#form-done');
+  var MOBILE = /^(05\d{8}|\+9665\d{8})$/, MAX = 5 * 1024 * 1024;
+
+  function show(key, opts) {
+    var active = null;
+    forms.forEach(function (f) { var on = f.getAttribute('data-segment') === key; f.classList.toggle('is-active', on); if (on) active = f; });
+    radios.forEach(function (r) { r.checked = r.value === key; });
+    if (!active) return;
+    MZ.fillForm(active);
+    if (opts && opts.track) MZ.track('segment_select', { segment: key });
+    try { history.replaceState(null, '', location.pathname + '?segment=' + key); } catch (e) { /* ignore */ }
+    if (opts && opts.scroll) active.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+  }
+  radios.forEach(function (r) { r.addEventListener('change', function () { show(r.value, { track: true, scroll: true }); }); });
+  var wanted = new URLSearchParams(location.search).get('segment');
+  if (wanted && radios.some(function (r) { return r.value === wanted; })) show(wanted, { track: true });
+
+  forms.forEach(function (form) {
+    var seg = form.getAttribute('data-segment'), started = false, mobile = form.elements.mobile;
+
+    form.addEventListener('focusin', function () { if (!started) { started = true; MZ.track('form_start', { segment: seg }); } });
+
+    // Saudi mobile: 05XXXXXXXX or +9665XXXXXXXX (spaces / dashes are ignored)
+    function checkMobile() {
+      var v = mobile.value.replace(/[\s\-()]/g, '');
+      mobile.setCustomValidity(v === '' || MOBILE.test(v) ? '' : form.getAttribute('data-bad-mobile'));
     }
-    el.textContent = (0).toFixed(dec);
-    requestAnimationFrame(frame);
-  }
-  var io2 = new IntersectionObserver(function (entries) {
-    entries.forEach(function (en) { if (en.isIntersecting) { run(en.target); io2.unobserve(en.target); } });
-  }, { threshold: 0.6 });
-  els.forEach(function (el) { io2.observe(el); });
-})();
+    mobile.addEventListener('input', checkMobile);
 
-/* Flywheel: gentle rotation tied to scroll position (CSS handles hover spin). */
-(function () {
-  var wheel = $('.flywheel-fig');
-  if (!wheel || reduceMotion) return;
-  var ring = $('.cy-spin', wheel);
-  function turn() {
-    var r = wheel.getBoundingClientRect(), vh = window.innerHeight;
-    if (r.bottom < 0 || r.top > vh) return;
-    var p = (vh - r.top) / (vh + r.height);           // 0 → 1 as it crosses the viewport
-    ring.style.setProperty('--spin', (p * 120).toFixed(1) + 'deg');
-  }
-  window.addEventListener('scroll', function () { requestAnimationFrame(turn); }, { passive: true });
-  turn();
-})();
+    var file = form.elements.profile;
+    if (file) file.addEventListener('change', function () {
+      var f = file.files && file.files[0];
+      file.setCustomValidity('');
+      if (!f) return;
+      if (!/\.(pdf|docx?)$/i.test(f.name)) file.setCustomValidity(form.getAttribute('data-bad-type'));
+      else if (f.size > MAX) file.setCustomValidity(form.getAttribute('data-bad-size'));
+      else MZ.track('file_attach', { segment: seg });
+      if (!file.validity.valid) { file.reportValidity(); }
+    });
 
-/* Contact form: progressive enhancement over Netlify Forms.
-   Without JS the form posts normally and lands on /thank-you/ (or /ar/thank-you/). */
-(function () {
-  var form = $('#contact-form'), done = $('#form-done');
-  if (!form) return;
-  function showDone() {
-    form.hidden = true; $('.form-title').hidden = true; done.hidden = false; done.focus();
-  }
-  if (/[?&]submitted=true/.test(location.search)) showDone();       // static thank-you state
-  form.addEventListener('submit', function (e) {
-    if (!window.fetch) return;                                       // fall back to normal POST
-    e.preventDefault();
-    var btn = $('.form-submit', form), err = $('.form-error', form), label = btn.textContent;
-    err.hidden = true; btn.disabled = true; btn.textContent = form.getAttribute('data-sending');
-    var body = new URLSearchParams(new FormData(form)).toString();
-    fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: body })
-      .then(function (r) { if (!r.ok) throw new Error(r.status); showDone(); })
-      .catch(function () { err.textContent = form.getAttribute('data-error'); err.hidden = false; btn.disabled = false; btn.textContent = label; });
+    form.addEventListener('submit', function (e) {
+      checkMobile();
+      if (!window.fetch || !window.FormData) return;            // fall back to the normal POST
+      e.preventDefault();
+      if (!form.checkValidity()) { form.reportValidity(); return; }
+      MZ.fillForm(form);
+      mobile.value = mobile.value.replace(/[\s\-()]/g, '');
+      var btn = $('.form-submit', form), err = $('.form-error', form), label = btn.textContent;
+      err.hidden = true; btn.disabled = true; btn.textContent = form.getAttribute('data-sending');
+      // multipart body (no Content-Type header: the browser sets the boundary) — Netlify accepts this for every form
+      fetch('/', { method: 'POST', body: new FormData(form) })
+        .then(function (r) { if (!r.ok) throw new Error(r.status); })
+        .then(function () {
+          MZ.track('form_submit', { segment: seg });
+          picker.hidden = true; $('#pick-title').hidden = true; $('#seg-panel').hidden = true; done.hidden = false; done.focus();
+          done.scrollIntoView({ block: 'center' });
+        })
+        .catch(function () { err.textContent = form.getAttribute('data-error'); err.hidden = false; btn.disabled = false; btn.textContent = label; });
+    });
   });
 })();
 
