@@ -57,3 +57,7 @@ html[dir="rtl"] .cy-center { font-family: var(--font-arabic); letter-spacing: 0;
 .steps-back { margin-inline-start: 2.75rem; margin-bottom: 1.75rem; }
 .gap-body { font-size: 1.05rem; line-height: 1.75; max-width: 54ch; }
 .callout { margin-top: 1.75rem; padding: 1.1rem 1.25rem; border-inline-start: 3px solid var(--teal-deep); background: var(--cream-2); color: var(--ink); font-weight: 500; line-height: 1.6; }
+@media (max-width: 520px) {
+  .cy-label { font-size: 23px; } .cy-num { font-size: 24px; } .cy-center { font-size: 22px; }
+  html[dir="rtl"] .cy-center { font-size: 25px; }
+}

@@ -18,7 +18,8 @@
 .field input, .field select, .field textarea { width: 100%; min-height: 46px; padding: .7rem .85rem; background: #fff; border: 1px solid rgba(22,35,63,.4); border-radius: 2px; color: var(--ink); font-size: 1rem; }
 .field textarea { resize: vertical; min-height: 8rem; }
 .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--teal-deep); outline: 2px solid var(--teal-deep); outline-offset: 1px; }
-.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.hp, .hp input { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; }
+.hp input { min-height: 0; }
 .form-submit { width: 100%; border: 0; }
 @media (min-width: 480px) { .form-submit { width: auto; } }
 .form-submit[disabled] { opacity: .7; cursor: progress; }
