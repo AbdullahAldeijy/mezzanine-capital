@@ -1,0 +1,9 @@
+/* --- Who we are / Vision / Mission --------------------------------------- */
+.about-grid { display: grid; gap: 1.5rem; max-width: 64rem; }
+@media (min-width: 768px) { .about-grid { grid-template-columns: 1fr 2fr; gap: 3rem; } }
+.about-text { font-size: clamp(1.1rem, 1.7vw, 1.5rem); line-height: 1.6; color: var(--ink); max-width: 42rem; }
+html[dir="rtl"] .about-text { line-height: 1.9; }
+.vm { display: grid; gap: 2rem; max-width: 64rem; margin-top: 3rem; padding-top: 2.5rem; border-top: 1px solid var(--line); }
+@media (min-width: 768px) { .vm { grid-template-columns: 1fr 1fr; gap: 0; } .vm > div:first-child { padding-inline-end: 3rem; border-inline-end: 1px solid var(--line); } .vm > div:last-child { padding-inline-start: 3rem; } }
+.vm .h3 { margin-bottom: .75rem; font-size: clamp(1.4rem, 2vw, 1.8rem); }
+.vm p { font-size: 1.1rem; line-height: 1.65; }
