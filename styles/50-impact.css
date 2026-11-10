@@ -1,0 +1,10 @@
+/* --- Impact --------------------------------------------------------------- */
+.impact-grid { display: grid; gap: 1rem; }
+@media (min-width: 900px) { .impact-grid { grid-template-columns: repeat(3, 1fr); gap: 1.25rem; } }
+.impact-col { display: flex; flex-direction: column; gap: 1rem; padding: 2rem 1.75rem; }
+.impact-metric { font-size: clamp(1.6rem, 2.4vw, 2.1rem); padding-bottom: 1.25rem; border-bottom: 1px solid var(--line); }
+.impact-up { color: var(--teal-deep); font-family: var(--font-display); }
+.impact-list { display: grid; gap: .75rem; }
+.impact-list li { position: relative; padding-inline-start: 1.25rem; color: var(--ink); line-height: 1.5; }
+.impact-list li::before { content: ""; position: absolute; inset-inline-start: 0; top: .6em; width: .45rem; height: .45rem; border-radius: 50%; background: var(--teal-deep); }
+.impact-note { margin-top: 1.5rem; max-width: 80ch; }
