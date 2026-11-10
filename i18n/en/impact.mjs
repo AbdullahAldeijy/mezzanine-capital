@@ -1,5 +1,4 @@
 export default {
-  eyebrow: 'IMPACT',
   title: 'Impact',
   rises: 'increases',
   cols: [

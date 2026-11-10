@@ -4,7 +4,6 @@ export default function impact(t, { esc }) {
 <section id="impact" class="section" aria-labelledby="impact-title">
   <div class="container">
     <div class="section-head rv">
-      <span class="eyebrow">${esc(i.eyebrow)}</span>
       <h2 id="impact-title" class="h2">${esc(i.title)}</h2>
     </div>
     <div class="impact-grid">

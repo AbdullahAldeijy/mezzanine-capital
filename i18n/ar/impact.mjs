@@ -1,5 +1,4 @@
 export default {
-  eyebrow: 'الأثر',
   title: 'الأثر',
   rises: 'يرتفع',
   cols: [
