@@ -9,6 +9,7 @@ function setMenu(open) {
   panel.classList.toggle('is-open', open);
   overlay.classList.toggle('is-open', open);
   document.body.style.overflow = open ? 'hidden' : '';
+  if (window.__lenis) window.__lenis[open ? 'stop' : 'start']();
   menuBtn.setAttribute('aria-expanded', String(open));
   menuBtn.setAttribute('aria-label', menuBtn.getAttribute(open ? 'data-close' : 'data-open'));
 }
@@ -33,7 +34,10 @@ if ('IntersectionObserver' in window && !reduceMotion) {
 
 // Back to top
 var toTop = $('#to-top');
-toTop.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' }); });
+toTop.addEventListener('click', function () {
+  if (window.__lenis) window.__lenis.scrollTo(0);            // smooth-scroll instance (desktop only), see 50-motion.js
+  else window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
+});
 
 var ticking = false;
 function onScroll() {

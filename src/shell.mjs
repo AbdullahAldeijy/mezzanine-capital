@@ -9,6 +9,9 @@ export const socials = (t) => Object.entries(SOCIAL).filter(([, url]) => url).ma
 export const MAPS = 'https://www.google.com/maps/search/?api=1&query=King+Abdullah+Financial+District+Riyadh';
 const PHONE_TEL = '+966544043103';
 
+// Self-hosted, pinned motion libraries (see vendor/README.md). Lenis is loaded on demand by js/50-motion.js.
+const VENDOR = { gsap: '/vendor/gsap-3.15.1.min.js', ScrollTrigger: '/vendor/ScrollTrigger-3.15.1.min.js', SplitText: '/vendor/SplitText-3.15.1.min.js' };
+
 export const pageUrl = (lang, slug) => `/${lang === 'ar' ? 'ar/' : ''}${slug ? slug + '/' : ''}`;
 
 const FONTS = {
@@ -71,7 +74,7 @@ function head(t, { lang, rtl, esc, page, path }) {
   <link rel="stylesheet" href="${FONTS[lang]}">
   <link rel="stylesheet" href="/styles.css">
   ${GA4_ID ? `<meta name="mz-ga4" content="${esc(GA4_ID)}">` : ''}
-  <script>document.documentElement.classList.add('js');${redirect}</script>
+  <script>(function(d){d.classList.add('js');if(!matchMedia('(prefers-reduced-motion: reduce)').matches)d.classList.add('motion')})(document.documentElement);${redirect}</script>
   ${page.key === 'home' ? `<script type="application/ld+json">${JSON.stringify(jsonld)}</script>` : ''}
 </head>`;
 }
@@ -184,6 +187,7 @@ ${footer(t, ctx)}
 ${page.noCta ? '' : ctaBar(t, ctx)}
 ${cookie(t, ctx)}
 <button type="button" id="to-top" class="to-top" aria-label="${esc(t.site.nav.backToTop)}"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M9 15V3M3.5 8.5L9 3l5.5 5.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+${[VENDOR.gsap, ...(page.motion || []).map((m) => VENDOR[m])].map((src) => `<script src="${src}" defer></script>`).join('\n')}
 <script src="/analytics.js" defer></script>
 <script src="/app.js" defer></script>
 </body>

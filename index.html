@@ -33,7 +33,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
   <link rel="stylesheet" href="/styles.css">
   
-  <script>document.documentElement.classList.add('js');if(/[?&]lang=ar(&|$)/.test(location.search))location.replace('/ar/'+location.hash);</script>
+  <script>(function(d){d.classList.add('js');if(!matchMedia('(prefers-reduced-motion: reduce)').matches)d.classList.add('motion')})(document.documentElement);if(/[?&]lang=ar(&|$)/.test(location.search))location.replace('/ar/'+location.hash);</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Mezzanine / ميزانين","url":"https://mezzanine.sa/","logo":"https://mezzanine.sa/images/logo-wordmark.webp","email":"info@mezzanine.sa","telephone":"+966 54 404 3103","address":{"@type":"PostalAddress","streetAddress":"KAFD 4.07","addressLocality":"Riyadh","addressCountry":"SA"},"sameAs":["https://www.linkedin.com/company/mezzanineai"]}</script>
 </head>
 <body class="has-cta">
@@ -72,10 +72,11 @@
 <main id="main">
 
 <section class="hero" aria-labelledby="hero-title">
+  <canvas class="hero-bg" aria-hidden="true"></canvas>
   <div class="container">
     <div class="hero-grid">
       <div>
-        <h1 id="hero-title" class="h1 reveal reveal-1">Commercial Credit Intelligence</h1>
+        <h1 id="hero-title" class="h1 hero-title reveal reveal-1">Commercial Credit Intelligence</h1>
         <p class="lede reveal reveal-2">We connect business data with financial, investment and technology solutions to build an ecosystem that supports the sustainability of small and medium enterprises and strengthens funders' confidence.</p>
         <div class="hero-cta reveal reveal-3">
           <a href="/contact/" class="btn btn-primary" data-cta="hero">Contact us</a>
@@ -103,7 +104,7 @@
   </div>
 </section>
 
-<section class="section" aria-labelledby="home-eco">
+<section class="section section-navy on-dark" aria-labelledby="home-eco">
   <div class="container">
     <div class="section-head rv"><h2 id="home-eco" class="h2">Our Ecosystem and the Four Activities</h2></div>
     <div class="cards cards-4">
@@ -217,6 +218,9 @@
 </aside>
 
 <button type="button" id="to-top" class="to-top" aria-label="Back to top"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M9 15V3M3.5 8.5L9 3l5.5 5.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+<script src="/vendor/gsap-3.15.1.min.js" defer></script>
+<script src="/vendor/ScrollTrigger-3.15.1.min.js" defer></script>
+<script src="/vendor/SplitText-3.15.1.min.js" defer></script>
 <script src="/analytics.js" defer></script>
 <script src="/app.js" defer></script>
 </body>
