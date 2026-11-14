@@ -1,0 +1,22 @@
+# Static site: no build step. Netlify serves the repo root as before.
+# (Deliberately no [build] section so existing dashboard build/publish settings are untouched.)
+
+# ?lang=ar -> Arabic page (index.html also has a JS fallback for the same case)
+[[redirects]]
+  from = "/"
+  to = "/ar/"
+  status = 302
+  force = true
+  query = {lang = "ar"}
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Frame-Options = "SAMEORIGIN"
+
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
