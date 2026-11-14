@@ -1,0 +1,11 @@
+/* --- Hero ----------------------------------------------------------------- */
+.hero { position: relative; overflow: hidden; padding-block: 3.5rem 3.5rem; }
+@media (min-width: 768px) { .hero { padding-block: 6rem; } }
+.hero-grid { display: grid; gap: 2rem; align-items: center; }
+@media (min-width: 1024px) { .hero-grid { grid-template-columns: 1fr 1fr; gap: 4rem; } }
+.hero .h1 { margin-bottom: 1.25rem; }
+@media (min-width: 768px) { .hero .h1 { margin-bottom: 1.5rem; } }
+.hero .lede { margin-bottom: 2rem; max-width: 46ch; }
+html[dir="rtl"] .hero .lede { max-width: 40ch; }
+.hero-cta { display: flex; flex-wrap: wrap; gap: .75rem; }
+.hero-img img { width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 1.5rem; box-shadow: 0 25px 50px -12px rgba(0,0,0,.25); }

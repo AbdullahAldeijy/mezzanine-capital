@@ -1,0 +1,21 @@
+/* --- How we work: value chain (vertical on mobile, horizontal from 1024px; mirrors in RTL) --- */
+.vchain { display: grid; gap: 0; counter-reset: v; }
+.vstep { position: relative; display: grid; gap: .3rem; padding: 1.25rem 1.25rem 1.25rem 1.25rem; border: 1px solid var(--line); background: rgba(255,255,255,.5); border-radius: 4px; margin-bottom: 2.1rem; }
+.vstep:last-child { margin-bottom: 0; }
+.vstep-n { font-size: .95rem; }
+.vstep-who { font-family: var(--font-display); font-size: 1.35rem; font-weight: 500; color: var(--ink); }
+html[dir="rtl"] .vstep-who { font-family: var(--font-arabic); font-weight: 700; }
+.vstep-text { color: var(--slate); line-height: 1.6; }
+.vstep .arr { position: absolute; bottom: -1.65rem; inset-inline-start: 50%; width: 1.1rem; height: .8rem; transform: translateX(-50%) rotate(90deg); }
+html[dir="rtl"] .vstep .arr { transform: translateX(50%) rotate(90deg); }
+.vstep-holding { background: var(--ink); border-color: var(--ink); }
+.vstep-holding .vstep-who { color: var(--cream); }
+.vstep-holding .vstep-text { color: rgba(255,255,255,.78); }
+.vstep-holding .vstep-n { color: var(--teal); }
+@media (min-width: 1024px) {
+  .vchain { grid-template-columns: repeat(6, 1fr); gap: 0; }
+  .vstep { margin: 0; margin-inline-end: 1.9rem; align-content: start; min-height: 11rem; padding: 1.25rem 1rem; }
+  .vstep:last-child { margin-inline-end: 0; }
+  .vstep .arr { bottom: auto; top: 50%; inset-inline-start: auto; inset-inline-end: -1.5rem; transform: translateY(-50%); }
+  html[dir="rtl"] .vstep .arr { transform: translateY(-50%); }
+}
