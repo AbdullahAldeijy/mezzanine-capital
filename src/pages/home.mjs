@@ -7,10 +7,11 @@ export default function home(t, { esc, lang }) {
   const sizes = '(min-width: 1280px) 600px, (min-width: 1024px) 46vw, 100vw';
   return `
 <section class="hero" aria-labelledby="hero-title">
+  <canvas class="hero-bg" aria-hidden="true"></canvas>
   <div class="container">
     <div class="hero-grid">
       <div>
-        <h1 id="hero-title" class="h1 reveal reveal-1">${esc(h.title)}</h1>
+        <h1 id="hero-title" class="h1 hero-title reveal reveal-1">${esc(h.title)}</h1>
         <p class="lede reveal reveal-2">${esc(h.message)}</p>
         <div class="hero-cta reveal reveal-3">
           <a href="${pageUrl(lang, 'contact')}" class="btn btn-primary" data-cta="hero">${esc(h.ctaContact)}</a>
@@ -38,7 +39,7 @@ export default function home(t, { esc, lang }) {
   </div>
 </section>
 
-<section class="section" aria-labelledby="home-eco">
+<section class="section section-navy on-dark" aria-labelledby="home-eco">
   <div class="container">
     <div class="section-head rv"><h2 id="home-eco" class="h2">${esc(e.title)}</h2></div>
     <div class="cards cards-4">
