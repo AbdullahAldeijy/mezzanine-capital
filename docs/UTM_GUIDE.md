@@ -1,8 +1,11 @@
-# UTM guide — tagging links so every lead shows where it came from
+# UTM guide — tagging links so campaigns can be compared
 
-The site records the **first** visit's source in the visitor's browser and attaches it to any form they submit
-(`utm_source`, `utm_medium`, `utm_campaign`, `utm_content`, `utm_term`, `referrer`, `landing_page`, `source_type`).
-Untagged visits are still classified from the referrer (search, linkedin, social, email, referral, direct), but
+> **Current state:** the site has no forms, and first-touch capture in `analytics.js` is dormant (nothing calls it, so
+> nothing is stored). Tagged links still work for **GA4**, once `GA4_ID` is set in `config/site.mjs` and a visitor accepts
+> cookies. When forms return (cloud phase, see `docs/LEADS_SETUP.md`), the same tags will be recorded with each lead
+> (`utm_*`, `referrer`, `landing_page`, `source_type`). Tagging links **now** keeps campaign names consistent.
+
+Untagged visits are classified from the referrer (search, linkedin, social, email, referral, direct), but
 **tagged links are far more reliable** — always tag links you post yourself.
 
 ## Build a link
@@ -36,11 +39,11 @@ Lowercase, hyphens, no spaces, no Arabic characters in values (keeps reports cle
 Tip: tag LinkedIn posts with `utm_medium=social`, and LinkedIn *ads* with `utm_medium=paid-social` — the paid rule wins.
 
 ## Where it shows up
-- **Netlify Forms:** every submission has these fields (Site → Forms → open a form).
-- **GA4** (once the ID is added and the visitor accepts cookies): standard UTM reports, plus the custom events
-  `cta_click`, `segment_select`, `form_start`, `form_submit`, `file_attach`, `lang_switch`.
+- **GA4** (after `GA4_ID` is set and the visitor accepts cookies): standard UTM reports, plus the custom events
+  `cta_click` and `lang_switch`.
+- **Leads:** nothing yet (no forms). Planned: Mezzanine's own cloud database, see `docs/LEADS_SETUP.md`.
 
 ## Notes
-- First touch is stored in the browser (`localStorage`). A returning visitor keeps their original source; to test
-  a new tag, use a private window or clear site data.
+- Once capture is switched on, first touch is stored in the browser (`localStorage`); a returning visitor keeps their
+  original source. To test a new tag, use a private window or clear site data.
 - Don't put personal data in UTM values — they are visible in URLs and stored with the lead.

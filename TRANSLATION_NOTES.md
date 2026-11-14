@@ -23,29 +23,18 @@
 | تحصيل | collection | |
 | إدارة الخزينة | treasury management | |
 | وفق النموذج المعتمد | according to the approved model | |
-| السجل التجاري | Commercial registration no. | Label in the enterprise form |
-| ملف تعريفي | Company profile | File-upload label; the government form says «خطاب أو ملف تعريفي» → "Letter or company profile" |
 | Name | «Mezzanine / ميزانين» used in both languages | Official name pending (`TODO(name-approval)`) |
-
-## Form option lists (my proposals — please approve; Arabic ↔ English)
-- حجم المنشأة: متناهية الصغر / صغيرة / متوسطة ↔ Micro / Small / Medium
-- نوع الجهة: بنك / شركة تمويل / صندوق / أخرى ↔ Bank / Finance company / Fund / Other
-- نوع المستثمر: فرد / مكتب عائلي / مؤسسة استثمارية / صندوق استثمار / مستثمر استراتيجي ↔ Individual / Family office / Investment institution / Investment fund / Strategic investor
-- مجال التعاون (جهات تمويلية وحكومية): التقييم والبيانات الائتمانية / الحلول التمويلية / الصكوك والاستثمار / التقنية والتكامل / أخرى
-- مجال اهتمام المنشأة: حلول التمويل / الائتمان المشروط / التقييم الائتماني / رأس المال العامل / التقارير والتحليلات / أخرى
-- مجال اهتمام المستثمر: الصكوك المرتبطة بالأثر / المحافظ الائتمانية / التقنية / أخرى
-- نوع التكامل (الشركاء): تكامل عبر واجهات API / تكامل البيانات / تكامل تجاري / تكامل تسويقي / أخرى
-
-Submitted *values* are stable English codes (e.g. `financing_solutions`), so labels can change without breaking reports.
 
 ## Text I wrote that is not in the brief (Arabic + English)
 - Ecosystem intro: «أربعة أنشطة تعمل معًا كمنظومة واحدة مترابطة.» / "Four activities working together as one connected ecosystem."
-- Button labels: «اعرف المزيد عن ميزانين» (home → About), «تواصل معنا» on audience cards
-- Contact: «اختر مسارك» (from the intro sentence), all field labels not named in the brief, validation messages, consent text, file hint
-- Cookie banner and the privacy-policy draft (`/privacy/`)
+- Button label «اعرف المزيد عن ميزانين» / "Learn more about Mezzanine" (home → About); «تواصل معنا» on audience cards
+- Contact: card labels (البريد الإلكتروني / الهاتف / العنوان) and the meta description; social labels (إكس (X), إنستغرام, يوتيوب)
+- Cookie banner (only rendered once a GA4 ID is set) and the privacy-policy draft (`/privacy/`)
 - Meta titles/descriptions for inner pages; image alt text; nav ARIA labels
+
+*Contact forms (field labels, option lists, validation messages, thank-you text) were removed in this phase; the previous
+translations are in git history and the planned fields in `docs/LEADS_SETUP.md`.*
 
 ## Notes
 - Western digits (0–9) are used in Arabic, e.g. «05XXXXXXXX», «+966…».
-- Mobile format hint: 05XXXXXXXX or +9665XXXXXXXX.
 - The Arabic page canonical points to `/ar/…` (self-referencing) so it can be indexed; `hreflang` links the pairs.
