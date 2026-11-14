@@ -9,7 +9,7 @@ export default function serve(t, { esc, lang }) {
       ${s.segments.map((seg, i) => `<article class="card aud-card rv" id="${seg.key}" style="--d:${(i * 0.05).toFixed(2)}s">
         <h2 class="h3">${esc(seg.name)}</h2>
         <p>${esc(seg.text)}</p>
-        <a class="btn btn-primary" href="${pageUrl(lang, 'contact')}?segment=${seg.key}" data-cta="card">${esc(s.cta)}</a>
+        <a class="btn btn-primary" href="${pageUrl(lang, 'contact')}" data-cta="card">${esc(s.cta)}</a>
       </article>`).join('\n      ')}
     </div>
   </div>

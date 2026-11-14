@@ -5,7 +5,6 @@ export default {
   },
   title: 'من نخدم',
   cta: 'تواصل معنا',
-  // key order matches SEGMENTS in src/pages.mjs
   segments: [
     { key: 'enterprise', name: 'المنشآت الصغيرة والمتوسطة', text: 'أعمالك تستحق فرصاً أكبر للنمو.' },
     { key: 'funder', name: 'البنوك والجهات التمويلية', text: 'رؤية أوضح للمنشآت ودعم أفضل للقرارات الائتمانية.' },

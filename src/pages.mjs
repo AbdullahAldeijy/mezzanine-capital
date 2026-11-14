@@ -11,7 +11,5 @@ export const PAGES = [
   { key: 'solutions', slug: 'solutions', nav: 'solutions' },
   { key: 'contact', slug: 'contact', nav: 'contact', noCta: true, navButton: true },
   { key: 'privacy', slug: 'privacy' },
-  { key: 'thanks', slug: 'thank-you', noCta: true, noindex: true },
 ];
 
-export const SEGMENTS = ['enterprise', 'funder', 'investor', 'partner', 'government'];

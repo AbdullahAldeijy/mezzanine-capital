@@ -15,4 +15,3 @@ a.footer-muted:hover, .footer-links a:hover { color: var(--teal); }
 .footer-accent { color: var(--teal); }
 .footer-accent:hover { color: #fff; }
 .footer-rights { border-top: 1px solid var(--line-on-dark); padding-top: 1.5rem; text-align: center; color: rgba(255,255,255,.62); font-size: .875rem; }
-.thanks { min-height: 100vh; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 1.5rem; }

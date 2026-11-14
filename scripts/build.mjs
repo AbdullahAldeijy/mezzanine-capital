@@ -50,7 +50,7 @@ for (const page of PAGES) {
 write('styles.css', list('styles', '.css').map((f) => readFileSync(join(root, 'styles', f), 'utf8')).join('\n'));
 write('app.js', '(function () {\n"use strict";\n' + list('js', '.js').map((f) => readFileSync(join(root, 'js', f), 'utf8')).join('\n') + '\n})();\n');
 
-// sitemap (thank-you is noindex, so excluded)
+// sitemap (pages flagged noindex are excluded)
 const today = new Date().toISOString().slice(0, 10);
 const urls = PAGES.filter((p) => !p.noindex).flatMap((p) => ['en', 'ar'].map((lang) => `  <url>
     <loc>${SITE}${pageUrl(lang, p.slug)}</loc>

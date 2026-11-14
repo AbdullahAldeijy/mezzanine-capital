@@ -69,8 +69,6 @@ html[dir="rtl"] .about-text { line-height: 1.9; }
 .prose p { line-height: 1.8; }
 .prose a { color: var(--teal-deep); border-bottom: 1px solid currentColor; }
 .draft-note { border-inline-start: 3px solid var(--teal-deep); background: var(--cream-2); padding: 1rem 1.25rem; color: var(--ink); font-weight: 500; }
-.thanks-wrap { min-height: 60vh; display: grid; align-items: center; border-top: 0; }
-.thanks { display: grid; gap: 1.5rem; justify-items: start; }
 
 /* buttons for dark surfaces */
 .btn-sm { min-height: 40px; padding: .5rem 1.1rem; font-size: .88rem; }

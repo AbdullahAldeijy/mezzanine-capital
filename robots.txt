@@ -1,6 +1,4 @@
 User-agent: *
 Allow: /
-Disallow: /thank-you/
-Disallow: /ar/thank-you/
 
 Sitemap: https://mezzanine.sa/sitemap.xml
