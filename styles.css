@@ -127,7 +127,8 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .mobile-overlay.is-open { opacity: 1; pointer-events: auto; }
 .mobile-panel { position: fixed; inset-inline-end: 0; top: 0; bottom: 0; height: 100dvh; width: min(20rem, 85vw); background: var(--cream); z-index: 45; box-shadow: -12px 0 32px rgba(16,26,48,.18); transform: translateX(100%); visibility: hidden; transition: transform .3s ease, visibility 0s linear .3s; overflow-y: auto; padding-top: calc(var(--nav-h) + env(safe-area-inset-top)); padding-bottom: env(safe-area-inset-bottom); }
 html[dir="rtl"] .mobile-panel { box-shadow: 12px 0 32px rgba(16,26,48,.18); transform: translateX(-100%); }
-.mobile-panel.is-open { transform: translateX(0); visibility: visible; transition: transform .3s ease; }
+/* the RTL selector is needed too: the RTL closed-state rule above is more specific than .is-open alone */
+.mobile-panel.is-open, html[dir="rtl"] .mobile-panel.is-open { transform: translateX(0); visibility: visible; transition: transform .3s ease; }
 @media (min-width: 1120px) { .mobile-panel, .mobile-overlay { display: none; } }
 @media (prefers-reduced-motion: reduce) { .mobile-panel, .mobile-overlay { transition: none; } }
 .panel-link { display: flex; align-items: center; min-height: 48px; padding: 0 1.5rem; color: var(--ink); border-bottom: 1px solid var(--line); }
