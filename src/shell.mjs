@@ -1,9 +1,11 @@
 // Page shell: <head> (SEO, social, JSON-LD), nav, sticky CTA bar, footer, cookie banner.
 // All copy comes from i18n/<lang>/site.mjs (+ each page's own meta).
 import { PAGES } from './pages.mjs';
+import { SOCIAL, GA4_ID } from '../config/site.mjs';
 
 export const SITE = 'https://mezzanine.sa';
-export const LINKEDIN = 'https://www.linkedin.com/company/mezzanineai';
+// configured social profiles (config/site.mjs); entries without a URL are skipped
+export const socials = (t) => Object.entries(SOCIAL).filter(([, url]) => url).map(([key, url]) => ({ key, url, label: t.site.social[key] }));
 export const MAPS = 'https://www.google.com/maps/search/?api=1&query=King+Abdullah+Financial+District+Riyadh';
 const PHONE_TEL = '+966544043103';
 
@@ -32,7 +34,7 @@ function head(t, { lang, rtl, esc, page, path }) {
     email: 'info@mezzanine.sa',
     telephone: '+966 54 404 3103',
     address: { '@type': 'PostalAddress', streetAddress: 'KAFD 4.07', addressLocality: 'Riyadh', addressCountry: 'SA' },
-    sameAs: [LINKEDIN],
+    sameAs: Object.values(SOCIAL).filter(Boolean),
   };
   const social = page.noindex ? '' : `
   <link rel="alternate" hreflang="en" href="${SITE}${pageUrl('en', page.slug)}">
@@ -68,6 +70,7 @@ function head(t, { lang, rtl, esc, page, path }) {
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="${FONTS[lang]}">
   <link rel="stylesheet" href="/styles.css">
+  ${GA4_ID ? `<meta name="mz-ga4" content="${esc(GA4_ID)}">` : ''}
   <script>document.documentElement.classList.add('js');${redirect}</script>
   ${page.key === 'home' ? `<script type="application/ld+json">${JSON.stringify(jsonld)}</script>` : ''}
 </head>`;
@@ -145,7 +148,7 @@ function footer(t, { lang, esc }) {
         <a href="${MAPS}" target="_blank" rel="noopener" class="footer-muted footer-line">${esc(c.address)}</a>
         <a href="mailto:${c.email}" class="footer-accent footer-line">${c.email}</a>
         <a href="tel:${PHONE_TEL}" class="footer-accent footer-line" dir="ltr">${c.phone}</a>
-        <a href="${LINKEDIN}" target="_blank" rel="noopener" class="footer-accent footer-line">${esc(c.linkedin)}</a>
+        ${socials(t).map((x) => `<a href="${x.url}" target="_blank" rel="noopener" class="footer-accent footer-line">${esc(x.label)}</a>`).join('\n        ')}
       </div>
     </div>
     <p class="footer-rights">${esc(f.rights)}</p>
@@ -154,6 +157,7 @@ function footer(t, { lang, esc }) {
 }
 
 function cookie(t, { lang, esc }) {
+  if (!GA4_ID) return '';   // no analytics configured -> no consent banner
   const k = t.site.cookie;
   return `
 <div id="cookie" class="cookie" role="dialog" aria-label="${esc(k.label)}" hidden>

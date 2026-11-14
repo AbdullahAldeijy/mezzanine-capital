@@ -3,8 +3,10 @@
 (function () {
   'use strict';
 
-  // TODO(analytics): paste the GA4 Measurement ID (G-XXXXXXXXXX). While empty, nothing is loaded.
-  var GA4_ID = '';
+  // GA4 ID comes from config/site.mjs (GA4_ID), which the build writes into <meta name="mz-ga4">.
+  // While it is empty there is no meta tag: nothing loads and no consent banner is rendered.
+  var meta = document.querySelector('meta[name="mz-ga4"]');
+  var GA4_ID = meta ? meta.getAttribute('content') : '';
 
   var CONSENT_KEY = 'mz_consent', FIRST_KEY = 'mz_first_touch';
   var store = {
@@ -39,12 +41,17 @@
     for (var k in utm) ft[k] = utm[k];
     return ft;
   }
+  // Lazy and currently UNUSED: nothing calls these while the site has no forms, so nothing is captured or stored.
+  // Kept for the cloud-forms phase (call MZ.attribution() / MZ.fillForm(form) to start first-touch capture).
   var first = null;
-  try { first = JSON.parse(store.get(FIRST_KEY) || 'null'); } catch (e) { first = null; }
-  if (!first) { first = capture(); store.set(FIRST_KEY, JSON.stringify(first)); }
-
-  function attribution() { return first; }
+  function attribution() {
+    if (first) return first;
+    try { first = JSON.parse(store.get(FIRST_KEY) || 'null'); } catch (e) { first = null; }
+    if (!first) { first = capture(); store.set(FIRST_KEY, JSON.stringify(first)); }
+    return first;
+  }
   function fillForm(form) {
+    var first = attribution();
     var data = {
       landing_page: first.landing_page, page_path: location.pathname, referrer: first.referrer, source_type: first.source_type,
       utm_source: first.utm_source, utm_medium: first.utm_medium, utm_campaign: first.utm_campaign,
@@ -69,7 +76,6 @@
   }
   function track(name, params) {
     params = params || {};
-    params.source_type = first.source_type;
     if (gaReady) window.gtag('event', name, params);
     else if (GA4_ID && queue.length < 50) queue.push([name, params]);   // flushed if consent is granted later
   }
