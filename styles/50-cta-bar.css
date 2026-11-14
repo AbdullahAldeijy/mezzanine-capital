@@ -1,0 +1,23 @@
+/* --- Sticky CTA bar, cookie banner ---------------------------------------- */
+:root { --cta-h: 0px; }
+/* the footer absorbs the bar's height, so the bar never covers content and no cream strip shows under the footer */
+body.has-cta .site-footer { padding-bottom: calc(2.5rem + var(--cta-h) + env(safe-area-inset-bottom)); }
+@media (min-width: 768px) { body.has-cta .site-footer { padding-bottom: calc(3rem + var(--cta-h) + env(safe-area-inset-bottom)); } }
+.cta-bar { position: fixed; inset-inline: 0; bottom: 0; z-index: 40; background: var(--ink-deep); color: var(--cream); border-top: 1px solid var(--line-on-dark); padding: .55rem 0 calc(.55rem + env(safe-area-inset-bottom)); }
+.cta-inner { display: flex; flex-direction: column; gap: .45rem; align-items: stretch; }
+.cta-text { font-size: .85rem; line-height: 1.35; font-weight: 500; }
+.cta-btns { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; }
+.cta-btns .btn { padding-inline: .6rem; font-size: .82rem; }
+@media (min-width: 768px) {
+  .cta-bar { padding-block: .7rem calc(.7rem + env(safe-area-inset-bottom)); }
+  .cta-inner { flex-direction: row; align-items: center; justify-content: space-between; gap: 1.5rem; }
+  .cta-text { font-size: 1rem; }
+  .cta-btns { display: flex; gap: .75rem; flex: none; }
+  .cta-btns .btn { padding-inline: 1.25rem; font-size: .9rem; }
+}
+.to-top { bottom: calc(var(--cta-h) + 1rem + env(safe-area-inset-bottom)) !important; }
+
+.cookie { position: fixed; inset-inline-start: 1rem; bottom: calc(var(--cta-h) + 1rem + env(safe-area-inset-bottom)); z-index: 60; width: min(26rem, calc(100% - 2rem)); background: var(--cream); color: var(--ink); border: 1px solid var(--ink); border-radius: 4px; padding: 1rem 1.1rem; box-shadow: 0 12px 32px rgba(16,26,48,.22); font-size: .88rem; line-height: 1.55; }
+.cookie[hidden] { display: none; }
+.cookie a { color: var(--teal-deep); border-bottom: 1px solid currentColor; white-space: nowrap; }
+.cookie-btns { display: flex; gap: .5rem; margin-top: .8rem; }
