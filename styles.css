@@ -297,6 +297,139 @@ body.has-cta .site-footer { padding-bottom: calc(2.5rem + var(--cta-h) + env(saf
 .cookie a { color: var(--teal-deep); border-bottom: 1px solid currentColor; white-space: nowrap; }
 .cookie-btns { display: flex; gap: .5rem; margin-top: .8rem; }
 
+/* ==========================================================================
+   Motion + polish layer ("Dusk over KAFD").
+   Everything here is progressive: without JS, or with prefers-reduced-motion,
+   the site is fully visible and static. Directional motion mirrors in RTL.
+   ========================================================================== */
+:root { --ease: cubic-bezier(.22, .8, .2, 1); }
+
+/* Lenis (desktop pointers only, see js/50-motion.js) */
+html.lenis, html.lenis body { height: auto; }
+html.lenis { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+/* --- Paper grain on cream (a static tiled SVG; navy sections cover it) --- */
+body { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .09 0 0 0 0 .14 0 0 0 0 .25 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+
+/* --- Hero ------------------------------------------------------------------ */
+.hero { isolation: isolate; }
+.hero::before { content: ""; position: absolute; inset: 0; z-index: -2; pointer-events: none; background: radial-gradient(56rem 30rem at 88% 8%, rgba(79, 168, 172, .16), transparent 62%); }
+html[dir="rtl"] .hero::before { background: radial-gradient(56rem 30rem at 12% 8%, rgba(79, 168, 172, .16), transparent 62%); }
+.hero-bg { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; -webkit-mask-image: linear-gradient(to top, #000 8%, transparent 78%); mask-image: linear-gradient(to top, #000 8%, transparent 78%); }
+.hero .h1 { font-size: clamp(2.5rem, 4.9vw, 4.5rem); }
+html[dir="ltr"] .hero .h1 { letter-spacing: -0.03em; }
+@media (min-width: 1024px) { .hero-grid { grid-template-columns: 1.08fr .92fr; } }
+
+/* image frame: the frame never moves (no layout shift); only the image inside drifts */
+.hero-img picture { display: block; aspect-ratio: 4 / 3; border-radius: 1.5rem; overflow: hidden; box-shadow: 0 30px 60px -18px rgba(16, 26, 48, .38); }
+.hero-img img { height: 100%; aspect-ratio: auto; border-radius: 0; box-shadow: none; }
+
+/* load sequence finishes < 800ms */
+.reveal { animation-duration: .55s; animation-timing-function: var(--ease); }
+.reveal-1 { animation-delay: .02s; } .reveal-2 { animation-delay: .09s; } .reveal-3 { animation-delay: .16s; } .reveal-4 { animation-delay: .22s; }
+
+/* Hero title hand-over to SplitText. With motion allowed, the title waits (hidden) for the split animation.
+   The CSS-only failsafe shows it at 1.4s even if the scripts never load. Without `.motion` the plain .reveal runs. */
+.motion .hero-title { opacity: 0; transform: none; animation: mz-failsafe .01s linear 1.4s forwards; }
+@keyframes mz-failsafe { to { opacity: 1; } }
+.hero-title .mz-w, .hero-title .mz-c { display: inline-block; will-change: transform, opacity; }
+
+/* scroll reveal easing */
+.js .rv { transition: opacity .7s var(--ease), transform .7s var(--ease); transition-delay: var(--d, 0s); }
+
+/* --- Section rhythm --------------------------------------------------------- */
+.section-head .h2::before { content: ""; display: block; width: 2.75rem; height: 2px; margin-bottom: 1.4rem; background: var(--teal-deep); }
+.section-navy { background: var(--navy-panel); border-top: 0; color: rgba(255, 255, 255, .76); }
+.section-navy + .section, .final-cta + .section { border-top: 0; }
+.section-navy .h2, .section-navy .h3 { color: var(--cream); }
+.section-navy .section-head .h2::before { background: var(--teal); }
+.section-navy .card { background: rgba(255, 255, 255, .045); border-color: var(--line-on-dark); }
+.section-navy .card-link:hover { background: rgba(255, 255, 255, .09); border-color: var(--teal); }
+.section-navy .act-icon { color: var(--teal); }
+
+/* --- Tactile cards ------------------------------------------------------------ */
+.card-link, .aud-card, .sol, .act, .contact-card, .value { position: relative; transition: transform .4s var(--ease), box-shadow .4s var(--ease), border-color .25s ease, background-color .25s ease; }
+@media (hover: hover) {
+  .card-link:hover, .aud-card:hover, .sol:hover, .act:hover, .contact-card:hover, .value:hover { transform: translateY(-4px); box-shadow: 0 22px 40px -24px rgba(16, 26, 48, .45); }
+}
+/* gradient sheen that sweeps the border in reading direction */
+.card-link::after, .aud-card::after, .sol::after, .act::after, .contact-card::after, .value::after {
+  content: ""; position: absolute; inset: -1px; border-radius: inherit; padding: 1px; pointer-events: none; opacity: 0;
+  background: linear-gradient(115deg, transparent 38%, var(--teal) 50%, transparent 62%) no-repeat; background-size: 320% 100%; background-position: 115% 0;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude;
+  transition: opacity .25s ease, background-position 1s var(--ease);
+}
+html[dir="rtl"] .card-link::after, html[dir="rtl"] .aud-card::after, html[dir="rtl"] .sol::after, html[dir="rtl"] .act::after, html[dir="rtl"] .contact-card::after, html[dir="rtl"] .value::after { background-position: -15% 0; }
+.card-link:hover::after, .card-link:focus-visible::after, .aud-card:hover::after, .aud-card:focus-within::after, .sol:hover::after, .act:hover::after, .contact-card:hover::after, .contact-card:focus-visible::after, .value:hover::after { opacity: 1; background-position: -15% 0; }
+html[dir="rtl"] .card-link:hover::after, html[dir="rtl"] .card-link:focus-visible::after, html[dir="rtl"] .aud-card:hover::after, html[dir="rtl"] .aud-card:focus-within::after, html[dir="rtl"] .sol:hover::after, html[dir="rtl"] .act:hover::after, html[dir="rtl"] .contact-card:hover::after, html[dir="rtl"] .contact-card:focus-visible::after, html[dir="rtl"] .value:hover::after { background-position: 115% 0; }
+
+/* --- Micro-interactions ---------------------------------------------------------- */
+.btn { transition: background-color .25s ease, color .25s ease, border-color .25s ease, box-shadow .3s var(--ease); }
+.btn:active { scale: .98; }
+.btn-primary:hover, .nav-cta:hover { box-shadow: 0 10px 24px -12px rgba(16, 26, 48, .55); }
+/* nav underline: grows from the reading-direction start, leaves toward the end */
+.nav-link::after { transform-origin: right; transition: transform .4s var(--ease); }
+.nav-link:hover::after, .nav-link[aria-current="page"]::after { transform-origin: left; }
+html[dir="rtl"] .nav-link::after { transform-origin: left; }
+html[dir="rtl"] .nav-link:hover::after, html[dir="rtl"] .nav-link[aria-current="page"]::after { transform-origin: right; }
+.lang-toggle a { transition: color .2s ease; border-bottom: 1px solid transparent; }
+.lang-toggle a:hover { border-bottom-color: var(--teal-deep); }
+.to-top svg { transition: transform .3s var(--ease); }
+.to-top:hover svg { transform: translateY(-2px); }
+.link-arrow .arr { transition: transform .3s var(--ease); }
+.link-arrow:hover .arr { transform: translateX(4px); }
+html[dir="rtl"] .link-arrow:hover .arr { transform: scaleX(-1) translateX(4px); }
+
+/* sticky CTA bar slides up after the first scroll (always visible without JS) */
+.js .cta-bar { transform: translateY(105%); transition: transform .6s var(--ease); }
+.js .cta-bar.is-in { transform: none; }
+
+/* --- Mobile menu as a top sheet ------------------------------------------------- */
+.mobile-panel, html[dir="rtl"] .mobile-panel {
+  inset-inline: 0; top: 0; bottom: auto; width: auto; height: auto; max-height: 100dvh;
+  border-radius: 0 0 1.25rem 1.25rem; box-shadow: 0 24px 48px -12px rgba(16, 26, 48, .28);
+  transform: translateY(-103%); transition: transform .5s var(--ease), visibility 0s linear .5s;
+  padding-bottom: calc(.75rem + env(safe-area-inset-bottom));
+}
+.mobile-panel.is-open, html[dir="rtl"] .mobile-panel.is-open { transform: none; visibility: visible; transition: transform .5s var(--ease); }
+.mobile-panel .panel-link { opacity: 0; transform: translateY(-8px); transition: opacity .3s ease, transform .45s var(--ease); }
+.mobile-panel.is-open .panel-link { opacity: 1; transform: none; transition-delay: calc(90ms + var(--i, 0) * 35ms); }
+.mobile-panel .panel-link:nth-child(2) { --i: 1; } .mobile-panel .panel-link:nth-child(3) { --i: 2; } .mobile-panel .panel-link:nth-child(4) { --i: 3; }
+.mobile-panel .panel-link:nth-child(5) { --i: 4; } .mobile-panel .panel-link:nth-child(6) { --i: 5; } .mobile-panel .panel-link:nth-child(7) { --i: 6; }
+
+/* --- Cross-page transitions (View Transitions API; other browsers navigate normally) --- */
+@view-transition { navigation: auto; }
+.site-nav { view-transition-name: site-nav; }
+.cta-bar { view-transition-name: cta-bar; }
+::view-transition-old(root) { animation: vt-out .16s ease both; }
+::view-transition-new(root) { animation: vt-in .34s var(--ease) both; }
+@keyframes vt-out { to { opacity: 0; } }
+@keyframes vt-in { from { opacity: 0; transform: translateY(10px); } }
+
+/* --- Reduced motion: everything static -------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  @view-transition { navigation: none; }
+  .js .cta-bar { transform: none; transition: none; }
+  .mobile-panel, html[dir="rtl"] .mobile-panel, .mobile-panel .panel-link { transition: none; }
+  .mobile-panel .panel-link { opacity: 1; transform: none; }
+  .card-link, .aud-card, .sol, .act, .contact-card, .value { transition: none; }
+  .card-link:hover, .aud-card:hover, .sol:hover, .act:hover, .contact-card:hover, .value:hover { transform: none; }
+  .card-link::after, .aud-card::after, .sol::after, .act::after, .contact-card::after, .value::after { transition: none; }
+  .btn:active { scale: none; }
+  .nav-link::after, .to-top svg, .link-arrow .arr { transition: none; }
+}
+
+/* keep the hero's outline button solid so the skyline lines never run through its label */
+.hero .btn-ghost { background: var(--cream); }
+.hero .btn-ghost:hover { background: var(--ink); }
+
+/* Above-the-fold copy is visible from the first paint: the hero lede and buttons only settle into place
+   (they start mostly opaque), so nothing important waits on an animation or on scripts. */
+.hero .lede.reveal, .hero .hero-cta.reveal { opacity: .45; animation-name: mz-settle; }
+@keyframes mz-settle { from { opacity: .45; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .hero .lede.reveal, .hero .hero-cta.reveal { opacity: 1; animation: none; } }
+
 /* --- Footer --------------------------------------------------------------- */
 .site-footer { background: var(--ink-deep); color: var(--cream); padding-top: 3.5rem; padding-bottom: calc(2.5rem + env(safe-area-inset-bottom)); }
 @media (min-width: 768px) { .site-footer { padding-top: 5rem; padding-bottom: calc(3rem + env(safe-area-inset-bottom)); } }
