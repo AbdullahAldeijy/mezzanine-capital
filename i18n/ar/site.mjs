@@ -42,8 +42,8 @@ export default {
     privacy: 'سياسة الخصوصية',
     rights: '© 2026 Mezzanine / ميزانين. جميع الحقوق محفوظة.',
   },
+  social: { linkedin: 'لينكد إن', x: 'إكس (X)', instagram: 'إنستغرام', youtube: 'يوتيوب' },
   contactInfo: {
-    linkedin: 'لينكد إن',
     email: 'info@mezzanine.sa',
     phone: '+966 54 404 3103',
     address: 'كافد 4.07، الرياض، المملكة العربية السعودية',

@@ -42,8 +42,8 @@ export default {
     privacy: 'Privacy Policy',
     rights: '© 2026 Mezzanine / ميزانين. All rights reserved.',
   },
+  social: { linkedin: 'LinkedIn', x: 'X', instagram: 'Instagram', youtube: 'YouTube' },
   contactInfo: {
-    linkedin: 'LinkedIn',
     email: 'info@mezzanine.sa',
     phone: '+966 54 404 3103',
     address: 'KAFD 4.07, Riyadh, Kingdom of Saudi Arabia',
