@@ -1,0 +1,20 @@
+# Push to main -> publish the site to its Cloud Storage bucket (served by Cloud CDN).
+# _BUCKET is set by the Cloud Build trigger (mezzanine-infra/envs/capital).
+
+steps:
+  - id: publish
+    name: gcr.io/google.com/cloudsdktool/cloud-sdk:slim
+    entrypoint: bash
+    args:
+      - -c
+      - |
+        set -euo pipefail
+        gcloud storage rsync . gs://${_BUCKET} --recursive --delete-unmatched-destination-objects \
+          --exclude='^\.git/|^\.github/|^cloudbuild\.yaml$$|^README\.md$$|^\.gitignore$$'
+        # HTML always revalidates so a new deploy shows at once; images/fonts cache for a day.
+        gcloud storage objects update "gs://${_BUCKET}/**.html" --cache-control="no-cache"
+        gcloud storage objects update "gs://${_BUCKET}/**.{png,jpg,jpeg,webp,svg,ico,woff2}" \
+          --cache-control="public, max-age=86400" || true
+
+options:
+  logging: CLOUD_LOGGING_ONLY
