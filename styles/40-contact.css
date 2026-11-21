@@ -1,0 +1,11 @@
+/* --- Contact: cards only (forms are deferred to the cloud phase) --------- */
+.contact-cards { display: grid; gap: 1rem; }
+@media (min-width: 640px) { .contact-cards { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1100px) { .contact-cards { grid-template-columns: repeat(4, 1fr); } }
+.contact-card { display: flex; flex-direction: column; align-items: flex-start; gap: .35rem; padding: 1.75rem; transition: border-color .2s ease, background-color .2s ease; }
+.contact-card:hover { border-color: var(--teal-deep); background: #fff; }
+.contact-card .ci { width: 1.6rem; height: 1.6rem; color: var(--teal-deep); margin-bottom: .75rem; }
+.cc-label { font-size: .8rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--slate); }
+html[dir="rtl"] .cc-label { letter-spacing: 0; font-size: .9rem; }
+.cc-value { font-size: 1.1rem; font-weight: 500; color: var(--ink); overflow-wrap: anywhere; border-bottom: 1px solid transparent; transition: border-color .2s ease; }
+.contact-card:hover .cc-value { border-color: var(--teal-deep); }
