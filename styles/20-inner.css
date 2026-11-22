@@ -69,4 +69,4 @@ body[data-page="privacy"] .phead-grid::before { animation: none; }
 .privacy { padding-top: clamp(30px, 4vw, 56px); }
 
 /* monoliths keep their rising light over the solid glass fill */
-.mono.glass { background: linear-gradient(to top, rgba(18, 224, 207, .32), rgba(18, 224, 207, .07) 55
+.mono.glass { background: linear-gradient(to top, rgba(18, 224, 207, .32), rgba(18, 224, 207, .07) 55%, rgba(14, 32, 46, .6)); border-color: rgba(124, 247, 255, .26); }

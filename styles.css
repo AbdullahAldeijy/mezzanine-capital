@@ -346,6 +346,9 @@ html[dir="rtl"] .prose p { line-height: 2; }
 body[data-page="privacy"] .phead-grid::before { animation: none; }
 .privacy { padding-top: clamp(30px, 4vw, 56px); }
 
+/* monoliths keep their rising light over the solid glass fill */
+.mono.glass { background: linear-gradient(to top, rgba(18, 224, 207, .32), rgba(18, 224, 207, .07) 55%, rgba(14, 32, 46, .6)); border-color: rgba(124, 247, 255, .26); }
+
 /* --- How We Work: pinned pipeline ------------------------------------------------------
    --p (0..1) comes from scroll (v2/app.js). 0..0.82 fills the rail and lights the steps in order;
    0.82..1 draws the loop back from the Holding to the start. Without JS / reduced motion: --p = 1. */
