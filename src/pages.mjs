@@ -7,7 +7,7 @@ export const PAGES = [
   { key: 'home', slug: '', nav: 'home', v2: true },
   { key: 'about', slug: 'about', nav: 'about', v2: true },
   { key: 'ecosystem', slug: 'ecosystem', nav: 'ecosystem', v2: true },
-  { key: 'how', slug: 'how-we-work', nav: 'how' },
+  { key: 'how', slug: 'how-we-work', nav: 'how', v2: true },
   { key: 'serve', slug: 'who-we-serve', nav: 'serve' },
   { key: 'solutions', slug: 'solutions', nav: 'solutions' },
   { key: 'contact', slug: 'contact', nav: 'contact', noCta: true, navButton: true },

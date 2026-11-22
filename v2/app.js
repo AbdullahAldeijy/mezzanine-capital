@@ -41,6 +41,21 @@ function onScroll() {
     el.style.setProperty('--p', clamp((vh * 0.85 - r.top) / (vh * 0.4 + r.height / 2)).toFixed(3));
   });
 }
+// ---- How We Work pipeline: pinned on desktop (CSS sticky); progress = how far the section has scrolled ----
+const chains = $$('[data-chain]'), wide = matchMedia('(min-width: 901px)');
+function chainProgress() {
+  if (reduce) return;
+  chains.forEach((el) => {
+    const r = el.getBoundingClientRect(), vh = innerHeight;
+    const p = wide.matches ? -r.top / Math.max(1, r.height - vh)                      // pinned: 0 at the top, 1 when it unpins
+      : (vh * 0.75 - r.top) / Math.max(1, r.height);                                  // mobile: follows the list down the screen
+    el.style.setProperty('--p', clamp(p).toFixed(3));
+  });
+}
+addEventListener('scroll', chainProgress, { passive: true });
+addEventListener('resize', chainProgress);
+chainProgress();
+
 let ticking = false;
 addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(() => { ticking = false; onScroll(); }); } }, { passive: true });
 addEventListener('resize', onScroll);

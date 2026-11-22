@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>كيف نعمل | Mezzanine / ميزانين</title>
   <meta name="description" content="سلسلة القيمة في ميزانين: من دراسة السوق وربط البيانات إلى التقييم والتسهيلات والمحافظ والصكوك وقياس الأثر.">
-  <meta name="theme-color" content="#F6F1E3">
+  <meta name="theme-color" content="#060E1A">
   
   <link rel="canonical" href="https://mezzanine.sa/ar/how-we-work/">
   <link rel="alternate" hreflang="en" href="https://mezzanine.sa/how-we-work/">
@@ -28,20 +28,19 @@
   <meta name="twitter:image" content="https://mezzanine.sa/images/og-hero.jpg">
   <meta name="twitter:image:alt" content="أفق مدينة الرياض في مركز الملك عبدالله المالي (كافد)">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2316233F'/%3E%3Cpath d='M16 7l9 18H7z' fill='none' stroke='%23F6F1E3' stroke-width='2.4' stroke-linejoin='round'/%3E%3Cpath d='M12.5 21.5h7L16 14.5z' fill='%234FA8AC'/%3E%3C/svg%3E">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap">
-  <link rel="stylesheet" href="/styles.css">
+  <link rel="preload" as="font" type="font/woff2" href="/fonts/alexandria-arabic-wght-normal.woff2" crossorigin>
+  <link rel="stylesheet" href="/v2.css">
+  <link rel="modulepreload" href="/v2/app.js">
   
-  <script>document.documentElement.classList.add('js');</script>
+  <script>(function(d){d.classList.add('js');if(!matchMedia('(prefers-reduced-motion: reduce)').matches)d.classList.add('motion')})(document.documentElement);</script>
   
 </head>
-<body class="has-cta">
-<a href="#main" class="skip-link">تخطَّ إلى المحتوى الرئيسي</a>
+<body class="v2 has-cta" data-page="how">
+<a href="#main" class="skip">تخطَّ إلى المحتوى الرئيسي</a>
 
-<header class="site-nav">
-  <div class="container bar">
-    <a href="/ar/" class="brand" aria-label="Mezzanine / ميزانين"><img src="/images/logo-wordmark.webp" alt="Mezzanine / ميزانين" width="540" height="71"></a>
+<header class="nav" id="nav">
+  <div class="nav-bar glass">
+    <a href="/ar/" class="nav-brand" aria-label="Mezzanine / ميزانين"><img src="/images/logo-wordmark-light.webp" alt="Mezzanine / ميزانين" width="540" height="71"></a>
     <nav aria-label="التنقل الرئيسي" class="nav-links">
       <a href="/ar/" class="nav-link">الرئيسية</a>
       <a href="/ar/about/" class="nav-link">من نحن</a>
@@ -49,126 +48,105 @@
       <a href="/ar/how-we-work/" class="nav-link" aria-current="page">كيف نعمل</a>
       <a href="/ar/who-we-serve/" class="nav-link">من نخدم</a>
       <a href="/ar/solutions/" class="nav-link">الحلول والمنتجات</a>
-      <a href="/ar/contact/" class="nav-link nav-cta">تواصل معنا</a>
     </nav>
     <div class="nav-end">
-      <div class="lang-toggle"><a href="/how-we-work/" hreflang="en" lang="en" class="tap-44" data-lang-switch="en" aria-label="English">EN</a><span aria-hidden="true">/</span><span class="is-active tap-44" aria-current="true" lang="ar">ع</span></div>
-      <button type="button" id="menu-btn" class="menu-btn tap-44" aria-label="فتح القائمة" data-open="فتح القائمة" data-close="إغلاق القائمة" aria-expanded="false" aria-controls="mobile-panel"><svg class="i-open" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"/></svg><svg class="i-close" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/></svg></button>
+      <a href="/how-we-work/" class="nav-lang" hreflang="en" lang="en" data-lang-switch="en" aria-label="English">EN</a>
+      <a href="/ar/contact/" class="nav-link is-cta" data-cta="nav">تواصل معنا</a>
+      <button type="button" id="menu-btn" class="nav-menu" aria-label="فتح القائمة" data-open="فتح القائمة" data-close="إغلاق القائمة" aria-expanded="false" aria-controls="sheet"><svg class="i-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg><svg class="i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
     </div>
   </div>
 </header>
-<div id="mobile-overlay" class="mobile-overlay"></div>
-<div id="mobile-panel" class="mobile-panel" role="dialog" aria-modal="true" aria-label="القائمة">
+<div id="sheet" class="sheet" role="dialog" aria-modal="true" aria-label="القائمة">
   <nav aria-label="التنقل في الجوال">
-    <a href="/ar/" class="panel-link">الرئيسية</a>
-    <a href="/ar/about/" class="panel-link">من نحن</a>
-    <a href="/ar/ecosystem/" class="panel-link">منظومتنا</a>
-    <a href="/ar/how-we-work/" class="panel-link" aria-current="page">كيف نعمل</a>
-    <a href="/ar/who-we-serve/" class="panel-link">من نخدم</a>
-    <a href="/ar/solutions/" class="panel-link">الحلول والمنتجات</a>
-    <a href="/ar/contact/" class="panel-link nav-cta">تواصل معنا</a>
+    <a style="--i:0" href="/ar/" class="sheet-link">الرئيسية</a>
+    <a style="--i:1" href="/ar/about/" class="sheet-link">من نحن</a>
+    <a style="--i:2" href="/ar/ecosystem/" class="sheet-link">منظومتنا</a>
+    <a style="--i:3" href="/ar/how-we-work/" class="sheet-link" aria-current="page">كيف نعمل</a>
+    <a style="--i:4" href="/ar/who-we-serve/" class="sheet-link">من نخدم</a>
+    <a style="--i:5" href="/ar/solutions/" class="sheet-link">الحلول والمنتجات</a>
+    <a style="--i:6" href="/ar/contact/" class="sheet-link is-cta" data-cta="nav">تواصل معنا</a>
   </nav>
 </div>
 <main id="main">
 
-<header class="page-head">
-  <div class="container">
-    <h1 class="h1 page-title reveal reveal-1">كيف نعمل</h1>
-    <p class="lede reveal reveal-2">سلسلة القيمة</p>
+<header class="phead">
+  <div class="phead-grid" aria-hidden="true"></div>
+  <div class="wrap phead-inner">
+    <h1 class="phead-title"><span class="word" style="--i:0">كيف</span> <span class="word" style="--i:1">نعمل</span></h1>
+    <p class="lede phead-lede">سلسلة القيمة</p>
   </div>
 </header>
-<section class="section">
-  <div class="container">
-    <ol class="vchain rv" aria-label="سلسلة القيمة من دراسة السوق إلى إدارة المجموعة">
-      <li class="vstep">
-        <span class="vstep-n num">1</span>
-        <span class="vstep-who">التسويق</span>
-        <span class="vstep-text">يدرس السوق ويستقطب المنشآت والممولين</span>
-        <svg class="arr" viewBox="0 0 18 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M1 6h15M11 1l5 5-5 5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </li>
-      <li class="vstep">
-        <span class="vstep-n num">2</span>
-        <span class="vstep-who">التقنية</span>
-        <span class="vstep-text">تربط البيانات</span>
-        <svg class="arr" viewBox="0 0 18 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M1 6h15M11 1l5 5-5 5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </li>
-      <li class="vstep">
-        <span class="vstep-n num">3</span>
-        <span class="vstep-who">المالية</span>
-        <span class="vstep-text">تدعم التقييم والتسهيلات والتحصيل</span>
-        <svg class="arr" viewBox="0 0 18 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M1 6h15M11 1l5 5-5 5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </li>
-      <li class="vstep">
-        <span class="vstep-n num">4</span>
-        <span class="vstep-who">الاستثمار</span>
-        <span class="vstep-text">يرتب المحافظ والصكوك</span>
-        <svg class="arr" viewBox="0 0 18 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M1 6h15M11 1l5 5-5 5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </li>
-      <li class="vstep">
-        <span class="vstep-n num">5</span>
-        <span class="vstep-who">التسويق</span>
-        <span class="vstep-text">يقيس الأثر</span>
-        <svg class="arr" viewBox="0 0 18 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M1 6h15M11 1l5 5-5 5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </li>
-      <li class="vstep vstep-holding">
-        <span class="vstep-n num">6</span>
-        <span class="vstep-who">القابضة</span>
-        <span class="vstep-text">تدير المجموعة وتنسق السياسات والأهداف</span>
-        
-      </li>
-    </ol>
+
+<section class="chain" data-chain aria-label="سلسلة القيمة من دراسة السوق إلى إدارة المجموعة">
+  <div class="chain-stick">
+    <div class="wrap">
+      <div class="chain-track">
+        <svg class="chain-rail" viewBox="0 0 1200 220" preserveAspectRatio="none" aria-hidden="true" data-flip>
+          <path class="rail-base" d="M40 150 H1160"/>
+          <path class="rail-fill" d="M40 150 H1160" pathLength="1"/>
+          <path class="loop-base" d="M1160 150 C 1160 30, 1100 20, 600 20 S 40 30, 40 150"/>
+          <path class="loop-fill" d="M1160 150 C 1160 30, 1100 20, 600 20 S 40 30, 40 150" pathLength="1"/>
+        </svg>
+        <ol class="chain-steps">
+          <li class="chain-step" style="--k:0"><span class="step-n">1</span><span class="step-who">التسويق</span><span class="step-text">يدرس السوق ويستقطب المنشآت والممولين</span></li>
+          <li class="chain-step" style="--k:1"><span class="step-n">2</span><span class="step-who">التقنية</span><span class="step-text">تربط البيانات</span></li>
+          <li class="chain-step" style="--k:2"><span class="step-n">3</span><span class="step-who">المالية</span><span class="step-text">تدعم التقييم والتسهيلات والتحصيل</span></li>
+          <li class="chain-step" style="--k:3"><span class="step-n">4</span><span class="step-who">الاستثمار</span><span class="step-text">يرتب المحافظ والصكوك</span></li>
+          <li class="chain-step" style="--k:4"><span class="step-n">5</span><span class="step-who">التسويق</span><span class="step-text">يقيس الأثر</span></li>
+          <li class="chain-step is-hold" style="--k:5"><span class="step-n">6</span><span class="step-who">القابضة</span><span class="step-text">تدير المجموعة وتنسق السياسات والأهداف</span></li>
+        </ol>
+      </div>
+    </div>
   </div>
 </section>
 </main>
 
-<footer class="site-footer on-dark">
-  <div class="container">
-    <svg class="skyline-rule" viewBox="0 0 800 40" preserveAspectRatio="none" fill="none" stroke="var(--teal)" stroke-width="1" aria-hidden="true">
-      <path d="M0 38 L40 38 L40 20 L55 20 L55 10 L70 10 L70 38 L110 38 L110 25 L125 25 L125 5 L140 5 L140 25 L155 25 L155 38 L210 38 L210 15 L230 15 L230 38 L280 38 L280 28 L300 28 L300 12 L320 12 L320 28 L340 28 L340 38 L400 38 L400 8 L415 8 L415 22 L430 22 L430 38 L480 38 L480 18 L500 18 L500 38 L560 38 L560 25 L580 25 L580 2 L600 2 L600 25 L620 25 L620 38 L680 38 L680 15 L700 15 L700 30 L720 30 L720 38 L800 38"/>
-    </svg>
-    <div class="footer-grid">
-      <div>
-        <p class="h3 footer-brand">Mezzanine / ميزانين</p>
-        <p class="footer-muted">ذكاء الائتمان التجاري</p>
-      </div>
-      <nav aria-label="روابط سريعة">
-        <h2 class="footer-h">روابط سريعة</h2>
-        <ul class="footer-links">
-          <li><a href="/ar/">الرئيسية</a></li>
-          <li><a href="/ar/about/">من نحن</a></li>
-          <li><a href="/ar/ecosystem/">منظومتنا</a></li>
-          <li><a href="/ar/how-we-work/">كيف نعمل</a></li>
-          <li><a href="/ar/who-we-serve/">من نخدم</a></li>
-          <li><a href="/ar/solutions/">الحلول والمنتجات</a></li>
-          <li><a href="/ar/contact/" data-cta="footer">تواصل معنا</a></li>
-          <li><a href="/ar/privacy/">سياسة الخصوصية</a></li>
-        </ul>
-      </nav>
-      <div>
-        <h2 class="footer-h">تواصل معنا</h2>
-        <a href="https://www.google.com/maps/search/?api=1&query=King+Abdullah+Financial+District+Riyadh" target="_blank" rel="noopener" class="footer-muted footer-line">كافد 4.07، الرياض، المملكة العربية السعودية</a>
-        <a href="mailto:info@mezzanine.sa" class="footer-accent footer-line">info@mezzanine.sa</a>
-        <a href="tel:+966544043103" class="footer-accent footer-line" dir="ltr">+966 54 404 3103</a>
-        <a href="https://www.linkedin.com/company/mezzanineai" target="_blank" rel="noopener" class="footer-accent footer-line">لينكد إن</a>
-      </div>
+<footer class="footer">
+  <svg class="footer-city" viewBox="0 0 1000 120" preserveAspectRatio="none" aria-hidden="true"><path d="M0 120 L0 120.0 L30 120.0 L30 110.6 L68 110.6 L68 113.1 L80 113.1 L80 120.0 L84 120.0 L84 106.6 L86 106.6 L86 99.6 L128 99.6 L128 99.8 L130 99.8 L130 103.8 L136 103.8 L136 120.0 L196 120.0 L196 110.9 L198 110.9 L198 100.2 L200 100.2 L200 98.5 L206 98.5 L206 97.6 L208 97.6 L208 95.6 L244 95.6 L244 97.6 L246 97.6 L246 102.4 L248 102.4 L248 120.0 L250 120.0 L250 100.7 L252 100.7 L252 97.6 L254 97.6 L254 91.3 L278 91.3 L278 83.2 L280 83.2 L280 72.7 L282 72.7 L282 62.1 L284 62.1 L284 55.4 L322 55.4 L322 65.0 L324 65.0 L324 75.6 L326 75.6 L326 86.1 L328 86.1 L328 86.6 L352 86.6 L352 81.3 L354 81.3 L354 71.2 L356 71.2 L356 61.2 L358 61.2 L358 51.2 L360 51.2 L360 41.2 L362 41.2 L362 31.2 L364 31.2 L364 30.7 L388 30.7 L388 31.2 L390 31.2 L390 41.2 L392 41.2 L392 51.2 L394 51.2 L394 61.2 L396 61.2 L396 71.2 L398 71.2 L398 81.3 L400 81.3 L400 91.3 L402 91.3 L402 101.3 L404 101.3 L404 111.3 L406 111.3 L406 120.0 L420 120.0 L420 84.3 L422 84.3 L422 83.9 L460 83.9 L460 77.1 L462 77.1 L462 66.3 L464 66.3 L464 55.5 L466 55.5 L466 44.7 L468 44.7 L468 34.0 L470 34.0 L470 23.2 L472 23.2 L472 12.4 L474 12.4 L474 10.8 L494 10.8 L494 15.0 L496 15.0 L496 25.8 L498 25.8 L498 36.6 L500 36.6 L500 47.3 L502 47.3 L502 58.1 L504 58.1 L504 68.9 L506 68.9 L506 70.0 L518 70.0 L518 69.5 L520 69.5 L520 59.3 L522 59.3 L522 49.7 L556 49.7 L556 51.2 L558 51.2 L558 61.4 L560 61.4 L560 71.6 L562 71.6 L562 72.4 L574 72.4 L574 73.3 L580 73.3 L580 91.4 L584 91.4 L584 105.8 L586 105.8 L586 95.2 L588 95.2 L588 84.6 L590 84.6 L590 73.9 L592 73.9 L592 63.3 L594 63.3 L594 52.7 L596 52.7 L596 42.0 L598 42.0 L598 38.3 L628 38.3 L628 41.3 L630 41.3 L630 51.9 L632 51.9 L632 62.6 L634 62.6 L634 73.2 L636 73.2 L636 83.8 L638 83.8 L638 86.6 L640 86.6 L640 104.0 L642 104.0 L642 98.3 L644 98.3 L644 80.3 L684 80.3 L684 81.3 L696 81.3 L696 92.2 L698 92.2 L698 87.7 L744 87.7 L744 100.0 L750 100.0 L750 106.6 L754 106.6 L754 89.9 L802 89.9 L802 105.9 L810 105.9 L810 101.0 L816 101.0 L816 97.4 L856 97.4 L856 101.0 L858 101.0 L858 102.8 L866 102.8 L866 109.6 L870 109.6 L870 105.5 L876 105.5 L876 98.8 L920 98.8 L920 100.5 L922 100.5 L922 99.6 L970 99.6 L970 106.2 L972 106.2 L972 107.6 L978 107.6 L978 120.0 L1000 120.0 L1000 120 Z"/></svg>
+  <div class="wrap footer-grid">
+    <div>
+      <img class="footer-logo" src="/images/logo-wordmark-light.webp" alt="Mezzanine / ميزانين" width="540" height="71" loading="lazy">
+      <p class="footer-tag">ذكاء الائتمان التجاري</p>
     </div>
-    <p class="footer-rights">© 2026 Mezzanine / ميزانين. جميع الحقوق محفوظة.</p>
+    <nav aria-label="روابط سريعة">
+      <h2 class="footer-h">روابط سريعة</h2>
+      <ul class="footer-links">
+        <li><a href="/ar/">الرئيسية</a></li>
+        <li><a href="/ar/about/">من نحن</a></li>
+        <li><a href="/ar/ecosystem/">منظومتنا</a></li>
+        <li><a href="/ar/how-we-work/">كيف نعمل</a></li>
+        <li><a href="/ar/who-we-serve/">من نخدم</a></li>
+        <li><a href="/ar/solutions/">الحلول والمنتجات</a></li>
+        <li><a href="/ar/contact/" data-cta="footer">تواصل معنا</a></li>
+        <li><a href="/ar/privacy/">سياسة الخصوصية</a></li>
+      </ul>
+    </nav>
+    <div>
+      <h2 class="footer-h">تواصل معنا</h2>
+      <ul class="footer-contact">
+        <li><a href="https://www.google.com/maps/search/?api=1&query=King+Abdullah+Financial+District+Riyadh" target="_blank" rel="noopener">كافد 4.07، الرياض، المملكة العربية السعودية</a></li>
+        <li><a href="mailto:info@mezzanine.sa">info@mezzanine.sa</a></li>
+        <li><a href="tel:+966544043103" dir="ltr">+966 54 404 3103</a></li>
+        <li><a href="https://www.linkedin.com/company/mezzanineai" target="_blank" rel="noopener">لينكد إن</a></li>
+      </ul>
+    </div>
   </div>
+  <p class="wrap footer-rights">© 2026 Mezzanine / ميزانين. جميع الحقوق محفوظة.</p>
 </footer>
 
-<aside id="cta-bar" class="cta-bar on-dark" aria-label="دعوة للتواصل">
-  <div class="container cta-inner">
-    <p class="cta-text">لديك فرصة للنمو أو التعاون مع ميزانين؟</p>
-    <div class="cta-btns">
-      <a href="/ar/contact/" class="btn btn-sm btn-light" data-cta="sticky">تواصل معنا</a>
+<aside id="cta-bar" class="cta-bar" aria-label="دعوة للتواصل">
+  <div class="cta-bar-inner glass">
+    <p>لديك فرصة للنمو أو التعاون مع ميزانين؟</p>
+    <div class="cta-bar-btns">
+      <a href="/ar/contact/" class="btn btn-primary btn-sm" data-cta="sticky">تواصل معنا</a>
       <!-- TODO(phase2): repoint to the partnership-opportunities page once it exists -->
-      <a href="/ar/who-we-serve/" class="btn btn-sm btn-outline-light" data-cta="sticky">استكشف فرص التعاون</a>
+      <a href="/ar/who-we-serve/" class="btn btn-glass btn-sm" data-cta="sticky">استكشف فرص التعاون</a>
     </div>
   </div>
 </aside>
 
 <button type="button" id="to-top" class="to-top" aria-label="العودة إلى الأعلى"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M9 15V3M3.5 8.5L9 3l5.5 5.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
 <script src="/analytics.js" defer></script>
-<script src="/app.js" defer></script>
+<script type="module" src="/v2/app.js"></script>
 </body>
 </html>
