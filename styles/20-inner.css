@@ -1,19 +1,13 @@
 /* --- Inner page header ------------------------------------------------------------ */
 .phead { position: relative; overflow: hidden; isolation: isolate; padding: clamp(150px, 20vh, 220px) 0 clamp(56px, 7vw, 96px);
   background: radial-gradient(70% 70% at 50% 0%, rgba(18, 224, 207, .14), transparent 62%), linear-gradient(var(--night), var(--night-2)); }
-/* a floor grid in perspective, fading into the distance: the same ground the city stands on */
-/* The grid lives on its own compositor layer and drifts with transform only, so it never repaints; the grid tile
-   is one cell larger than the box and moves by exactly one cell per loop. A gradient overlay (not a mask) fades it. */
+/* a static floor grid in perspective, fading into the distance: the same ground the city stands on (no animation) */
 .phead-grid { position: absolute; inset-inline: -20%; bottom: 0; height: 70%; z-index: -1; pointer-events: none; overflow: hidden;
-  transform: perspective(520px) rotateX(62deg); transform-origin: 50% 100%; }
-.phead-grid::before { content: ""; position: absolute; inset: -64px 0 0 -64px; will-change: transform;
+  transform: perspective(520px) rotateX(62deg); transform-origin: 50% 100%;
   background: repeating-linear-gradient(90deg, rgba(124, 247, 255, .14) 0 1px, transparent 1px 64px), repeating-linear-gradient(0deg, rgba(124, 247, 255, .14) 0 1px, transparent 1px 64px); }
-/* fade toward the horizon, drawn in the grid's own plane (static, above the moving tile) */
+/* fade toward the horizon, drawn in the grid's own plane */
 .phead-grid::after { content: ""; position: absolute; inset: 0; background: linear-gradient(#06101B 0%, rgba(6, 16, 27, .6) 45%, transparent 85%); }
-@media (prefers-reduced-motion: no-preference) { .phead-grid::before { animation: grid-drift 14s linear infinite; } }
-@keyframes grid-drift { to { transform: translate3d(64px, 64px, 0); } }
-html[dir="rtl"] .phead-grid::before { animation-direction: reverse; }
-.phead-title { font-family: var(--display); font-weight: 800; font-size: clamp(2.9rem, 7.4vw, 7.2rem); line-height: .92; letter-spacing: -.045em; color: var(--ice); max-width: 9em; text-wrap: balance; text-shadow: 0 0 70px rgba(124, 247, 255, .22); }
+.phead-title { font-family: var(--display); font-weight: 800; font-size: clamp(2.9rem, 7.4vw, 7.2rem); line-height: .92; letter-spacing: -.045em; color: var(--ice); max-width: 9em; text-wrap: balance; }
 html[dir="rtl"] .phead-title { letter-spacing: 0; line-height: 1.2; }
 .phead-lede { margin-top: clamp(18px, 2.4vw, 28px); }
 
@@ -34,11 +28,11 @@ html[dir="rtl"] .vm-text { line-height: 1.85; }
 .monoliths { display: grid; gap: 16px; margin-top: clamp(32px, 4vw, 56px); }
 @media (min-width: 760px) { .monoliths { grid-template-columns: repeat(3, 1fr); gap: 20px; align-items: end; } }
 .mono { position: relative; display: flex; flex-direction: column; justify-content: flex-end; min-height: 220px; padding: 28px; border-radius: 6px 6px 2px 2px; overflow: hidden;
-  background: linear-gradient(to top, rgba(18, 224, 207, .22), rgba(18, 224, 207, .04) 55%, rgba(232, 251, 255, .02)); box-shadow: 0 30px 60px -30px rgba(18, 224, 207, .55);
+  background: linear-gradient(to top, rgba(18, 224, 207, .22), rgba(18, 224, 207, .04) 55%, rgba(232, 251, 255, .02)); box-shadow: 0 18px 24px -16px rgba(18, 224, 207, .5);
   transition: box-shadow .5s var(--ease), transform .5s var(--ease); }
 @media (min-width: 760px) { .mono { min-height: 340px; } .mono:nth-child(2) { min-height: 420px; } .mono:nth-child(3) { min-height: 380px; } }
 .mono::after { content: ""; position: absolute; inset-inline-start: 0; bottom: 0; width: 2px; height: 0; background: linear-gradient(to top, transparent, var(--cyan)); box-shadow: 0 0 14px var(--cyan); transition: height .9s var(--ease); }
-.mono:hover { box-shadow: 0 40px 80px -24px rgba(124, 247, 255, .7); transform: translateY(-4px); }
+.mono:hover { box-shadow: 0 20px 24px -14px rgba(124, 247, 255, .6); transform: translateY(-4px); }
 .mono:hover::after { height: 100%; }
 .mono h3 { position: relative; }
 .mono p { margin-top: 10px; color: var(--soft); }
@@ -65,7 +59,6 @@ html[dir="rtl"] .prose p { line-height: 2; }
 @keyframes motif-draw { to { stroke-dashoffset: 0; } }
 
 /* privacy: no grid drift, plain reading column */
-body[data-page="privacy"] .phead-grid::before { animation: none; }
 .privacy { padding-top: clamp(30px, 4vw, 56px); }
 
 /* monoliths keep their rising light over the solid glass fill */

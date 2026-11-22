@@ -35,7 +35,7 @@ export default function contact(t, { esc, rtl }) {
 </section>
 
 <section class="section contact-cards-wrap" aria-label="${esc(c.title)}">
-  <div class="wrap contact-cards">
+  <div class="wrap contact-cards" data-loop>
     ${cards.join('\n    ')}
   </div>
 </section>`;

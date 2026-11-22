@@ -67,7 +67,8 @@ varying float vY, vVert, vSeed, vFog;
 void main() {
   vec3 teal = vec3(.07, .88, .81), cyan = vec3(.49, .97, 1.);
   // a light pulse climbs each vertical edge
-  float pulse = vVert * smoothstep(.075, 0., abs(vY - fract(uTime * (.14 + vSeed * .16) + vSeed * 9.)));
+  // only about half of the towers carry a pulse (fewer moving lights)
+  float pulse = vVert * step(.55, vSeed) * smoothstep(.075, 0., abs(vY - fract(uTime * (.14 + vSeed * .16) + vSeed * 9.)));
   vec3 c = mix(teal, cyan, vY) * (.34 + vY * .5) + cyan * pulse * 1.7;
   gl_FragColor = vec4(c, (.72 + pulse) * vFog);
 }`;
@@ -82,7 +83,7 @@ precision highp float;
 uniform float uTime;
 varying vec3 vArc; varying float vFog;
 void main() {
-  float appear = smoothstep(vArc.z, vArc.z + .9, uTime);
+  float appear = smoothstep(vArc.z, vArc.z + .6, uTime);
   float pulse = smoothstep(.09, 0., abs(vArc.x - fract(uTime * .17 + vArc.y * 5.)));      // data travelling along the link
   gl_FragColor = vec4(vec3(.49, .97, 1.), (.24 + pulse) * sin(vArc.x * 3.1416) * appear * vFog);
 }`;
@@ -139,13 +140,14 @@ export function mountCity(host, { rtl = false, poster = false, pointer = null, b
   host.appendChild(gl.canvas);
 
   const mobile = host.clientWidth < 760;
-  const maxDpr = Math.min(window.devicePixelRatio || 1, mobile ? 1 : 1.5);
-  // pixel budget: very wide screens render at a lower internal resolution (scaled up by the browser)
-  const BUDGET = mobile ? 0.9e6 : 2.4e6;
-  const fitDpr = () => Math.min(maxDpr, Math.sqrt(BUDGET / Math.max(1, host.clientWidth * host.clientHeight)));
+  // Internal render scale 0.65 of the CSS size, upscaled by the browser (a deliberately soft look), with a pixel
+  // budget on top for very wide screens. The poster render keeps full resolution.
+  const RENDER_SCALE = 0.65, BUDGET = 1.1e6;
+  const fitDpr = () => (poster ? 1 : Math.min(RENDER_SCALE, Math.sqrt(BUDGET / Math.max(1, host.clientWidth * host.clientHeight))));
   renderer.dpr = fitDpr();
   const A0 = 0.62;                                             // starting orbit angle
-  const { towers, links, radius } = buildCity({ radius: mobile ? 7.5 : 11 });
+  // light city: about 40% fewer ordinary towers (landmarks kept) and fewer data lines
+  const { towers, links, radius } = buildCity({ radius: mobile ? 7.5 : 11, thin: 0.42, maxLinks: 6 });
   const camera = new Camera(gl, { fov: 30, near: 0.5, far: 160 });
   const scene = new Transform();
   if (rtl) scene.scale.x = -1;                                 // mirrored city for right-to-left pages
@@ -183,7 +185,7 @@ export function mountCity(host, { rtl = false, poster = false, pointer = null, b
   // data arcs between tower tops
   const ap = [], aa = [], SEG = 22;
   (mobile ? [] : links).forEach(([i, j], n) => {               // the lighter mobile city has no data lines
-    const a = towers[i], b = towers[j], lift = 1.6 + Math.hypot(a.x - b.x, a.z - b.z) * 0.32, d = Math.max(delayOf(a), delayOf(b)) + 1.2;
+    const a = towers[i], b = towers[j], lift = 1.6 + Math.hypot(a.x - b.x, a.z - b.z) * 0.32, d = Math.max(delayOf(a), delayOf(b)) + 0.5;      // links finish appearing within the ~3.5 s intro
     const pt = (u) => [a.x + (b.x - a.x) * u, a.h + (b.h - a.h) * u + Math.sin(u * Math.PI) * lift, a.z + (b.z - a.z) * u];
     for (let s = 0; s < SEG; s++) { const u0 = s / SEG, u1 = (s + 1) / SEG; ap.push(...pt(u0), ...pt(u1)); aa.push(u0, n * 0.37 % 1, d, u1, n * 0.37 % 1, d); }
   });
@@ -287,40 +289,58 @@ export function mountCity(host, { rtl = false, poster = false, pointer = null, b
 
   if (poster) { render(9); return { canvas: gl.canvas, render }; }
 
-  // rAF loop, paused when the host is off-screen or the tab is hidden
-  let vis = true, raf = 0, t0 = null, live = false;
-  // Frame-rate guard. GL work runs asynchronously on the GPU, so the real cost shows up as the time between frames.
-  // It is measured only once the city has fully grown (4-6 s after start: towers, then data lines) and it falls back
-  // to the static poster only if the MEDIAN frame interval stays above 50 ms (below ~20 fps, sustained).
-  const GUARD_FROM = 4, GUARD_TO = 6, intervals = new Float32Array(240);
-  let n = 0, last = 0, stopped = false, judged = false;
-  const tick = (now) => {
-    raf = 0; if (stopped || !vis || document.hidden) { last = 0; return; }
-    if (t0 === null) t0 = now;
-    const e = (now - t0) / 1000;
-    if (last && e > GUARD_FROM && e < GUARD_TO && n < intervals.length) intervals[n++] = now - last;
-    last = now;
-    render(e);
-    if (!judged && e >= GUARD_TO) {
-      judged = true;
-      const median = n >= 10 ? intervals.subarray(0, n).sort()[n >> 1] : 0;
-      if (onSlow && median > 50) {
-        stopped = true; host.classList.remove('is-live'); document.documentElement.classList.remove('city-in-view'); gl.canvas.remove();
-        const lose = gl.getExtension('WEBGL_lose_context'); if (lose) lose.loseContext();
-        onSlow();
-        return;
-      }
-    }
-    if (!live) { live = true; host.classList.add('is-live'); }
-    raf = requestAnimationFrame(tick);
+  // ---- When to draw (light by default) ----
+  // - intro (first INTRO seconds): continuous, capped at 30 fps, while the towers grow and the links appear
+  // - afterwards: hold the last frame. Draw only while the cursor moves (+ a short settle), or a brief burst every
+  //   ORBIT_EVERY seconds that advances the slow orbit. Between draws there is no animation-frame loop at all.
+  // - nothing at all while the hero is off-screen or the tab is hidden
+  // The scene clock (pulses, orbit) advances only while drawing, so motion resumes smoothly instead of jumping.
+  const INTRO = 3.6, FRAME_MS = 1000 / 30, ORBIT_EVERY = 2500, BURST_MS = 700, SETTLE_MS = 450;
+  let vis = true, raf = 0, timer = 0, live = false, stopped = false;
+  let clock = 0, lastNow = 0, lastDraw = 0, activeUntil = 0, introLeft = true;
+  // frame-rate guard: during the last part of the intro (city grown); fall back below ~20 fps sustained (median > 50 ms)
+  const intervals = new Float32Array(120); let n = 0, judged = false;
+
+  const schedule = () => {                                     // next orbit burst, only when visible
+    clearTimeout(timer);
+    if (!stopped && vis && !document.hidden && !introLeft) timer = setTimeout(() => { activeUntil = performance.now() + BURST_MS; wake(); }, ORBIT_EVERY);
   };
-  const wake = () => { if (!raf && vis && !document.hidden) raf = requestAnimationFrame(tick); };
+  const tick = (now) => {
+    raf = 0;
+    if (stopped || !vis || document.hidden) { lastNow = 0; return; }
+    const inIntro = introLeft;
+    if (!inIntro && now > activeUntil) { lastNow = 0; schedule(); return; }      // idle: hold the last frame
+    raf = requestAnimationFrame(tick);
+    if (now - lastDraw < FRAME_MS - 2) return;                                   // 30 fps cap (every other frame at 60 Hz)
+    const dt = lastNow ? Math.min((now - lastNow) / 1000, 0.1) : 0;
+    if (inIntro && lastNow && clock > 2.2 && n < intervals.length) intervals[n++] = now - lastDraw;
+    lastNow = now; lastDraw = now; clock += dt;
+    render(clock);
+    if (!live) { live = true; host.classList.add('is-live'); }
+    if (inIntro && clock >= INTRO) {
+      introLeft = false;
+      if (!judged) {
+        judged = true;
+        const median = n >= 8 ? intervals.subarray(0, n).sort()[n >> 1] : 0;
+        if (onSlow && median > 50) {
+          stopped = true; cancelAnimationFrame(raf); raf = 0; clearTimeout(timer);
+          host.classList.remove('is-live'); gl.canvas.remove();
+          const lose = gl.getExtension('WEBGL_lose_context'); if (lose) lose.loseContext();
+          onSlow();
+          return;
+        }
+      }
+      schedule();
+    }
+  };
+  const wake = () => { if (!raf && !stopped && vis && !document.hidden) raf = requestAnimationFrame(tick); };
+  // cursor parallax: draw while the pointer moves over the page, then settle
+  if (pointer) addEventListener('pointermove', () => { if (!introLeft) { activeUntil = Math.max(activeUntil, performance.now() + SETTLE_MS); wake(); } }, { passive: true });
   new IntersectionObserver((en) => {
     vis = en[0].isIntersecting;
-    document.documentElement.classList.toggle('city-in-view', vis);   // glass over the city drops its backdrop blur
-    wake();
-  }, { rootMargin: '60px' }).observe(host);
-  document.addEventListener('visibilitychange', wake);
+    if (vis) { activeUntil = performance.now() + BURST_MS; wake(); schedule(); } else clearTimeout(timer);
+  }, { rootMargin: '0px' }).observe(host);
+  document.addEventListener('visibilitychange', () => { if (document.hidden) clearTimeout(timer); else { activeUntil = performance.now() + BURST_MS; wake(); schedule(); } });
   wake();
   return { canvas: gl.canvas, render };
 }

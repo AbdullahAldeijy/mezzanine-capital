@@ -14,7 +14,7 @@ export default function serve(t, { esc, lang, rtl }) {
 
 <section class="section serve" aria-label="${esc(s.title)}">
   <div class="wrap serve-wrap">
-    <div class="orbit" data-orbit>
+    <div class="orbit" data-orbit data-loop>
       <svg class="orbit-svg" viewBox="0 0 100 100" aria-hidden="true">
         <circle class="orbit-ring" cx="50" cy="50" r="${R}"/>
         <circle class="orbit-ring orbit-ring-2" cx="50" cy="50" r="${R - 9}"/>

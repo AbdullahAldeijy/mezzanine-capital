@@ -29,32 +29,11 @@ const setBarH = () => root.style.setProperty('--cta-h', bar && bar.classList.con
 if (bar && 'ResizeObserver' in window) new ResizeObserver(setBarH).observe(bar);
 if (toTop) toTop.addEventListener('click', () => scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' }));
 
-// ---- scroll progress: sets --p (0..1) on [data-progress] as the element crosses the viewport ----
-const tracked = $$('[data-progress]');
 function onScroll() {
-  const y = scrollY, vh = innerHeight;
+  const y = scrollY;
   if (bar && !bar.classList.contains('is-in') && (y > 80 || reduce)) { bar.classList.add('is-in'); setBarH(); }
   if (toTop) toTop.classList.toggle('is-visible', y > 700);
-  if (!reduce) tracked.forEach((el) => {
-    const r = el.getBoundingClientRect();
-    // 0 when the element's top reaches 85% of the viewport, 1 when its centre reaches 45%
-    el.style.setProperty('--p', clamp((vh * 0.85 - r.top) / (vh * 0.4 + r.height / 2)).toFixed(3));
-  });
 }
-// ---- How We Work pipeline: pinned on desktop (CSS sticky); progress = how far the section has scrolled ----
-const chains = $$('[data-chain]'), wide = matchMedia('(min-width: 901px)');
-function chainProgress() {
-  if (reduce) return;
-  chains.forEach((el) => {
-    const r = el.getBoundingClientRect(), vh = innerHeight;
-    const p = wide.matches ? -r.top / Math.max(1, r.height - vh)                      // pinned: 0 at the top, 1 when it unpins
-      : (vh * 0.75 - r.top) / Math.max(1, r.height);                                  // mobile: follows the list down the screen
-    el.style.setProperty('--p', clamp(p).toFixed(3));
-  });
-}
-addEventListener('scroll', chainProgress, { passive: true });
-addEventListener('resize', chainProgress);
-chainProgress();
 
 let ticking = false;
 addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(() => { ticking = false; onScroll(); }); } }, { passive: true });
@@ -81,11 +60,22 @@ if (new URLSearchParams(location.search).has('fps')) {
   requestAnimationFrame(f);
 }
 
-// ---- endless decorative animations run only while their section is on screen ----
-// (CSS pauses everything inside an element marked .is-off; see styles/00-base.css)
-if ('IntersectionObserver' in window) {
-  const io = new IntersectionObserver((entries) => entries.forEach((en) => en.target.classList.toggle('is-off', !en.isIntersecting)), { rootMargin: '100px 0px' });
-  $$('.phead, .section, .band, .chain').forEach((el) => io.observe(el));
+// ---- entrance effects play ONCE; decorative loops play only briefly ----
+// [data-reveal]: gets .is-in the first time it enters view (CSS transitions, transform/opacity only), never removed.
+// [data-loop]:   gets .is-playing for a few seconds after it enters view (and again on hover / focus, in CSS); then
+//                the loops inside it stop. Nothing animates while the page is idle.
+const PLAY_MS = 4000;
+if ('IntersectionObserver' in window && !reduce) {
+  const io = new IntersectionObserver((entries) => entries.forEach((en) => {
+    const el = en.target;
+    if (en.isIntersecting) {
+      if (el.hasAttribute('data-reveal')) el.classList.add('is-in');
+      if (el.hasAttribute('data-loop')) { el.classList.add('is-playing'); clearTimeout(el.__stop); el.__stop = setTimeout(() => el.classList.remove('is-playing'), PLAY_MS); }
+    } else if (el.hasAttribute('data-loop')) { clearTimeout(el.__stop); el.classList.remove('is-playing'); }
+  }), { threshold: 0.25 });
+  $$('[data-reveal], [data-loop]').forEach((el) => io.observe(el));
+} else {
+  $$('[data-reveal]').forEach((el) => el.classList.add('is-in'));
 }
 
 // ---- magnetic primary buttons (desktop pointers only) ----
@@ -154,6 +144,12 @@ const pointer = { x: 0, y: 0, active: false };
 if (finePointer) addEventListener('pointermove', (e) => { pointer.x = (e.clientX / innerWidth) * 2 - 1; pointer.y = -((e.clientY / innerHeight) * 2 - 1); pointer.active = true; }, { passive: true });
 // WebGL present AND backed by a GPU: software renderers (SwiftShader, llvmpipe...) draw the city on the CPU,
 // which would block the page for seconds, so they get the static poster instead.
+// The live city is for desktop-class machines only: a fine pointer, a viewport at least 1024 px wide and 8+ cores.
+// Phones, tablets, small screens and lighter laptops get the static poster (and never download the 3D code).
+function desktopClass() {
+  return matchMedia('(hover: hover) and (pointer: fine)').matches && !matchMedia('(any-pointer: coarse)').matches
+    && innerWidth >= 1024 && (navigator.hardwareConcurrency || 0) >= 8;
+}
 function webglOK() {
   try {
     const c = document.createElement('canvas'), gl = c.getContext('webgl2') || c.getContext('webgl');
@@ -161,7 +157,8 @@ function webglOK() {
     const info = gl.getExtension('WEBGL_debug_renderer_info');
     const name = info ? String(gl.getParameter(info.UNMASKED_RENDERER_WEBGL)) : '';
     const lose = gl.getExtension('WEBGL_lose_context'); if (lose) lose.loseContext();
-    return !/swiftshader|llvmpipe|softpipe|software|basic render/i.test(name);
+    // software renderers, and integrated / mobile GPUs, get the poster by default
+    return !/swiftshader|llvmpipe|softpipe|software|basic render|intel|uhd|iris|mali|adreno|powervr|apple|vega|radeon\(tm\) graphics/i.test(name);
   } catch (e) { return false; }
 }
 
@@ -175,7 +172,7 @@ if (city) {
       const { canvas } = mountCity(city, { rtl: false, poster: true });
       window.__cityPoster = () => canvas.toDataURL('image/png');
     });
-  } else if (reduce || (!forceLive && (lowPower || !webglOK()))) {
+  } else if (reduce || (!forceLive && (lowPower || !desktopClass() || !webglOK()))) {
     city.classList.add('is-static');
   } else {
     const toPoster = () => { city.classList.remove('is-live'); city.classList.add('is-static'); };

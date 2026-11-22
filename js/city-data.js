@@ -5,9 +5,11 @@ export function rng(seed) { return () => { seed = (seed * 16807) % 2147483647; r
 // Landmark towers (tall, tapered) near the centre: [x, z, height, taper]
 const LANDMARKS = [[0.4, -0.6, 11.5, 0.34], [-2.6, 1.3, 8.6, 0.5], [2.9, 1.9, 9.4, 0.42], [-0.9, -3.4, 7.4, 0.55], [4.6, -2.2, 6.8, 0.6]];
 
-// radius: footprint of the city; fewer towers on small screens (radius 7.5) than on desktop (radius 11)
-export function buildCity({ radius = 11 } = {}) {
-  const r = rng(7919), towers = [], step = 1.3;
+// radius: footprint of the city. thin: share of ordinary towers removed (landmarks always stay); the live scene and its
+// poster use thin 0.4 (about 40% fewer towers), the flat skyline silhouettes use the full set.
+// maxLinks: data lines from landmarks out to mid-rise towers (plus the ring that joins the landmarks).
+export function buildCity({ radius = 11, thin = 0, maxLinks = 16 } = {}) {
+  const r = rng(7919), cut = rng(104729), towers = [], step = 1.3;
   for (let gx = -Math.ceil(radius / step); gx <= radius / step; gx++) {
     for (let gz = -Math.ceil(radius / step); gz <= radius / step; gz++) {
       const jx = (r() - 0.5) * 0.3, jz = (r() - 0.5) * 0.3, keep = r(), hr = r(), wr = r(), sr = r();
@@ -16,6 +18,7 @@ export function buildCity({ radius = 11 } = {}) {
       if (gx % 4 === 2 || gz % 5 === 3) continue;                         // avenues: gaps that read as city blocks
       if (keep < 0.14 + (dist / radius) * 0.3) continue;                  // sparser toward the edge
       if (LANDMARKS.some(([lx, lz]) => Math.hypot(x - lx, z - lz) < 1.25)) continue;
+      if (cut() < thin) continue;                                          // lighter city (separate stream: layout unchanged)
       const centre = Math.exp(-(dist * dist) / 26);
       towers.push({ x, z, w: 0.34 + wr * 0.16, h: 0.5 + hr * 1.7 + centre * (1.4 + hr * 3.6), taper: 1, landmark: 0, seed: sr });
     }
@@ -26,7 +29,7 @@ export function buildCity({ radius = 11 } = {}) {
   const links = [], L = towers.length - LANDMARKS.length;
   for (let i = 0; i < LANDMARKS.length; i++) links.push([L + i, L + ((i + 1) % LANDMARKS.length)]);
   const mids = towers.map((t, i) => [t, i]).filter(([t]) => !t.landmark && t.h > 2.6).map(([, i]) => i);
-  for (let k = 0; k < Math.min(16, mids.length); k++) links.push([L + (k % LANDMARKS.length), mids[Math.floor(r() * mids.length)]]);
+  for (let k = 0; k < Math.min(maxLinks, mids.length); k++) links.push([L + (k % LANDMARKS.length), mids[Math.floor(r() * mids.length)]]);
   return { towers, links, radius };
 }
 

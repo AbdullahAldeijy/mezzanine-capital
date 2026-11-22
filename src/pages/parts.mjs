@@ -26,14 +26,14 @@ function signalsSVG(rtl) {
   lanes.forEach((y) => links.push(`M290 ${y}C330 ${y} 330 160 372 160`));
   return `<svg class="sig" viewBox="0 0 400 320" aria-hidden="true"${rtl ? ' data-flip' : ''}>
         ${links.map((d) => `<path class="sig-link" pathLength="1" d="${d}"/>`).join('')}
-        ${nodes.map((n) => `<circle class="sig-node" cx="${n.x}" cy="${n.y}" r="5" style="--dx:${n.dx};--dy:${n.dy}"/>`).join('')}
+        ${nodes.map((n, k) => `<circle class="sig-node" cx="${n.x}" cy="${n.y}" r="5" style="--dx:${n.dx};--dy:${n.dy};--k:${k}"/>`).join('')}
         <circle class="sig-core" cx="372" cy="160" r="11"/>
       </svg>`;
 }
 export function signals(t, { esc, lang, rtl }, { link = true } = {}) {
   const a = t.about;
   return `
-<section class="section signals" aria-label="${esc(a.challengeTitle)}, ${esc(a.solutionTitle)}" data-progress>
+<section class="section signals" aria-label="${esc(a.challengeTitle)}, ${esc(a.solutionTitle)}" data-reveal>
   <div class="wrap signals-grid">
     <article class="panel glass signals-from">
       <h2 class="h4">${esc(a.challengeTitle)}</h2>
@@ -66,7 +66,7 @@ export function network(t, { esc, lang, rtl }, { page = false, headingLevel = 'h
   const wire = ([x, y]) => `M50 50 Q ${(50 + x) / 2 + (y < 50 ? 6 : -6) * (x < 50 ? 1 : -1)} ${(50 + y) / 2} ${x} ${y}`;
   const H = headingLevel === 'h2' ? 'h3' : 'h2';
   return `
-    <div class="net" data-net>
+    <div class="net" data-net data-loop>
       <svg class="net-wires" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
         ${pos.map((p, i) => `<path class="net-wire" data-i="${i}" d="${wire(p)}"/><path class="net-flow" data-i="${i}" d="${wire(p)}"/>`).join('\n        ')}
       </svg>

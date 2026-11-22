@@ -23,7 +23,7 @@ export default function solutions(t, { esc, rtl }) {
   <div class="wrap sol-grid">
     ${s.items.map((it) => {
       const st = STATUS[it.id] === 'available' ? 'available' : 'development';     // anything else falls back to the safe default
-      return `<article class="sol glass">
+      return `<article class="sol glass" data-loop>
       <svg class="sol-visual sol-visual-${it.id}" viewBox="0 0 240 120" aria-hidden="true"${rtl ? ' data-flip' : ''}>${VISUAL[it.id] || ''}</svg>
       <p class="chip chip-${st}"><span class="sr-only">${esc(s.statusLabel)}: </span>${esc(s.statuses[st])}</p>
       <h2 class="h4">${esc(it.name)}</h2>

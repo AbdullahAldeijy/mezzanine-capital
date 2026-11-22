@@ -1,4 +1,4 @@
-// How We Work: the value chain as a pipeline pinned while you scroll. The rail fills step by step,
+// How We Work: the value chain plays once when it enters view: the rail fills step by step,
 // then a loop returns from the last step («القابضة» / The Holding) to the start.
 import { pageHead } from './parts.mjs';
 
@@ -6,8 +6,7 @@ export default function how(t, { esc, rtl }) {
   const w = t.how, n = w.steps.length;
   return `${pageHead(esc, w.title, w.subtitle)}
 
-<section class="chain" data-chain aria-label="${esc(w.flowLabel)}">
-  <div class="chain-stick">
+<section class="chain" data-chain data-reveal aria-label="${esc(w.flowLabel)}">
     <div class="wrap">
       <div class="chain-track">
         <svg class="chain-rail" viewBox="0 0 1200 220" preserveAspectRatio="none" aria-hidden="true"${rtl ? ' data-flip' : ''}>
@@ -21,6 +20,5 @@ export default function how(t, { esc, rtl }) {
         </ol>
       </div>
     </div>
-  </div>
 </section>`;
 }
