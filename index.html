@@ -1,490 +1,247 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Mezzanine AI - Elevating Business Financial Intelligence</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap');
-
-        :root {
-            --ink: #16233F;
-            --ink-deep: #101A30;
-            --navy-panel: #1A2B4F;
-            --slate: #47536A;
-            --teal: #4FA8AC;
-            --teal-deep: #2C7478;
-            --cream: #F6F1E3;
-            --cream-2: #ECE4CE;
-            --line: rgba(22, 35, 63, 0.15);
-            --line-on-dark: rgba(246, 241, 227, 0.18);
-        }
-
-        html { scroll-behavior: smooth; }
-        html, body { overflow-x: hidden; max-width: 100%; }
-        body {
-            background: var(--cream);
-            color: var(--slate);
-            font-family: 'IBM Plex Sans', sans-serif;
-            padding-left: env(safe-area-inset-left);
-            padding-right: env(safe-area-inset-right);
-        }
-        img { max-width: 100%; display: block; }
-        nav.site-nav { padding-top: env(safe-area-inset-top); }
-        html[dir="rtl"] body { font-family: 'IBM Plex Sans Arabic', sans-serif; }
-        html[dir="rtl"] * { font-family: 'IBM Plex Sans Arabic', sans-serif; }
-
-        .h1, .h2, .h3, .num {
-            font-family: 'Space Grotesk', sans-serif;
-        }
-        html[dir="rtl"] .h1, html[dir="rtl"] .h2, html[dir="rtl"] .h3 {
-            font-weight: 700;
-            letter-spacing: 0;
-        }
-
-        .h1 { font-size: clamp(2.35rem, 4.4vw, 4.1rem); line-height: 1.08; letter-spacing: -0.02em; font-weight: 600; color: var(--ink); }
-        .h2 { font-size: clamp(1.9rem, 3.1vw, 2.85rem); line-height: 1.12; letter-spacing: -0.015em; font-weight: 600; color: var(--ink); }
-        .h3 { font-size: clamp(1.3rem, 1.7vw, 1.6rem); line-height: 1.25; font-weight: 500; color: var(--ink); }
-        .lede { font-size: clamp(1.05rem, 1.2vw, 1.2rem); line-height: 1.65; color: var(--slate); max-width: 42ch; }
-        html[dir="rtl"] .lede { max-width: 46ch; }
-
-        .num {
-            font-weight: 500;
-            font-variant-numeric: tabular-nums;
-            color: var(--teal-deep);
-        }
-
-        .hairline { border-color: var(--line); }
-
-        .btn-primary {
-            display: inline-block;
-            background: var(--ink);
-            color: var(--cream);
-            padding: 0.9rem 1.85rem;
-            font-weight: 500;
-            font-size: 0.95rem;
-            border-radius: 2px;
-            transition: background-color .2s ease;
-        }
-        .btn-primary:hover { background: var(--teal-deep); }
-
-        .nav-link {
-            position: relative;
-            color: var(--slate);
-            transition: color .15s ease;
-        }
-        .nav-link:hover { color: var(--ink); }
-        .nav-link::after {
-            content: "";
-            position: absolute;
-            left: 0; right: 0; bottom: -6px;
-            height: 1px;
-            background: var(--teal-deep);
-            transform: scaleX(0);
-            transition: transform .2s ease;
-        }
-        .nav-link:hover::after { transform: scaleX(1); }
-
-        .lang-toggle { display: flex; align-items: center; gap: 0.4rem; font-size: 0.85rem; color: var(--slate); }
-        .lang-toggle button { font-weight: 500; padding-bottom: 2px; border-bottom: 1px solid transparent; transition: border-color .15s ease, color .15s ease; }
-        .lang-toggle button.is-active { color: var(--ink); border-color: var(--teal-deep); }
-
-        /* Directory rows */
-        .directory-row {
-            position: relative;
-            padding-inline-start: 0.75rem;
-            transition: background-color .2s ease;
-        }
-        @media (min-width: 768px) {
-            .directory-row { padding-inline-start: 1.25rem; }
-        }
-        .directory-row::before {
-            content: "";
-            position: absolute;
-            inset-inline-start: 0; top: 0; bottom: 0;
-            width: 3px;
-            background: transparent;
-            transition: background-color .2s ease;
-        }
-        .directory-row:hover, .directory-row:focus-within {
-            background: var(--cream-2);
-        }
-        .directory-row:hover::before, .directory-row:focus-within::before {
-            background: var(--teal);
-        }
-        .directory-row .row-icon { color: var(--ink); opacity: 0.75; transition: color .2s ease, opacity .2s ease; }
-        .directory-row:hover .row-icon { color: var(--teal-deep); opacity: 1; }
-        .tag-pill {
-            display: inline-block;
-            border: 1px solid var(--line);
-            color: var(--ink);
-            padding: 0.2rem 0.65rem;
-            border-radius: 2px;
-            font-size: 0.78rem;
-            font-weight: 500;
-        }
-
-        /* One deliberate load sequence, hero only */
-        .reveal { opacity: 0; transform: translateY(14px); animation: reveal .7s ease forwards; }
-        .reveal-1 { animation-delay: .05s; }
-        .reveal-2 { animation-delay: .2s; }
-        .reveal-3 { animation-delay: .35s; }
-        .reveal-4 { animation-delay: .5s; }
-        @keyframes reveal { to { opacity: 1; transform: translateY(0); } }
-        @media (prefers-reduced-motion: reduce) {
-            .reveal { animation: none; opacity: 1; transform: none; }
-        }
-
-        a:focus-visible, button:focus-visible {
-            outline: 2px solid var(--teal-deep);
-            outline-offset: 3px;
-        }
-
-        .skyline-rule {
-            width: 100%;
-            height: 34px;
-            opacity: 0.5;
-        }
-
-        .tap-44 {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 44px;
-            min-width: 44px;
-        }
-
-        /* Mobile slide-in menu */
-        .mobile-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(16, 26, 48, 0.45);
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity .25s ease;
-            z-index: 44;
-        }
-        .mobile-overlay.is-open { opacity: 1; pointer-events: auto; }
-
-        .mobile-panel {
-            position: fixed;
-            inset-inline-end: 0;
-            top: 0;
-            bottom: 0;
-            height: 100vh;
-            height: 100dvh;
-            width: min(20rem, 85vw);
-            background: var(--cream);
-            z-index: 45;
-            box-shadow: -12px 0 32px rgba(16, 26, 48, 0.18);
-            transform: translateX(100%);
-            transition: transform .3s ease;
-            overflow-y: auto;
-            padding-top: env(safe-area-inset-top);
-            padding-bottom: env(safe-area-inset-bottom);
-        }
-        html[dir="rtl"] .mobile-panel {
-            box-shadow: 12px 0 32px rgba(16, 26, 48, 0.18);
-            transform: translateX(-100%);
-        }
-        .panel-link {
-            display: flex;
-            align-items: center;
-            min-height: 44px;
-            padding: 0 1.5rem;
-            color: var(--ink);
-        }
-
-        .site-footer {
-            padding-bottom: calc(2.5rem + env(safe-area-inset-bottom));
-        }
-        @media (min-width: 768px) {
-            .site-footer { padding-bottom: calc(3rem + env(safe-area-inset-bottom)); }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Commercial Credit Intelligence | Mezzanine / ميزانين</title>
+  <meta name="description" content="We connect business data with financial, investment and technology solutions to build an ecosystem that supports the sustainability of small and medium enterprises and strengthens funders' confidence.">
+  <meta name="theme-color" content="#060E1A">
+  
+  <link rel="canonical" href="https://mezzanine.sa/">
+  <link rel="alternate" hreflang="en" href="https://mezzanine.sa/">
+  <link rel="alternate" hreflang="ar" href="https://mezzanine.sa/ar/">
+  <link rel="alternate" hreflang="x-default" href="https://mezzanine.sa/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Mezzanine / ميزانين">
+  <meta property="og:title" content="Commercial Credit Intelligence | Mezzanine / ميزانين">
+  <meta property="og:description" content="We connect business data with financial, investment and technology solutions to build an ecosystem that supports the sustainability of small and medium enterprises and strengthens funders' confidence.">
+  <meta property="og:url" content="https://mezzanine.sa/">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="ar_SA">
+  <meta property="og:image" content="https://mezzanine.sa/images/og-hero.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="The Riyadh skyline at the King Abdullah Financial District (KAFD)">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Commercial Credit Intelligence | Mezzanine / ميزانين">
+  <meta name="twitter:description" content="We connect business data with financial, investment and technology solutions to build an ecosystem that supports the sustainability of small and medium enterprises and strengthens funders' confidence.">
+  <meta name="twitter:image" content="https://mezzanine.sa/images/og-hero.jpg">
+  <meta name="twitter:image:alt" content="The Riyadh skyline at the King Abdullah Financial District (KAFD)">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23060E1A'/%3E%3Cpath d='M16 7l9 18H7z' fill='none' stroke='%23E8FBFF' stroke-width='2.4' stroke-linejoin='round'/%3E%3Cpath d='M12.5 21.5h7L16 14.5z' fill='%2312E0CF'/%3E%3C/svg%3E">
+  <link rel="preload" as="font" type="font/woff2" href="/fonts/alexandria-latin-wght-normal.woff2" crossorigin>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="modulepreload" href="/js/app.js">
+  
+  <script>(function(d){d.classList.add('js');if(!matchMedia('(prefers-reduced-motion: reduce)').matches)d.classList.add('motion')})(document.documentElement);if(/[?&]lang=ar(&|$)/.test(location.search))location.replace('/ar/'+location.hash);</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Mezzanine / ميزانين","url":"https://mezzanine.sa/","logo":"https://mezzanine.sa/images/logo-wordmark.webp","email":"info@mezzanine.sa","telephone":"+966 54 404 3103","address":{"@type":"PostalAddress","streetAddress":"KAFD 4.07","addressLocality":"Riyadh","addressCountry":"SA"},"sameAs":["https://www.linkedin.com/company/mezzanineai"]}</script>
 </head>
-<body>
-    <!-- Navbar -->
-    <nav class="site-nav sticky top-0 z-50 bg-[var(--cream)] border-b hairline">
-        <div class="container mx-auto px-4 md:px-6 py-4 flex justify-between items-center">
-            <img src="mezzanine-logo-3x.png" alt="Mezzanine AI" width="1797" height="237" class="h-5 md:h-6 w-auto">
-            <ul class="hidden md:flex gap-9 text-sm">
-                <li><a href="#ecosystem" class="nav-link py-2" data-en="The Ecosystem" data-ar="منظومة ميزانين">The Ecosystem</a></li>
-                <li><a href="#who-we-are" class="nav-link py-2" data-en="Who We Are" data-ar="من نحن">Who We Are</a></li>
-                <li><a href="#vision" class="nav-link py-2" data-en="Vision" data-ar="الرؤية">Vision</a></li>
-                <li><a href="#contact-section" class="nav-link py-2" data-en="Contact" data-ar="اتصل بنا">Contact</a></li>
-            </ul>
-            <div class="flex items-center gap-2">
-                <div class="lang-toggle">
-                    <button onclick="setLanguage('en')" id="lang-en-btn" class="is-active tap-44" aria-label="English">EN</button>
-                    <span aria-hidden="true">/</span>
-                    <button onclick="setLanguage('ar')" id="lang-ar-btn" class="tap-44" aria-label="العربية">ع</button>
-                </div>
-                <button onclick="toggleMenu()" id="menu-btn" class="md:hidden tap-44 text-[var(--ink)]" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-panel">
-                    <svg id="menu-icon-open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"/>
-                    </svg>
-                    <svg id="menu-icon-close" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/>
-                    </svg>
-                </button>
-            </div>
-        </div>
+<body class="has-cta" data-page="home">
+<a href="#main" class="skip">Skip to main content</a>
+
+<header class="nav" id="nav">
+  <div class="nav-bar glass">
+    <a href="/" class="nav-brand" aria-label="Mezzanine / ميزانين"><img src="/images/logo-wordmark-light.webp" alt="Mezzanine / ميزانين" width="540" height="71"></a>
+    <nav aria-label="Primary" class="nav-links">
+      <a href="/" class="nav-link" aria-current="page">Home</a>
+      <a href="/about/" class="nav-link">About Us</a>
+      <a href="/ecosystem/" class="nav-link">Our Ecosystem</a>
+      <a href="/how-we-work/" class="nav-link">How We Work</a>
+      <a href="/who-we-serve/" class="nav-link">Who We Serve</a>
+      <a href="/solutions/" class="nav-link">Solutions &amp; Products</a>
     </nav>
-
-    <!-- Mobile slide-in menu -->
-    <div id="mobile-overlay" class="mobile-overlay md:hidden" onclick="closeMenu()"></div>
-    <div id="mobile-panel" class="mobile-panel md:hidden" role="dialog" aria-modal="true" aria-label="Menu">
-        <nav aria-label="Mobile" class="py-2">
-            <a href="#ecosystem" onclick="closeMenu()" class="panel-link border-b hairline" data-en="The Ecosystem" data-ar="منظومة ميزانين">The Ecosystem</a>
-            <a href="#who-we-are" onclick="closeMenu()" class="panel-link border-b hairline" data-en="Who We Are" data-ar="من نحن">Who We Are</a>
-            <a href="#vision" onclick="closeMenu()" class="panel-link border-b hairline" data-en="Vision" data-ar="الرؤية">Vision</a>
-            <a href="#contact-section" onclick="closeMenu()" class="panel-link" data-en="Contact" data-ar="اتصل بنا">Contact</a>
-        </nav>
+    <div class="nav-end">
+      <a href="/ar/" class="nav-lang" hreflang="ar" lang="ar" data-lang-switch="ar" aria-label="العربية">ع</a>
+      <a href="/contact/" class="nav-link is-cta" data-cta="nav">Contact Us</a>
+      <button type="button" id="menu-btn" class="nav-menu" aria-label="Open menu" data-open="Open menu" data-close="Close menu" aria-expanded="false" aria-controls="sheet"><svg class="i-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg><svg class="i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
     </div>
+  </div>
+</header>
+<div id="sheet" class="sheet" role="dialog" aria-modal="true" aria-label="Menu">
+  <nav aria-label="Mobile">
+    <a style="--i:0" href="/" class="sheet-link" aria-current="page">Home</a>
+    <a style="--i:1" href="/about/" class="sheet-link">About Us</a>
+    <a style="--i:2" href="/ecosystem/" class="sheet-link">Our Ecosystem</a>
+    <a style="--i:3" href="/how-we-work/" class="sheet-link">How We Work</a>
+    <a style="--i:4" href="/who-we-serve/" class="sheet-link">Who We Serve</a>
+    <a style="--i:5" href="/solutions/" class="sheet-link">Solutions &amp; Products</a>
+    <a style="--i:6" href="/contact/" class="sheet-link is-cta" data-cta="nav">Contact Us</a>
+  </nav>
+</div>
+<main id="main">
 
-    <!-- Hero Section -->
-    <section class="relative overflow-hidden py-14 md:py-24">
-        <div class="container mx-auto px-4 md:px-6">
-            <div class="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
-                <div>
-                    <h1 class="h1 reveal reveal-1 mb-5 md:mb-7" data-en="Elevating Business Financial Intelligence" data-ar="رفع مستوى الذكاء المالي للأعمال">Elevating Business Financial Intelligence</h1>
-                    <p class="lede reveal reveal-2 mb-8 md:mb-10" data-en="Bridging the gap between trade data and capital. We don't just lend; we embed finance into the heart of B2B commerce." data-ar="سد الفجوة بين بيانات التجارة ورأس المال. نحن لا نقرض فقط؛ بل ندمج التمويل في قلب التجارة بين الشركات.">Bridging the gap between trade data and capital. We don't just lend; we embed finance into the heart of B2B commerce.</p>
-                    <a href="#ecosystem" class="btn-primary reveal reveal-3 tap-44" data-en="Explore the Ecosystem" data-ar="استكشف منظومة ميزانين">Explore the Ecosystem</a>
-                </div>
-                <div class="reveal reveal-4">
-                    <img src="kafd.webp" alt="KAFD" class="w-full aspect-[4/3] object-cover rounded-3xl shadow-2xl">
-                </div>
-            </div>
-        </div>
-    </section>
+<section class="hero" aria-labelledby="hero-title">
+  <div class="hero-city" id="city" data-city aria-hidden="true"
+       style="--poster-wide:url('/images/city-poster-wide-ltr.webp');--poster-tall:url('/images/city-poster-tall-ltr.webp')"></div>
+  <div class="hero-inner">
+    <h1 id="hero-title" class="hero-title"><span class="word" style="--i:0">Commercial</span> <span class="word" style="--i:1">Credit</span> <span class="word" style="--i:2">Intelligence</span></h1>
+    <p class="hero-lede">We connect business data with financial, investment and technology solutions to build an ecosystem that supports the sustainability of small and medium enterprises and strengthens funders' confidence.</p>
+    <div class="hero-cta">
+      <a href="/contact/" class="btn btn-primary" data-cta="hero" data-magnetic>Contact us</a>
+      <a href="/who-we-serve/" class="btn btn-glass" data-cta="hero">Explore collaboration opportunities</a>
+    </div>
+  </div>
+</section>
 
-    <!-- The Integrated Ecosystem -->
-    <section id="ecosystem" class="py-16 md:py-24 border-t hairline">
-        <div class="container mx-auto px-4 md:px-6">
-            <div class="max-w-2xl mb-12 md:mb-16">
-                <h2 class="h2 mb-4" data-en="Mezzanine AI Subsidiaries" data-ar="الشركات التابعة لميزانين AI">Mezzanine AI Subsidiaries</h2>
-                <p class="lede" data-en="Four specialized arms working together within one unified digital platform." data-ar="أربعة أذرع متخصصة تعمل معاً ضمن منصة رقمية موحدة.">Four specialized arms working together within one unified digital platform.</p>
-            </div>
 
-            <div class="max-w-5xl border-y hairline">
-                <!-- Row 1 -->
-                <div class="directory-row border-b hairline">
-                    <div class="grid grid-cols-[2.25rem_2rem_1fr] md:grid-cols-[4rem_3rem_1fr_auto] gap-x-4 md:gap-x-5 gap-y-3 items-center py-6 md:py-8 pe-4">
-                        <span class="num text-lg md:text-3xl">01</span>
-                        <svg class="row-icon w-5 h-5 md:w-7 md:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
-                        </svg>
-                        <div class="col-span-3 md:col-span-1">
-                            <h3 class="h3 mb-1.5" data-en="Embedded Financing" data-ar="التمويل المدمج">Embedded Financing</h3>
-                            <p class="text-sm md:text-base max-w-lg" data-en="Seamless access to working capital integrated directly within your daily trade operations." data-ar="وصول سلس لرأس المال العامل مدمج مباشرة في عملياتك التجارية اليومية.">Seamless access to working capital integrated directly within your daily trade operations.</p>
-                        </div>
-                        <span class="tag-pill col-span-3 md:col-span-1 justify-self-start md:justify-self-end" data-en="Mezzanine Finance" data-ar="ميزانين المالية">Mezzanine Finance</span>
-                    </div>
-                </div>
-                <!-- Row 2 -->
-                <div class="directory-row border-b hairline">
-                    <div class="grid grid-cols-[2.25rem_2rem_1fr] md:grid-cols-[4rem_3rem_1fr_auto] gap-x-4 md:gap-x-5 gap-y-3 items-center py-6 md:py-8 pe-4">
-                        <span class="num text-lg md:text-3xl">02</span>
-                        <svg class="row-icon w-5 h-5 md:w-7 md:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"/>
-                        </svg>
-                        <div class="col-span-3 md:col-span-1">
-                            <h3 class="h3 mb-1.5" data-en="B2B Platform" data-ar="منصة B2B">B2B Platform</h3>
-                            <p class="text-sm md:text-base max-w-lg" data-en="A unified CRM & Workplace platform for seamless trade." data-ar="منصة موحدة لإدارة العلاقات وبيئة العمل للتجارة السلسة.">A unified CRM & Workplace platform for seamless trade.</p>
-                        </div>
-                        <span class="tag-pill col-span-3 md:col-span-1 justify-self-start md:justify-self-end" data-en="Mezzanine Tech" data-ar="ميزانين التقنية">Mezzanine Tech</span>
-                    </div>
-                </div>
-                <!-- Row 3 -->
-                <div class="directory-row border-b hairline">
-                    <div class="grid grid-cols-[2.25rem_2rem_1fr] md:grid-cols-[4rem_3rem_1fr_auto] gap-x-4 md:gap-x-5 gap-y-3 items-center py-6 md:py-8 pe-4">
-                        <span class="num text-lg md:text-3xl">03</span>
-                        <svg class="row-icon w-5 h-5 md:w-7 md:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                        </svg>
-                        <div class="col-span-3 md:col-span-1">
-                            <h3 class="h3 mb-1.5" data-en="Capital Allocation" data-ar="تخصيص رأس المال">Capital Allocation</h3>
-                            <p class="text-sm md:text-base max-w-lg" data-en="Connecting resilient trade assets with sustainable capital opportunities." data-ar="ربط الأصول التجارية المرنة بفرص رأس مال مستدامة.">Connecting resilient trade assets with sustainable capital opportunities.</p>
-                        </div>
-                        <span class="tag-pill col-span-3 md:col-span-1 justify-self-start md:justify-self-end" data-en="Mezzanine Investments" data-ar="ميزانين الاستثمارية">Mezzanine Investments</span>
-                    </div>
-                </div>
-                <!-- Row 4 -->
-                <div class="directory-row">
-                    <div class="grid grid-cols-[2.25rem_2rem_1fr] md:grid-cols-[4rem_3rem_1fr_auto] gap-x-4 md:gap-x-5 gap-y-3 items-center py-6 md:py-8 pe-4">
-                        <span class="num text-lg md:text-3xl">04</span>
-                        <svg class="row-icon w-5 h-5 md:w-7 md:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                        </svg>
-                        <div class="col-span-3 md:col-span-1">
-                            <h3 class="h3 mb-1.5" data-en="AI Growth Engine" data-ar="محرك النمو بالذكاء الاصطناعي">AI Growth Engine</h3>
-                            <p class="text-sm md:text-base max-w-lg" data-en="AI-powered marketing engine embedded within the ecosystem." data-ar="محرك تسويق مدعوم بالذكاء الاصطناعي ضمن النظام البيئي.">AI-powered marketing engine embedded within the ecosystem.</p>
-                        </div>
-                        <span class="tag-pill col-span-3 md:col-span-1 justify-self-start md:justify-self-end" data-en="Mezzanine Marketing" data-ar="ميزانين التسويقية">Mezzanine Marketing</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+<section class="section signals" aria-label="The Challenge, The Solution" data-reveal>
+  <div class="wrap signals-grid">
+    <article class="panel glass signals-from">
+      <h2 class="h4">The Challenge</h2>
+      <p>Enterprises need to prove the sustainability and readiness of their businesses, while funders need clearer data that helps them understand enterprises and assess risk.</p>
+    </article>
+    <div class="signals-field"><svg class="sig" viewBox="0 0 400 320" aria-hidden="true">
+        <path class="sig-link" pathLength="1" d="M50 70H130"/><path class="sig-link" pathLength="1" d="M130 70H210"/><path class="sig-link" pathLength="1" d="M210 70H290"/><path class="sig-link" pathLength="1" d="M50 160H130"/><path class="sig-link" pathLength="1" d="M130 160H210"/><path class="sig-link" pathLength="1" d="M210 160H290"/><path class="sig-link" pathLength="1" d="M50 250H130"/><path class="sig-link" pathLength="1" d="M130 250H210"/><path class="sig-link" pathLength="1" d="M210 250H290"/><path class="sig-link" pathLength="1" d="M290 70C330 70 330 160 372 160"/><path class="sig-link" pathLength="1" d="M290 160C330 160 330 160 372 160"/><path class="sig-link" pathLength="1" d="M290 250C330 250 330 160 372 160"/>
+        <circle class="sig-node" cx="50" cy="70" r="5" style="--dx:-28;--dy:60;--k:0"/><circle class="sig-node" cx="130" cy="70" r="5" style="--dx:-11;--dy:26;--k:1"/><circle class="sig-node" cx="210" cy="70" r="5" style="--dx:-19;--dy:3;--k:2"/><circle class="sig-node" cx="290" cy="70" r="5" style="--dx:-29;--dy:10;--k:3"/><circle class="sig-node" cx="50" cy="160" r="5" style="--dx:-43;--dy:-3;--k:4"/><circle class="sig-node" cx="130" cy="160" r="5" style="--dx:34;--dy:54;--k:5"/><circle class="sig-node" cx="210" cy="160" r="5" style="--dx:51;--dy:-14;--k:6"/><circle class="sig-node" cx="290" cy="160" r="5" style="--dx:-19;--dy:-34;--k:7"/><circle class="sig-node" cx="50" cy="250" r="5" style="--dx:34;--dy:-31;--k:8"/><circle class="sig-node" cx="130" cy="250" r="5" style="--dx:-44;--dy:16;--k:9"/><circle class="sig-node" cx="210" cy="250" r="5" style="--dx:28;--dy:-12;--k:10"/><circle class="sig-node" cx="290" cy="250" r="5" style="--dx:29;--dy:-49;--k:11"/>
+        <circle class="sig-core" cx="372" cy="160" r="11"/>
+      </svg></div>
+    <article class="panel glass signals-to">
+      <h2 class="h4">The Solution</h2>
+      <p>An ecosystem that brings together market and technical knowledge, data analysis, and financial and investment solutions in one connected path.</p>
+      <a class="text-link" href="/about/">Learn more about Mezzanine</a>
+    </article>
+  </div>
+</section>
 
-    <!-- Who We Are -->
-    <section id="who-we-are" class="py-16 md:py-24 border-t hairline">
-        <div class="container mx-auto px-4 md:px-6">
-            <div class="grid md:grid-cols-[1fr_2fr] gap-6 md:gap-12 max-w-5xl">
-                <h2 class="h2" data-en="Who We Are" data-ar="من نحن">Who We Are</h2>
-                <p class="text-lg md:text-2xl leading-relaxed text-[var(--ink)] font-normal max-w-2xl" data-en="Mezzanine is not just a lender. We are a fintech ecosystem that interconnects finance, technology, and impact. We support enterprise sustainability to enhance financier confidence." data-ar="ميزانين ليست مجرد مقرض. نحن نظام بيئي للتكنولوجيا المالية يربط بين التمويل والتكنولوجيا والأثر. ندعم استدامة المؤسسات لتعزيز ثقة الممولين.">Mezzanine is not just a lender. We are a fintech ecosystem that interconnects finance, technology, and impact. We support enterprise sustainability to enhance financier confidence.</p>
-            </div>
-        </div>
-    </section>
+<section class="section eco" aria-labelledby="eco-title">
+  <div class="wrap eco-grid">
+    <header class="eco-head">
+      <h2 id="eco-title" class="h2">Our Ecosystem and the Four Activities</h2>
+      <p class="lede">Four activities working together as one connected ecosystem.</p>
+    </header>
 
-    <!-- Vision & Mission -->
-    <section id="vision" class="py-16 md:py-24 border-t hairline">
-        <div class="container mx-auto px-4 md:px-6">
-            <div class="grid md:grid-cols-2 max-w-5xl divide-y md:divide-y-0 md:divide-x rtl:md:divide-x-reverse hairline">
-                <div class="md:pe-12 pb-10 md:pb-0">
-                    <h3 class="h2 mb-4" style="font-size: clamp(1.6rem,2.4vw,2.1rem);" data-en="Our Vision" data-ar="رؤيتنا">Our Vision</h3>
-                    <p class="text-base md:text-lg" data-en="Leadership in developing a balanced investment system for trade credit." data-ar="الريادة في تطوير نظام استثماري متوازن للائتمان التجاري.">Leadership in developing a balanced investment system for trade credit.</p>
-                </div>
-                <div class="md:ps-12 pt-10 md:pt-0">
-                    <h3 class="h2 mb-4" style="font-size: clamp(1.6rem,2.4vw,2.1rem);" data-en="Our Mission" data-ar="رسالتنا">Our Mission</h3>
-                    <p class="text-base md:text-lg" data-en="Supporting sustainability to build trust." data-ar="دعم الاستدامة لبناء الثقة.">Supporting sustainability to build trust.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+    <div class="net" data-net data-loop>
+      <svg class="net-wires" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+        <path class="net-wire" data-i="0" d="M50 50 Q 39 34 16 18"/><path class="net-flow" data-i="0" d="M50 50 Q 39 34 16 18"/>
+        <path class="net-wire" data-i="1" d="M50 50 Q 61 34 84 18"/><path class="net-flow" data-i="1" d="M50 50 Q 61 34 84 18"/>
+        <path class="net-wire" data-i="2" d="M50 50 Q 73 66 84 82"/><path class="net-flow" data-i="2" d="M50 50 Q 73 66 84 82"/>
+        <path class="net-wire" data-i="3" d="M50 50 Q 27 66 16 82"/><path class="net-flow" data-i="3" d="M50 50 Q 27 66 16 82"/>
+      </svg>
+      <div class="net-core" aria-hidden="true"><span>Commercial Credit Intelligence</span></div>
+      <button type="button" class="net-node" data-i="0" data-id="technology" style="--x:16%;--y:18%" aria-controls="net-detail" aria-pressed="true"><span class="net-dot"></span><span class="net-name">Technology</span></button>
+      <button type="button" class="net-node" data-i="1" data-id="finance" style="--x:84%;--y:18%" aria-controls="net-detail" aria-pressed="false"><span class="net-dot"></span><span class="net-name">Finance</span></button>
+      <button type="button" class="net-node" data-i="2" data-id="investment" style="--x:84%;--y:82%" aria-controls="net-detail" aria-pressed="false"><span class="net-dot"></span><span class="net-name">Investment</span></button>
+      <button type="button" class="net-node" data-i="3" data-id="marketing" style="--x:16%;--y:82%" aria-controls="net-detail" aria-pressed="false"><span class="net-dot"></span><span class="net-name">Marketing</span></button>
+    </div>
+    <div class="net-detail" id="net-detail" aria-live="polite">
+      <article class="panel glass net-item is-on" data-i="0">
+        
+        <h3 class="h3">Technology</h3>
+        <p class="tag net-tag">Technology that connects business to finance</p>
+        <p>A B2B platform, data integration, APIs, a reporting engine, artificial intelligence, and software for credit, sukuk and impact measurement.</p>
+        <a class="text-link" href="/ecosystem/#technology" data-cta="card">Our Ecosystem</a>
+      </article>
+      <article class="panel glass net-item" data-i="1">
+        
+        <h3 class="h3">Finance</h3>
+        <p class="tag net-tag">Smarter financial and credit solutions</p>
+        <p>Credit assessment, facility design and structuring, working capital, treasury management, and collection.</p>
+        <a class="text-link" href="/ecosystem/#finance" data-cta="card">Our Ecosystem</a>
+      </article>
+      <article class="panel glass net-item" data-i="2">
+        
+        <h3 class="h3">Investment</h3>
+        <p class="tag net-tag">Connecting capital to opportunities</p>
+        <p>Credit portfolios, capital allocation, sukuk, and investment and asset management.</p>
+        <a class="text-link" href="/ecosystem/#investment" data-cta="card">Our Ecosystem</a>
+      </article>
+      <article class="panel glass net-item" data-i="3">
+        
+        <h3 class="h3">Marketing</h3>
+        <p class="tag net-tag">Market knowledge and sustainable growth</p>
+        <p>Market research, market intelligence, attracting customers, enterprises and funders, growth strategies, and impact measurement.</p>
+        <a class="text-link" href="/ecosystem/#marketing" data-cta="card">Our Ecosystem</a>
+      </article>
+    </div>
+  </div>
+</section>
 
-    <!-- Contact Section -->
-    <section id="contact-section" class="py-16 md:py-24 border-t hairline">
-        <div class="container mx-auto px-4 md:px-6">
-            <div class="max-w-3xl">
-                <h2 class="h2 mb-4" data-en="Ready to Connect?" data-ar="تواصل معنا">Ready to Connect?</h2>
-                <p class="lede mb-10 md:mb-12" data-en="We are here to facilitate your journey towards integrated financial intelligence. Reach out to us today." data-ar="نحن هنا لتسهيل رحلتك نحو الذكاء المالي المتكامل. تواصل معنا اليوم.">We are here to facilitate your journey towards integrated financial intelligence. Reach out to us today.</p>
+<section class="section aud" aria-labelledby="aud-title">
+  <div class="wrap">
+    <h2 id="aud-title" class="h2">Who We Serve</h2>
+    <ul class="aud-list">
+      <li><a class="aud-row" href="/who-we-serve/#enterprise" data-cta="card">
+        <span class="aud-name">Small and Medium Enterprises</span>
+        <span class="aud-text">Your business deserves greater opportunities to grow.</span>
+      </a></li>
+      <li><a class="aud-row" href="/who-we-serve/#funder" data-cta="card">
+        <span class="aud-name">Banks and Funding Institutions</span>
+        <span class="aud-text">Clearer visibility of enterprises and better support for credit decisions.</span>
+      </a></li>
+      <li><a class="aud-row" href="/who-we-serve/#investor" data-cta="card">
+        <span class="aud-name">Investors</span>
+        <span class="aud-text">We are developing an ecosystem and opening new horizons for investment.</span>
+      </a></li>
+      <li><a class="aud-row" href="/who-we-serve/#partner" data-cta="card">
+        <span class="aud-name">Partners</span>
+        <span class="aud-text">Integration creates opportunities beyond the limits of individual work.</span>
+      </a></li>
+      <li><a class="aud-row" href="/who-we-serve/#government" data-cta="card">
+        <span class="aud-name">Government and Institutional Entities</span>
+        <span class="aud-text">Deeper market knowledge and measurable impact.</span>
+      </a></li>
+    </ul>
+  </div>
+</section>
 
-                <div class="grid grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-4 sm:gap-10">
-                    <a href="https://www.linkedin.com/company/mezzanineai" target="_blank" rel="noopener" class="group flex items-start gap-3 min-h-[44px]">
-                        <svg class="w-5 h-5 shrink-0 text-[var(--ink)] group-hover:text-[var(--teal-deep)] transition-colors" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
-                        </svg>
-                        <span class="font-medium text-[var(--ink)] border-b border-transparent group-hover:border-[var(--teal-deep)] transition-colors break-words" data-en="LinkedIn" data-ar="لينكد إن">LinkedIn</span>
-                    </a>
-                    <a href="mailto:info@mezzanine.sa" class="group flex items-start gap-3 min-h-[44px]">
-                        <svg class="w-5 h-5 shrink-0 text-[var(--ink)] group-hover:text-[var(--teal-deep)] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                        </svg>
-                        <span class="font-medium text-[var(--ink)] border-b border-transparent group-hover:border-[var(--teal-deep)] transition-colors break-words">info@mezzanine.sa</span>
-                    </a>
-                    <a href="tel:+966544043103" class="group flex items-start gap-3 min-h-[44px]">
-                        <svg class="w-5 h-5 shrink-0 text-[var(--ink)] group-hover:text-[var(--teal-deep)] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
-                        </svg>
-                        <span class="font-medium text-[var(--ink)] border-b border-transparent group-hover:border-[var(--teal-deep)] transition-colors" dir="ltr">+966 54 404 3103</span>
-                    </a>
-                    <a href="https://www.google.com/maps/search/?api=1&query=King+Abdullah+Financial+District+Riyadh" target="_blank" rel="noopener" class="group flex items-start gap-3 min-h-[44px]">
-                        <svg class="w-5 h-5 shrink-0 text-[var(--ink)] group-hover:text-[var(--teal-deep)] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/>
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/>
-                        </svg>
-                        <span class="font-medium text-[var(--ink)] border-b border-transparent group-hover:border-[var(--teal-deep)] transition-colors break-words" data-en="KAFD 4.07, Riyadh, Kingdom of Saudi Arabia" data-ar="كافد 4.07، الرياض، المملكة العربية السعودية">KAFD 4.07, Riyadh, Kingdom of Saudi Arabia</span>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
+<section class="band" aria-labelledby="band-title">
+  <svg class="band-city" viewBox="0 0 1000 200" preserveAspectRatio="none" aria-hidden="true"><path d="M0 200 L0 200.0 L24 200.0 L24 178.9 L30 178.9 L30 176.4 L32 176.4 L32 165.3 L80 165.3 L80 166.8 L82 166.8 L82 164.0 L126 164.0 L126 175.4 L132 175.4 L132 182.3 L136 182.3 L136 170.8 L144 170.8 L144 167.6 L146 167.6 L146 161.6 L186 161.6 L186 167.6 L192 167.6 L192 176.0 L200 176.0 L200 148.8 L248 148.8 L248 177.2 L252 177.2 L252 166.0 L258 166.0 L258 145.1 L304 145.1 L304 152.8 L306 152.8 L306 134.2 L318 134.2 L318 132.5 L358 132.5 L358 163.1 L360 163.1 L360 172.8 L362 172.8 L362 143.2 L364 143.2 L364 138.5 L366 138.5 L366 120.4 L368 120.4 L368 102.3 L370 102.3 L370 84.2 L372 84.2 L372 66.1 L374 66.1 L374 61.0 L404 61.0 L404 67.3 L406 67.3 L406 85.4 L408 85.4 L408 103.5 L410 103.5 L410 121.6 L412 121.6 L412 139.7 L414 139.7 L414 157.8 L416 157.8 L416 175.9 L418 175.9 L418 151.3 L422 151.3 L422 120.5 L428 120.5 L428 119.0 L440 119.0 L440 117.6 L442 117.6 L442 100.3 L444 100.3 L444 83.0 L446 83.0 L446 80.4 L480 80.4 L480 96.7 L482 96.7 L482 114.0 L484 114.0 L484 114.9 L496 114.9 L496 113.0 L498 113.0 L498 94.7 L500 94.7 L500 76.3 L502 76.3 L502 58.0 L504 58.0 L504 39.7 L506 39.7 L506 21.3 L508 21.3 L508 14.1 L528 14.1 L528 16.9 L530 16.9 L530 35.3 L532 35.3 L532 53.6 L534 53.6 L534 71.9 L536 71.9 L536 90.2 L538 90.2 L538 108.6 L540 108.6 L540 126.9 L542 126.9 L542 138.5 L580 138.5 L580 139.2 L582 139.2 L582 200.0 L596 200.0 L596 185.2 L598 185.2 L598 168.2 L600 168.2 L600 151.1 L602 151.1 L602 134.1 L604 134.1 L604 117.0 L606 117.0 L606 100.0 L608 100.0 L608 82.9 L610 82.9 L610 65.9 L612 65.9 L612 48.8 L614 48.8 L614 48.0 L638 48.0 L638 48.8 L640 48.8 L640 65.9 L642 65.9 L642 82.9 L644 82.9 L644 100.0 L646 100.0 L646 117.0 L648 117.0 L648 134.1 L650 134.1 L650 143.1 L674 143.1 L674 142.3 L676 142.3 L676 124.4 L678 124.4 L678 106.5 L680 106.5 L680 90.1 L718 90.1 L718 101.6 L720 101.6 L720 119.4 L722 119.4 L722 137.3 L724 137.3 L724 151.1 L748 151.1 L748 161.9 L750 161.9 L750 167.1 L752 167.1 L752 200.0 L754 200.0 L754 170.0 L756 170.0 L756 161.9 L758 161.9 L758 158.6 L794 158.6 L794 161.9 L796 161.9 L796 163.5 L802 163.5 L802 166.3 L804 166.3 L804 184.5 L806 184.5 L806 200.0 L866 200.0 L866 172.4 L872 172.4 L872 165.6 L874 165.6 L874 165.3 L916 165.3 L916 177.2 L918 177.2 L918 200.0 L922 200.0 L922 188.2 L934 188.2 L934 184.0 L972 184.0 L972 200.0 L1000 200.0 L1000 200 Z"/></svg>
+  <div class="wrap band-inner">
+    <h2 id="band-title" class="h2 band-title">Every opportunity has a beginning… start yours with Mezzanine.</h2>
+    <div class="hero-cta">
+      <a href="/contact/" class="btn btn-primary" data-cta="final" data-magnetic>Contact us</a>
+      <a href="/who-we-serve/" class="btn btn-glass" data-cta="final">Explore collaboration opportunities</a>
+    </div>
+  </div>
+</section>
+</main>
 
-    <!-- Footer -->
-    <footer id="contact" class="site-footer bg-[var(--ink-deep)] text-[var(--cream)] pt-14 md:pt-20">
-        <div class="container mx-auto px-4 md:px-6">
-            <svg class="skyline-rule mb-10 md:mb-14" viewBox="0 0 800 40" preserveAspectRatio="none" fill="none" stroke="var(--teal)" stroke-width="1">
-                <path d="M0 38 L40 38 L40 20 L55 20 L55 10 L70 10 L70 38 L110 38 L110 25 L125 25 L125 5 L140 5 L140 25 L155 25 L155 38 L210 38 L210 15 L230 15 L230 38 L280 38 L280 28 L300 28 L300 12 L320 12 L320 28 L340 28 L340 38 L400 38 L400 8 L415 8 L415 22 L430 22 L430 38 L480 38 L480 18 L500 18 L500 38 L560 38 L560 25 L580 25 L580 2 L600 2 L600 25 L620 25 L620 38 L680 38 L680 15 L700 15 L700 30 L720 30 L720 38 L800 38"/>
-            </svg>
-            <div class="grid md:grid-cols-3 gap-10 md:gap-12 mb-10 md:mb-14">
-                <div>
-                    <h3 class="h3 text-[var(--cream)] mb-3" data-en="Mezzanine AI" data-ar="ميزانين AI">Mezzanine AI</h3>
-                    <p class="text-white/60 text-sm md:text-base" data-en="A fintech ecosystem for sustainable impact." data-ar="نظام بيئي للتكنولوجيا المالية للأثر المستدام.">A fintech ecosystem for sustainable impact.</p>
-                </div>
-                <div>
-                    <h4 class="font-medium mb-4 text-sm text-[var(--cream)]" data-en="Quick Links" data-ar="روابط سريعة">Quick Links</h4>
-                    <ul class="space-y-1 text-white/60 text-sm md:text-base">
-                        <li><a href="#who-we-are" class="inline-block py-1 hover:text-[var(--teal)] transition-colors" data-en="Who We Are" data-ar="من نحن">Who We Are</a></li>
-                        <li><a href="#ecosystem" class="inline-block py-1 hover:text-[var(--teal)] transition-colors" data-en="The Ecosystem" data-ar="منظومة ميزانين">The Ecosystem</a></li>
-                        <li><a href="#vision" class="inline-block py-1 hover:text-[var(--teal)] transition-colors" data-en="Vision & Mission" data-ar="الرؤية والرسالة">Vision & Mission</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="font-medium mb-4 text-sm text-[var(--cream)]" data-en="Contact" data-ar="اتصل بنا">Contact</h4>
-                    <a href="https://www.google.com/maps/search/?api=1&query=King+Abdullah+Financial+District+Riyadh" target="_blank" rel="noopener" class="block py-1 text-white/60 hover:text-[var(--teal)] transition-colors text-sm md:text-base break-words" data-en="KAFD 4.07, Riyadh, Kingdom of Saudi Arabia" data-ar="كافد 4.07، الرياض، المملكة العربية السعودية">KAFD 4.07, Riyadh, Kingdom of Saudi Arabia</a>
-                    <a href="mailto:info@mezzanine.sa" class="block py-1 text-[var(--teal)] hover:text-white transition-colors text-sm md:text-base">info@mezzanine.sa</a>
-                    <a href="tel:+966544043103" class="block py-1 text-[var(--teal)] hover:text-white transition-colors text-sm md:text-base" dir="ltr">+966 54 404 3103</a>
-                </div>
-            </div>
-            <div class="border-t border-[var(--line-on-dark)] pt-6 text-center text-white/50 text-sm">
-                <p data-en="© 2026 Mezzanine AI. All rights reserved." data-ar="© 2026 ميزانين AI. جميع الحقوق محفوظة.">© 2026 Mezzanine AI. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
+<footer class="footer">
+  <svg class="footer-city" viewBox="0 0 1000 120" preserveAspectRatio="none" aria-hidden="true"><path d="M0 120 L0 120.0 L24 120.0 L24 107.6 L30 107.6 L30 106.2 L32 106.2 L32 99.6 L80 99.6 L80 100.5 L82 100.5 L82 98.8 L126 98.8 L126 105.5 L132 105.5 L132 109.6 L136 109.6 L136 102.8 L144 102.8 L144 101.0 L146 101.0 L146 97.4 L186 97.4 L186 101.0 L192 101.0 L192 105.9 L200 105.9 L200 89.9 L248 89.9 L248 106.6 L252 106.6 L252 100.0 L258 100.0 L258 87.7 L304 87.7 L304 92.2 L306 92.2 L306 81.3 L318 81.3 L318 80.3 L358 80.3 L358 98.3 L360 98.3 L360 104.0 L362 104.0 L362 86.6 L364 86.6 L364 83.8 L366 83.8 L366 73.2 L368 73.2 L368 62.6 L370 62.6 L370 51.9 L372 51.9 L372 41.3 L374 41.3 L374 38.3 L404 38.3 L404 42.0 L406 42.0 L406 52.7 L408 52.7 L408 63.3 L410 63.3 L410 73.9 L412 73.9 L412 84.6 L414 84.6 L414 95.2 L416 95.2 L416 105.8 L418 105.8 L418 91.4 L422 91.4 L422 73.3 L428 73.3 L428 72.4 L440 72.4 L440 71.6 L442 71.6 L442 61.4 L444 61.4 L444 51.2 L446 51.2 L446 49.7 L480 49.7 L480 59.3 L482 59.3 L482 69.5 L484 69.5 L484 70.0 L496 70.0 L496 68.9 L498 68.9 L498 58.1 L500 58.1 L500 47.3 L502 47.3 L502 36.6 L504 36.6 L504 25.8 L506 25.8 L506 15.0 L508 15.0 L508 10.8 L528 10.8 L528 12.4 L530 12.4 L530 23.2 L532 23.2 L532 34.0 L534 34.0 L534 44.7 L536 44.7 L536 55.5 L538 55.5 L538 66.3 L540 66.3 L540 77.1 L542 77.1 L542 83.9 L580 83.9 L580 84.3 L582 84.3 L582 120.0 L596 120.0 L596 111.3 L598 111.3 L598 101.3 L600 101.3 L600 91.3 L602 91.3 L602 81.3 L604 81.3 L604 71.2 L606 71.2 L606 61.2 L608 61.2 L608 51.2 L610 51.2 L610 41.2 L612 41.2 L612 31.2 L614 31.2 L614 30.7 L638 30.7 L638 31.2 L640 31.2 L640 41.2 L642 41.2 L642 51.2 L644 51.2 L644 61.2 L646 61.2 L646 71.2 L648 71.2 L648 81.3 L650 81.3 L650 86.6 L674 86.6 L674 86.1 L676 86.1 L676 75.6 L678 75.6 L678 65.0 L680 65.0 L680 55.4 L718 55.4 L718 62.1 L720 62.1 L720 72.7 L722 72.7 L722 83.2 L724 83.2 L724 91.3 L748 91.3 L748 97.6 L750 97.6 L750 100.7 L752 100.7 L752 120.0 L754 120.0 L754 102.4 L756 102.4 L756 97.6 L758 97.6 L758 95.6 L794 95.6 L794 97.6 L796 97.6 L796 98.5 L802 98.5 L802 100.2 L804 100.2 L804 110.9 L806 110.9 L806 120.0 L866 120.0 L866 103.8 L872 103.8 L872 99.8 L874 99.8 L874 99.6 L916 99.6 L916 106.6 L918 106.6 L918 120.0 L922 120.0 L922 113.1 L934 113.1 L934 110.6 L972 110.6 L972 120.0 L1000 120.0 L1000 120 Z"/></svg>
+  <div class="wrap footer-grid">
+    <div>
+      <img class="footer-logo" src="/images/logo-wordmark-light.webp" alt="Mezzanine / ميزانين" width="540" height="71" loading="lazy">
+      <p class="footer-tag">Commercial Credit Intelligence</p>
+    </div>
+    <nav aria-label="Quick links">
+      <h2 class="footer-h">Quick links</h2>
+      <ul class="footer-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/about/">About Us</a></li>
+        <li><a href="/ecosystem/">Our Ecosystem</a></li>
+        <li><a href="/how-we-work/">How We Work</a></li>
+        <li><a href="/who-we-serve/">Who We Serve</a></li>
+        <li><a href="/solutions/">Solutions &amp; Products</a></li>
+        <li><a href="/contact/" data-cta="footer">Contact Us</a></li>
+        <li><a href="/privacy/">Privacy Policy</a></li>
+      </ul>
+    </nav>
+    <div>
+      <h2 class="footer-h">Contact</h2>
+      <ul class="footer-contact">
+        <li><a href="https://www.google.com/maps/search/?api=1&query=King+Abdullah+Financial+District+Riyadh" target="_blank" rel="noopener">KAFD 4.07, Riyadh, Kingdom of Saudi Arabia</a></li>
+        <li><a href="mailto:info@mezzanine.sa">info@mezzanine.sa</a></li>
+        <li><a href="https://wa.me/966544043103?text=Hello%2C%20I'm%20reaching%20out%20from%20the%20Mezzanine%20website%20and%20would%20like%20to%20learn%20more%20about%20your%20services." class="footer-ico" target="_blank" rel="noopener" data-cta="footer-whatsapp" aria-label="WhatsApp +966 54 404 3103"><svg class="brand-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg><span dir="ltr">+966 54 404 3103</span></a></li>
+        <li><a href="https://www.linkedin.com/company/mezzanineai" class="footer-ico" target="_blank" rel="noopener"><svg class="brand-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 4.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg><span>LinkedIn</span></a></li>
+      </ul>
+    </div>
+  </div>
+  <p class="wrap footer-rights">© 2026 Mezzanine / ميزانين. All rights reserved.</p>
+</footer>
 
-    <script>
-        const menuBtn = document.getElementById('menu-btn');
-        const mobilePanel = document.getElementById('mobile-panel');
-        const mobileOverlay = document.getElementById('mobile-overlay');
-        const siteNav = document.querySelector('nav.site-nav');
-        let menuOpen = false;
+<aside id="cta-bar" class="cta-bar" aria-label="Call to action">
+  <div class="cta-bar-inner glass">
+    <p>Have an opportunity to grow or collaborate with Mezzanine?</p>
+    <div class="cta-bar-btns">
+      <a href="/contact/" class="btn btn-primary btn-sm" data-cta="sticky">Contact us</a>
+      <!-- TODO(phase2): repoint to the partnership-opportunities page once it exists -->
+      <a href="/who-we-serve/" class="btn btn-glass btn-sm" data-cta="sticky">Explore collaboration opportunities</a>
+      <a href="https://wa.me/966544043103?text=Hello%2C%20I'm%20reaching%20out%20from%20the%20Mezzanine%20website%20and%20would%20like%20to%20learn%20more%20about%20your%20services." class="btn btn-glass btn-sm btn-wa" target="_blank" rel="noopener" data-cta="sticky-whatsapp" aria-label="Chat on WhatsApp" title="Chat on WhatsApp"><svg class="brand-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg></a>
+    </div>
+  </div>
+</aside>
 
-        function syncPanelOffset() {
-            mobilePanel.style.paddingTop = 'calc(' + siteNav.getBoundingClientRect().height + 'px + env(safe-area-inset-top))';
-        }
-        syncPanelOffset();
-        window.addEventListener('resize', syncPanelOffset);
-
-        const menuIconOpen = document.getElementById('menu-icon-open');
-        const menuIconClose = document.getElementById('menu-icon-close');
-
-        function openMenu() {
-            mobilePanel.style.transform = 'translateX(0)';
-            mobileOverlay.classList.add('is-open');
-            document.body.style.overflow = 'hidden';
-            menuBtn.setAttribute('aria-expanded', 'true');
-            menuBtn.setAttribute('aria-label', 'Close menu');
-            menuIconOpen.classList.add('hidden');
-            menuIconClose.classList.remove('hidden');
-            menuOpen = true;
-        }
-
-        function closeMenu() {
-            mobilePanel.style.transform = '';
-            mobileOverlay.classList.remove('is-open');
-            document.body.style.overflow = '';
-            menuBtn.setAttribute('aria-expanded', 'false');
-            menuBtn.setAttribute('aria-label', 'Open menu');
-            menuIconOpen.classList.remove('hidden');
-            menuIconClose.classList.add('hidden');
-            menuOpen = false;
-        }
-
-        function toggleMenu() {
-            menuOpen ? closeMenu() : openMenu();
-        }
-
-        window.addEventListener('resize', () => {
-            if (menuOpen && window.innerWidth >= 768) closeMenu();
-        });
-        window.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && menuOpen) closeMenu();
-        });
-
-        function setLanguage(lang) {
-            document.documentElement.setAttribute('lang', lang);
-            document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
-
-            document.querySelectorAll('[data-en]').forEach(el => {
-                el.textContent = el.getAttribute('data-' + lang);
-            });
-
-            document.getElementById('lang-en-btn').classList.toggle('is-active', lang === 'en');
-            document.getElementById('lang-ar-btn').classList.toggle('is-active', lang === 'ar');
-        }
-    </script>
+<button type="button" id="to-top" class="to-top" aria-label="Back to top"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M9 15V3M3.5 8.5L9 3l5.5 5.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+<script src="/analytics.js" defer></script>
+<script type="module" src="/js/app.js"></script>
 </body>
 </html>

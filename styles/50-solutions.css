@@ -1,0 +1,56 @@
+/* --- Solutions: glass cards with a status chip and a tiny abstract visual ------------------ */
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.sols { padding-top: clamp(30px, 4vw, 60px); }
+.sol-grid { display: grid; gap: 18px; }
+@media (min-width: 820px) { .sol-grid { grid-template-columns: 1fr 1fr; gap: 22px; } }
+.sol { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; padding: clamp(24px, 3vw, 36px); border-radius: 24px; transition: box-shadow .5s var(--ease), transform .5s var(--ease); }
+.sol:hover { box-shadow: 0 16px 24px -14px rgba(18, 224, 207, .6); transform: translateY(-3px); }
+.sol .h4 { margin-top: 4px; }
+.sol-visual { width: 100%; max-width: 320px; height: auto; margin-bottom: 6px; overflow: visible; }
+.sol-visual[data-flip] { transform: scaleX(-1); }
+
+.chip { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px; font-size: .82rem; font-weight: 500; line-height: 1; }
+.chip::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.chip-development { color: var(--cyan); background: rgba(124, 247, 255, .08); box-shadow: inset 0 0 0 1px rgba(124, 247, 255, .3); }
+.chip-available { color: var(--night); background: var(--teal); }
+
+/* shared visual strokes */
+.sol-visual * { vector-effect: non-scaling-stroke; }
+.v-dots circle { fill: rgba(124, 247, 255, .28); }
+.v-scan { fill: rgba(124, 247, 255, .07); stroke: rgba(124, 247, 255, .55); stroke-width: 1; }
+.v-track { stroke: rgba(124, 247, 255, .2); stroke-width: 2; }
+.v-crit rect { fill: rgba(124, 247, 255, .12); stroke: rgba(124, 247, 255, .4); }
+.v-gate { stroke: var(--teal); stroke-width: 3; stroke-linecap: round; transform-box: fill-box; transform-origin: 50% 0; }
+.v-pulse { fill: var(--ice); filter: drop-shadow(0 0 5px var(--cyan)); opacity: 0; }
+.v-ring { fill: none; stroke: rgba(124, 247, 255, .5); stroke-width: 1.4; stroke-dasharray: 4 6; }
+.v-ring-b { stroke: rgba(18, 224, 207, .7); }
+.v-orbiter { fill: var(--ice); filter: drop-shadow(0 0 5px var(--cyan)); offset-path: path('M120 30 A38 38 0 1 1 119.9 30'); offset-distance: 0%; transform: translate(0, 0); }
+.v-line { fill: none; stroke: var(--cyan); stroke-width: 1.6; stroke-linecap: round; opacity: .75; stroke-dasharray: 320; }
+.v-line:nth-child(2) { stroke: var(--teal); opacity: .55; }
+.v-line:nth-child(3) { opacity: .35; }
+
+/* The chip dot (opacity only) and the small visuals play briefly after a card enters view (.is-playing, js/app.js)
+   and again on hover / focus; otherwise they hold still, so nothing animates while the page is idle. */
+@media (prefers-reduced-motion: no-preference) {
+  .chip-development::before { animation: chip-pulse 2.4s ease-in-out infinite paused; }
+  .v-scan { animation: v-scan 4s var(--ease) infinite alternate paused; }
+  .v-dots circle { animation: v-dot 4s linear infinite alternate paused; animation-delay: var(--d); }
+  .v-crit rect { animation: v-crit 3.6s steps(1) infinite paused; animation-delay: var(--d); }
+  .v-gate { animation: v-gate 3.6s var(--ease) infinite paused; }
+  .v-pulse { animation: v-pulse 3.6s linear infinite paused; }
+  .v-rings { transform-origin: 120px 60px; animation: v-spin 22s linear infinite paused; }
+  .v-orbiter { animation: v-orbit 6s linear infinite paused; }
+  .v-line { animation: v-draw 5s var(--ease) infinite paused; animation-delay: var(--d); }
+  .sol.is-playing .sol-visual *, .sol:hover .sol-visual *, .sol:focus-within .sol-visual *,
+  .sol.is-playing .chip-development::before, .sol:hover .chip-development::before, .sol:focus-within .chip-development::before { animation-play-state: running; }
+}
+@keyframes chip-pulse { 50% { opacity: .35; } }
+@keyframes v-scan { from { transform: translateX(6px); } to { transform: translateX(200px); } }
+@keyframes v-dot { 0%, 100% { fill: rgba(124, 247, 255, .25); } 50% { fill: var(--cyan); } }
+@keyframes v-crit { 0% { fill: rgba(124, 247, 255, .12); } 25% { fill: var(--cyan); } 90% { fill: rgba(124, 247, 255, .12); } }
+@keyframes v-gate { 0%, 40% { transform: translateY(0); opacity: 1; } 55%, 85% { transform: translateY(-38px); opacity: .25; } 100% { transform: translateY(0); opacity: 1; } }
+@keyframes v-pulse { 0%, 45% { opacity: 0; transform: translateX(0); } 50% { opacity: 1; transform: translateX(0); } 90% { opacity: 1; transform: translateX(220px); } 95%, 100% { opacity: 0; transform: translateX(220px); } }
+@keyframes v-spin { to { transform: rotate(360deg); } }
+@keyframes v-orbit { to { offset-distance: 100%; } }
+@keyframes v-draw { 0% { stroke-dashoffset: 320; } 45%, 75% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: -320; } }
+@media (prefers-reduced-motion: reduce) { .sol { transition: none; } .v-gate { transform: translateY(-38px); opacity: .25; } .v-pulse { opacity: 1; transform: translateX(160px); } .v-orbiter { offset-distance: 30%; } }

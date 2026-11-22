@@ -1,0 +1,43 @@
+/* --- How We Work: the value chain plays ONCE when it enters view ------------------------------
+   No pinning and no scroll-linked work. js/app.js adds .is-in to the [data-reveal] section; the rail grows (transform),
+   the steps light in turn (opacity), then the loop back from the Holding to the start fades in (opacity).
+   Without JS / with reduced motion everything is shown lit. */
+.chain { position: relative; padding-block: clamp(60px, 8vw, 110px); background: radial-gradient(70% 60% at 50% 40%, rgba(18, 224, 207, .08), transparent 62%); }
+.chain-track { position: relative; padding-top: 70px; }
+.chain-rail { position: absolute; inset-inline: 0; top: 10px; width: 100%; height: 220px; overflow: visible; pointer-events: none; }
+.chain-rail[data-flip] { transform: scaleX(-1); }
+.rail-base, .loop-base { fill: none; stroke: rgba(124, 247, 255, .14); stroke-width: 2; vector-effect: non-scaling-stroke; }
+.loop-base { stroke-dasharray: 3 7; }
+.rail-fill, .loop-fill { fill: none; stroke: var(--cyan); stroke-width: 2.5; vector-effect: non-scaling-stroke; }
+.loop-fill { stroke: var(--teal); }
+.rail-fill { transform-box: view-box; transform-origin: 40px 150px; transition: transform 2.2s cubic-bezier(.45, 0, .25, 1); }
+.loop-fill { transition: opacity .9s ease 2.2s; }
+.chain-steps { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 14px; position: relative; }
+.chain-step { position: relative; display: grid; align-content: start; gap: 6px; padding: 104px 16px 22px; border-radius: 18px;
+  transition: opacity .5s ease; transition-delay: calc(var(--k) * 360ms + 150ms); }
+.chain-step::before { content: ""; position: absolute; top: 97px; inset-inline-start: 16px; width: 14px; height: 14px; border-radius: 50%; translate: 0 -100%;
+  background: var(--cyan); border: 2px solid rgba(124, 247, 255, .45); box-shadow: 0 0 16px var(--cyan); transition: opacity .5s ease; transition-delay: inherit; }
+.step-n { font-weight: 500; font-size: .95rem; color: var(--teal); margin-top: 12px; }
+.step-who { font-family: var(--display); font-weight: 800; font-size: clamp(1.1rem, 1.45vw, 1.4rem); line-height: 1.15; letter-spacing: -.02em; color: var(--ice); }
+html[dir="rtl"] .step-who { letter-spacing: 0; line-height: 1.4; }
+.step-text { font-size: .95rem; line-height: 1.55; }
+.chain-step.is-hold { box-shadow: inset 0 0 0 1px rgba(18, 224, 207, .7); background: rgba(18, 224, 207, .05); }
+.chain-step.is-hold::after { content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: 0 0 24px rgba(18, 224, 207, .45); pointer-events: none; transition: opacity .9s ease 2.4s; }
+
+/* before it plays (motion allowed, not yet in view) */
+.motion .chain:not(.is-in) .rail-fill { transform: scaleX(0); }
+.motion .chain:not(.is-in) .loop-fill, .motion .chain:not(.is-in) .chain-step.is-hold::after { opacity: 0; }
+.motion .chain:not(.is-in) .chain-step { opacity: .4; }
+.motion .chain:not(.is-in) .chain-step::before { opacity: 0; }
+
+@media (max-width: 900px) {
+  .chain-track { padding-top: 0; }
+  .chain-rail { display: none; }
+  .chain-steps { grid-template-columns: 1fr; gap: 0; padding-inline-start: 26px; border-inline-start: 2px solid rgba(124, 247, 255, .14); }
+  .chain-steps::before { content: ""; position: absolute; inset-inline-start: -2px; top: 0; width: 2px; height: 100%; background: var(--cyan); transform-origin: top; transition: transform 2.2s cubic-bezier(.45, 0, .25, 1); }
+  .motion .chain:not(.is-in) .chain-steps::before { transform: scaleY(0); }
+  .chain-step { padding: 14px 16px 22px; }
+  .chain-step::before { top: 22px; inset-inline-start: -35px; translate: 0 0; }
+  .step-n { margin-top: 0; }
+  .step-who { font-size: 1.35rem; }
+}
