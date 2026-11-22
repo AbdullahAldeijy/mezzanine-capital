@@ -125,20 +125,34 @@ $$('[data-orbit]').forEach((orbit) => {
 // ---- the data city (WebGL): lazy, after first paint; static poster when it cannot or should not run ----
 const pointer = { x: 0, y: 0, active: false };
 if (finePointer) addEventListener('pointermove', (e) => { pointer.x = (e.clientX / innerWidth) * 2 - 1; pointer.y = -((e.clientY / innerHeight) * 2 - 1); pointer.active = true; }, { passive: true });
-function webglOK() { try { const c = document.createElement('canvas'); return !!(c.getContext('webgl2') || c.getContext('webgl')); } catch (e) { return false; } }
+// WebGL present AND backed by a GPU: software renderers (SwiftShader, llvmpipe...) draw the city on the CPU,
+// which would block the page for seconds, so they get the static poster instead.
+function webglOK() {
+  try {
+    const c = document.createElement('canvas'), gl = c.getContext('webgl2') || c.getContext('webgl');
+    if (!gl) return false;
+    const info = gl.getExtension('WEBGL_debug_renderer_info');
+    const name = info ? String(gl.getParameter(info.UNMASKED_RENDERER_WEBGL)) : '';
+    const lose = gl.getExtension('WEBGL_lose_context'); if (lose) lose.loseContext();
+    return !/swiftshader|llvmpipe|softpipe|software|basic render/i.test(name);
+  } catch (e) { return false; }
+}
 
 const city = $('[data-city]');
 if (city) {
-  const posterMode = new URLSearchParams(location.search).has('poster');    // dev only: scripts/render-poster.mjs
+  const q = new URLSearchParams(location.search);
+  const posterMode = q.has('poster');                     // dev only: scripts/render-poster.mjs
+  const forceLive = q.get('city') === 'live';             // dev only: run the live scene on software GL (headless tests)
   if (posterMode) {
     import('./scene.js').then(({ mountCity }) => {
       const { canvas } = mountCity(city, { rtl: false, poster: true });
       window.__cityPoster = () => canvas.toDataURL('image/png');
     });
-  } else if (reduce || lowPower || !webglOK()) {
+  } else if (reduce || (!forceLive && (lowPower || !webglOK()))) {
     city.classList.add('is-static');
   } else {
-    const start = () => import('./scene.js').then(({ mountCity }) => mountCity(city, { rtl, pointer, beacon: city.hasAttribute('data-beacon') })).catch(() => city.classList.add('is-static'));
+    const toPoster = () => { city.classList.remove('is-live'); city.classList.add('is-static'); };
+    const start = () => import('./scene.js').then(({ mountCity }) => mountCity(city, { rtl, pointer, beacon: city.hasAttribute('data-beacon'), onSlow: forceLive ? null : toPoster })).catch(toPoster);
     const idle = () => (window.requestIdleCallback ? requestIdleCallback(start, { timeout: 1200 }) : setTimeout(start, 200));
     if (document.readyState === 'complete') idle(); else addEventListener('load', idle, { once: true });
   }

@@ -119,7 +119,7 @@ const EDGES = [[0, 1, 0], [1, 2, 0], [2, 3, 0], [3, 0, 0], [4, 5, 0], [5, 6, 0],
 
 let shared = null;   // { renderer, gl } — one WebGL context for the whole page
 
-export function mountCity(host, { rtl = false, poster = false, pointer = null, beacon = false } = {}) {
+export function mountCity(host, { rtl = false, poster = false, pointer = null, beacon = false, onSlow = null } = {}) {
   if (!shared) {
     const renderer = new Renderer({ dpr: 1, alpha: true, antialias: true, premultipliedAlpha: false, preserveDrawingBuffer: poster });
     shared = { renderer, gl: renderer.gl };
@@ -271,10 +271,23 @@ export function mountCity(host, { rtl = false, poster = false, pointer = null, b
 
   // rAF loop, paused when the host is off-screen or the tab is hidden
   let vis = true, raf = 0, t0 = null, live = false;
+  // Frame-rate guard: GL work runs asynchronously on the GPU, so the real cost shows up as the time between frames.
+  // Measured once the towers have grown (2.2-3.6 s; earlier frames are cheap and include shader compilation):
+  // if most frames arrive slower than ~22 fps (a weak or throttled GPU), stop for good and show the static poster.
+  let seen = 0, slow = 0, last = 0, stopped = false;
   const tick = (now) => {
-    raf = 0; if (!vis || document.hidden) return;
+    raf = 0; if (stopped || !vis || document.hidden) { last = 0; return; }
     if (t0 === null) t0 = now;
-    render((now - t0) / 1000);
+    const e = (now - t0) / 1000;
+    if (last && e > 2.2 && e < 3.6) { seen++; if (now - last > 45) slow++; }
+    last = now;
+    render(e);
+    if (onSlow && e >= 3.6 && seen >= 4 && slow / seen > 0.6) {
+      stopped = true; host.classList.remove('is-live'); gl.canvas.remove();
+      const lose = gl.getExtension('WEBGL_lose_context'); if (lose) lose.loseContext();
+      onSlow();
+      return;
+    }
     if (!live) { live = true; host.classList.add('is-live'); }
     raf = requestAnimationFrame(tick);
   };
