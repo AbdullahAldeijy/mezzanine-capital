@@ -129,10 +129,8 @@ let shared = null;   // { renderer, gl } — one WebGL context for the whole pag
 export function mountCity(host, { rtl = false, poster = false, pointer = null, beacon = false, onSlow = null } = {}) {
   if (!shared) {
     // opaque canvas: the compositor never has to blend (or convert) a transparent WebGL layer every frame
-    // MSAA only where the backing store is small (it is the most expensive part of a frame on weaker GPUs);
-    // on dense or very wide screens the pixel density already smooths the edges
-    const w = host.clientWidth, px = w * host.clientHeight * Math.min(window.devicePixelRatio || 1, 1.5) ** 2;
-    const renderer = new Renderer({ dpr: 1, alpha: false, antialias: poster || (w >= 760 && px <= 1.4e6), depth: true, powerPreference: 'high-performance', preserveDrawingBuffer: poster });
+    // no MSAA on the live scene (multisampled resolve every frame is the costliest part on many GPUs); the poster render keeps it
+    const renderer = new Renderer({ dpr: 1, alpha: false, antialias: poster, depth: true, powerPreference: 'high-performance', preserveDrawingBuffer: poster });
     shared = { renderer, gl: renderer.gl };
     shared.gl.clearColor(BG[0], BG[1], BG[2], 1);
     shared.gl.enable(shared.gl.POLYGON_OFFSET_FILL); shared.gl.polygonOffset(1, 1);   // keeps edge lines crisp on top of faces

@@ -45,11 +45,11 @@ html[dir="rtl"] .lede { line-height: 1.95; }
 .tag { font-weight: 500; font-size: 1.05rem; color: var(--teal); }
 html[dir="rtl"] body { line-height: 1.9; }
 
-/* glass: translucent panel with a gradient hairline */
-.glass { position: relative; background: linear-gradient(160deg, rgba(232, 251, 255, .075), rgba(232, 251, 255, .02)); backdrop-filter: blur(18px) saturate(1.25); -webkit-backdrop-filter: blur(18px) saturate(1.25); }
-.glass::before { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px; pointer-events: none;
-  background: linear-gradient(135deg, rgba(124, 247, 255, .5), rgba(124, 247, 255, .06) 42%, rgba(18, 224, 207, .32));
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; }
+/* glass: a solid, slightly translucent panel with a hairline border and a lit top edge.
+   No backdrop-filter and no CSS masks here: blur is reserved for the nav (performance; see styles/05-shell.css). */
+.glass { position: relative; border: 1px solid rgba(124, 247, 255, .2);
+  background: linear-gradient(160deg, rgba(20, 44, 58, .78), rgba(9, 22, 34, .82));
+  box-shadow: inset 0 1px 0 rgba(124, 247, 255, .22), inset 1px 0 0 rgba(124, 247, 255, .06); }
 .panel { border-radius: 22px; padding: clamp(24px, 3vw, 36px); }
 .panel .h3 { margin-bottom: 12px; }
 
@@ -59,7 +59,7 @@ html[dir="rtl"] body { line-height: 1.9; }
 .btn-sm { min-height: 42px; padding: 0 18px; font-size: .9rem; }
 .btn-primary { color: var(--night); background: linear-gradient(120deg, var(--teal), var(--cyan)); box-shadow: 0 10px 40px -14px rgba(18, 224, 207, .75); }
 .btn-primary:hover { box-shadow: 0 14px 54px -10px rgba(124, 247, 255, .95); }
-.btn-glass { color: var(--ice); background: rgba(232, 251, 255, .06); box-shadow: inset 0 0 0 1px rgba(124, 247, 255, .34); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+.btn-glass { color: var(--ice); background: rgba(14, 32, 46, .72); box-shadow: inset 0 0 0 1px rgba(124, 247, 255, .34); }
 .btn-glass:hover { background: rgba(232, 251, 255, .13); box-shadow: inset 0 0 0 1px var(--cyan); }
 .text-link { display: inline-block; margin-top: 16px; color: var(--cyan); font-weight: 500; font-size: .98rem; background: linear-gradient(currentColor, currentColor) 0 100% / 100% 1px no-repeat; padding-bottom: 3px; transition: color .25s; }
 .text-link:hover { color: var(--ice); }
@@ -73,8 +73,13 @@ html[dir="rtl"] body { line-height: 1.9; }
 }
 @keyframes word-in { from { opacity: .35; transform: translateY(.22em); } }
 
+/* off-screen sections pause every animation inside them (grid drift, network flows, rings, solution visuals, beacons) */
+.is-off, .is-off::before, .is-off::after, .is-off *, .is-off *::before, .is-off *::after { animation-play-state: paused !important; }
+
 /* --- Glass nav --------------------------------------------------------------- */
 .nav { position: fixed; z-index: 60; inset-inline: 0; top: 0; padding: 14px var(--gutter) 0; pointer-events: none; view-transition-name: v2-nav; }
+/* the nav is the ONE element with a backdrop blur (dropped while the live city is under it: styles/10-home.css) */
+.nav-bar.glass { backdrop-filter: blur(16px) saturate(1.2); -webkit-backdrop-filter: blur(16px) saturate(1.2); }
 .nav-bar { pointer-events: auto; max-width: 1320px; margin-inline: auto; height: 62px; padding-inline: 22px 12px; border-radius: 999px; display: flex; align-items: center; gap: 26px;
   background: linear-gradient(160deg, rgba(6, 14, 26, .62), rgba(6, 14, 26, .42)); }
 .nav-brand img { height: 18px; width: auto; }
@@ -99,7 +104,7 @@ html[dir="rtl"] .nav-links .nav-link:hover::after, html[dir="rtl"] .nav-links .n
 
 /* mobile menu: a glass sheet that drops from the nav */
 .sheet { position: fixed; z-index: 55; inset-inline: 0; top: 0; padding: calc(var(--nav-h) + 18px) var(--gutter) 26px; border-radius: 0 0 28px 28px;
-  background: rgba(6, 14, 26, .9); backdrop-filter: blur(22px); -webkit-backdrop-filter: blur(22px); box-shadow: 0 30px 60px -20px rgba(0, 0, 0, .7), inset 0 -1px 0 var(--hair);
+  background: rgba(6, 14, 26, .97); box-shadow: 0 30px 60px -20px rgba(0, 0, 0, .7), inset 0 -1px 0 var(--hair);
   transform: translateY(-104%); visibility: hidden; transition: transform .5s var(--ease), visibility 0s linear .5s; max-height: 100dvh; overflow-y: auto; }
 .sheet.is-open { transform: none; visibility: visible; transition: transform .5s var(--ease); }
 .sheet-link { display: flex; align-items: center; min-height: 54px; font-family: var(--display); font-weight: 700; font-size: 1.35rem; color: var(--ice); border-bottom: 1px solid var(--hair);
@@ -111,7 +116,7 @@ html[dir="rtl"] .nav-links .nav-link:hover::after, html[dir="rtl"] .nav-links .n
 
 /* --- Sticky CTA bar (glass pill; slides up after the first scroll) ------------- */
 .cta-bar { position: fixed; z-index: 50; inset-inline: 0; bottom: 0; padding: 0 12px calc(12px + env(safe-area-inset-bottom)); pointer-events: none; view-transition-name: v2-cta; }
-.cta-bar-inner { pointer-events: auto; max-width: 860px; margin-inline: auto; border-radius: 22px; padding: 10px 12px 10px 20px; display: flex; flex-direction: column; gap: 8px; background: rgba(6, 14, 26, .78); }
+.cta-bar-inner { pointer-events: auto; max-width: 860px; margin-inline: auto; border-radius: 22px; padding: 10px 12px 10px 20px; display: flex; flex-direction: column; gap: 8px; background: rgba(8, 20, 32, .92); }
 html[dir="rtl"] .cta-bar-inner { padding: 10px 20px 10px 12px; }
 .cta-bar p { color: var(--ice); font-size: .86rem; line-height: 1.35; font-weight: 500; }
 .cta-bar-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
@@ -126,7 +131,7 @@ html[dir="rtl"] .cta-bar-inner { padding: 10px 20px 10px 12px; }
 .js .cta-bar.is-in { transform: none; }
 
 .to-top { position: fixed; z-index: 49; inset-inline-end: 14px; bottom: calc(var(--cta-h) + 14px + env(safe-area-inset-bottom)); width: 44px; height: 44px; display: grid; place-items: center; border-radius: 50%;
-  color: var(--ice); background: rgba(6, 14, 26, .7); box-shadow: inset 0 0 0 1px var(--hair); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  color: var(--ice); background: rgba(8, 20, 32, .9); box-shadow: inset 0 0 0 1px var(--hair);
   opacity: 0; visibility: hidden; transform: translateY(8px); transition: opacity .3s, transform .3s var(--ease), visibility 0s linear .3s, bottom .4s var(--ease); }
 .to-top.is-visible { opacity: 1; visibility: visible; transform: none; transition: opacity .3s, transform .3s var(--ease), bottom .4s var(--ease); }
 .to-top:hover { box-shadow: inset 0 0 0 1px var(--cyan), 0 0 24px -6px var(--cyan); }
@@ -269,19 +274,23 @@ html[dir="rtl"] .aud-name { line-height: 1.45; letter-spacing: 0; }
 
 /* Nothing with a backdrop blur may sit over the live city: the browser would re-blur the moving canvas every frame.
    While the city is on screen (.city-in-view, set by js/scene.js) the glass nav and sticky bar use a solid tint. */
-.hero .btn-glass { backdrop-filter: none; -webkit-backdrop-filter: none; background: rgba(6, 14, 26, .6); }
-.city-in-view .nav-bar, .city-in-view .cta-bar-inner, .city-in-view .to-top, .city-in-view .sheet { backdrop-filter: none; -webkit-backdrop-filter: none; background: rgba(6, 14, 26, .88); }
+.city-in-view .nav-bar.glass { backdrop-filter: none; -webkit-backdrop-filter: none; background: rgba(6, 14, 26, .9); }
 
 /* --- Inner page header ------------------------------------------------------------ */
 .phead { position: relative; overflow: hidden; isolation: isolate; padding: clamp(150px, 20vh, 220px) 0 clamp(56px, 7vw, 96px);
   background: radial-gradient(70% 70% at 50% 0%, rgba(18, 224, 207, .14), transparent 62%), linear-gradient(var(--night), var(--night-2)); }
 /* a floor grid in perspective, fading into the distance: the same ground the city stands on */
-.phead-grid { position: absolute; inset-inline: -20%; bottom: 0; height: 70%; z-index: -1; pointer-events: none; transform: perspective(520px) rotateX(62deg); transform-origin: 50% 100%;
-  background: repeating-linear-gradient(90deg, rgba(124, 247, 255, .14) 0 1px, transparent 1px 64px), repeating-linear-gradient(0deg, rgba(124, 247, 255, .14) 0 1px, transparent 1px 64px);
-  -webkit-mask-image: linear-gradient(to top, #000 0%, transparent 85%); mask-image: linear-gradient(to top, #000 0%, transparent 85%); }
-@media (prefers-reduced-motion: no-preference) { .phead-grid { animation: grid-drift 14s linear infinite; } }
-@keyframes grid-drift { to { background-position: 64px 64px, 64px 64px; } }
-html[dir="rtl"] .phead-grid { animation-direction: reverse; }
+/* The grid lives on its own compositor layer and drifts with transform only, so it never repaints; the grid tile
+   is one cell larger than the box and moves by exactly one cell per loop. A gradient overlay (not a mask) fades it. */
+.phead-grid { position: absolute; inset-inline: -20%; bottom: 0; height: 70%; z-index: -1; pointer-events: none; overflow: hidden;
+  transform: perspective(520px) rotateX(62deg); transform-origin: 50% 100%; }
+.phead-grid::before { content: ""; position: absolute; inset: -64px 0 0 -64px; will-change: transform;
+  background: repeating-linear-gradient(90deg, rgba(124, 247, 255, .14) 0 1px, transparent 1px 64px), repeating-linear-gradient(0deg, rgba(124, 247, 255, .14) 0 1px, transparent 1px 64px); }
+/* fade toward the horizon, drawn in the grid's own plane (static, above the moving tile) */
+.phead-grid::after { content: ""; position: absolute; inset: 0; background: linear-gradient(#06101B 0%, rgba(6, 16, 27, .6) 45%, transparent 85%); }
+@media (prefers-reduced-motion: no-preference) { .phead-grid::before { animation: grid-drift 14s linear infinite; } }
+@keyframes grid-drift { to { transform: translate3d(64px, 64px, 0); } }
+html[dir="rtl"] .phead-grid::before { animation-direction: reverse; }
 .phead-title { font-family: var(--display); font-weight: 800; font-size: clamp(2.9rem, 7.4vw, 7.2rem); line-height: .92; letter-spacing: -.045em; color: var(--ice); max-width: 9em; text-wrap: balance; text-shadow: 0 0 70px rgba(124, 247, 255, .22); }
 html[dir="rtl"] .phead-title { letter-spacing: 0; line-height: 1.2; }
 .phead-lede { margin-top: clamp(18px, 2.4vw, 28px); }
@@ -334,7 +343,7 @@ html[dir="rtl"] .prose p { line-height: 2; }
 @keyframes motif-draw { to { stroke-dashoffset: 0; } }
 
 /* privacy: no grid drift, plain reading column */
-body[data-page="privacy"] .phead-grid { animation: none; }
+body[data-page="privacy"] .phead-grid::before { animation: none; }
 .privacy { padding-top: clamp(30px, 4vw, 56px); }
 
 /* --- How We Work: pinned pipeline ------------------------------------------------------

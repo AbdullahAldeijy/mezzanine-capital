@@ -61,6 +61,33 @@ addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimat
 addEventListener('resize', onScroll);
 onScroll();
 
+// ---- dev only: ?fps shows a small frame meter (median fps and frame time over the last second) ----
+if (new URLSearchParams(location.search).has('fps')) {
+  const meter = document.createElement('div');
+  meter.setAttribute('aria-hidden', 'true');
+  meter.style.cssText = 'position:fixed;z-index:99;left:8px;bottom:8px;padding:6px 10px;border-radius:8px;background:#000c;color:#7CF7FF;font:12px/1.3 ui-monospace,monospace;direction:ltr;pointer-events:none';
+  document.body.appendChild(meter);
+  const d = new Float32Array(240); let n = 0, last = 0, shown = 0;
+  const f = (t) => {
+    if (last) { d[n % 240] = t - last; n++; }
+    last = t;
+    if (t - shown > 1000 && n > 10) {
+      shown = t;
+      const s = Array.from(d.subarray(0, Math.min(n, 240))).sort((a, b) => a - b), med = s[s.length >> 1], p95 = s[Math.floor(s.length * 0.95)];
+      meter.textContent = `${(1000 / med).toFixed(0)} fps · median ${med.toFixed(1)} ms · p95 ${p95.toFixed(1)} ms`;
+    }
+    requestAnimationFrame(f);
+  };
+  requestAnimationFrame(f);
+}
+
+// ---- endless decorative animations run only while their section is on screen ----
+// (CSS pauses everything inside an element marked .is-off; see styles/00-base.css)
+if ('IntersectionObserver' in window) {
+  const io = new IntersectionObserver((entries) => entries.forEach((en) => en.target.classList.toggle('is-off', !en.isIntersecting)), { rootMargin: '100px 0px' });
+  $$('.phead, .section, .band, .chain').forEach((el) => io.observe(el));
+}
+
 // ---- magnetic primary buttons (desktop pointers only) ----
 if (finePointer && !reduce) $$('[data-magnetic]').forEach((el) => {
   el.addEventListener('pointermove', (e) => {

@@ -45,11 +45,11 @@ html[dir="rtl"] .lede { line-height: 1.95; }
 .tag { font-weight: 500; font-size: 1.05rem; color: var(--teal); }
 html[dir="rtl"] body { line-height: 1.9; }
 
-/* glass: translucent panel with a gradient hairline */
-.glass { position: relative; background: linear-gradient(160deg, rgba(232, 251, 255, .075), rgba(232, 251, 255, .02)); backdrop-filter: blur(18px) saturate(1.25); -webkit-backdrop-filter: blur(18px) saturate(1.25); }
-.glass::before { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px; pointer-events: none;
-  background: linear-gradient(135deg, rgba(124, 247, 255, .5), rgba(124, 247, 255, .06) 42%, rgba(18, 224, 207, .32));
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; }
+/* glass: a solid, slightly translucent panel with a hairline border and a lit top edge.
+   No backdrop-filter and no CSS masks here: blur is reserved for the nav (performance; see styles/05-shell.css). */
+.glass { position: relative; border: 1px solid rgba(124, 247, 255, .2);
+  background: linear-gradient(160deg, rgba(20, 44, 58, .78), rgba(9, 22, 34, .82));
+  box-shadow: inset 0 1px 0 rgba(124, 247, 255, .22), inset 1px 0 0 rgba(124, 247, 255, .06); }
 .panel { border-radius: 22px; padding: clamp(24px, 3vw, 36px); }
 .panel .h3 { margin-bottom: 12px; }
 
@@ -59,7 +59,7 @@ html[dir="rtl"] body { line-height: 1.9; }
 .btn-sm { min-height: 42px; padding: 0 18px; font-size: .9rem; }
 .btn-primary { color: var(--night); background: linear-gradient(120deg, var(--teal), var(--cyan)); box-shadow: 0 10px 40px -14px rgba(18, 224, 207, .75); }
 .btn-primary:hover { box-shadow: 0 14px 54px -10px rgba(124, 247, 255, .95); }
-.btn-glass { color: var(--ice); background: rgba(232, 251, 255, .06); box-shadow: inset 0 0 0 1px rgba(124, 247, 255, .34); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+.btn-glass { color: var(--ice); background: rgba(14, 32, 46, .72); box-shadow: inset 0 0 0 1px rgba(124, 247, 255, .34); }
 .btn-glass:hover { background: rgba(232, 251, 255, .13); box-shadow: inset 0 0 0 1px var(--cyan); }
 .text-link { display: inline-block; margin-top: 16px; color: var(--cyan); font-weight: 500; font-size: .98rem; background: linear-gradient(currentColor, currentColor) 0 100% / 100% 1px no-repeat; padding-bottom: 3px; transition: color .25s; }
 .text-link:hover { color: var(--ice); }
@@ -72,3 +72,6 @@ html[dir="rtl"] body { line-height: 1.9; }
   .word { animation: word-in .5s var(--ease) both; animation-delay: calc(var(--i) * 70ms); }
 }
 @keyframes word-in { from { opacity: .35; transform: translateY(.22em); } }
+
+/* off-screen sections pause every animation inside them (grid drift, network flows, rings, solution visuals, beacons) */
+.is-off, .is-off::before, .is-off::after, .is-off *, .is-off *::before, .is-off *::after { animation-play-state: paused !important; }

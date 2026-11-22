@@ -97,5 +97,4 @@ html[dir="rtl"] .aud-name { line-height: 1.45; letter-spacing: 0; }
 
 /* Nothing with a backdrop blur may sit over the live city: the browser would re-blur the moving canvas every frame.
    While the city is on screen (.city-in-view, set by js/scene.js) the glass nav and sticky bar use a solid tint. */
-.hero .btn-glass { backdrop-filter: none; -webkit-backdrop-filter: none; background: rgba(6, 14, 26, .6); }
-.city-in-view .nav-bar, .city-in-view .cta-bar-inner, .city-in-view .to-top, .city-in-view .sheet { backdrop-filter: none; -webkit-backdrop-filter: none; background: rgba(6, 14, 26, .88); }
+.city-in-view .nav-bar.glass { backdrop-filter: none; -webkit-backdrop-filter: none; background: rgba(6, 14, 26, .9); }
