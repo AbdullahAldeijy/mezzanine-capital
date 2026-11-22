@@ -11,6 +11,6 @@ export const PAGES = [
   { key: 'serve', slug: 'who-we-serve', nav: 'serve', v2: true },
   { key: 'solutions', slug: 'solutions', nav: 'solutions', v2: true },
   { key: 'contact', slug: 'contact', nav: 'contact', noCta: true, navButton: true, v2: true },
-  { key: 'privacy', slug: 'privacy' },
+  { key: 'privacy', slug: 'privacy', v2: true },
 ];
 
