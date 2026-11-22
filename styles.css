@@ -74,8 +74,7 @@ html[dir="rtl"] body { line-height: 1.9; }
 @keyframes word-in { from { opacity: .35; transform: translateY(.22em); } }
 
 /* Motion budget: entrances play once ([data-reveal] -> .is-in); decorative loops run only briefly after entering view
-   ([data-loop] -> .is-playing for ~4 s, see js/app.js) or on hover / focus. The one endless animation on the site is the
-   small status-chip pulse (transform + opacity only). */
+   ([data-loop] -> .is-playing for ~4 s, see js/app.js) or on hover / focus. Nothing animates while the page is idle. */
 
 /* --- Glass nav --------------------------------------------------------------- */
 .nav { position: fixed; z-index: 60; inset-inline: 0; top: 0; padding: 14px var(--gutter) 0; pointer-events: none; view-transition-name: v2-nav; }
@@ -463,10 +462,10 @@ html[dir="rtl"] .orbit-name { letter-spacing: 0; line-height: 1.55; }
 .v-line:nth-child(2) { stroke: var(--teal); opacity: .55; }
 .v-line:nth-child(3) { opacity: .35; }
 
-/* The chip dot is the site's ONE endless animation: opacity only, so it never repaints. The small visuals play briefly
-   after a card enters view (.is-playing, js/app.js) and again on hover / focus; otherwise they hold still. */
+/* The chip dot (opacity only) and the small visuals play briefly after a card enters view (.is-playing, js/app.js)
+   and again on hover / focus; otherwise they hold still, so nothing animates while the page is idle. */
 @media (prefers-reduced-motion: no-preference) {
-  .chip-development::before { animation: chip-pulse 2.4s ease-in-out infinite; }
+  .chip-development::before { animation: chip-pulse 2.4s ease-in-out infinite paused; }
   .v-scan { animation: v-scan 4s var(--ease) infinite alternate paused; }
   .v-dots circle { animation: v-dot 4s linear infinite alternate paused; animation-delay: var(--d); }
   .v-crit rect { animation: v-crit 3.6s steps(1) infinite paused; animation-delay: var(--d); }
@@ -475,7 +474,8 @@ html[dir="rtl"] .orbit-name { letter-spacing: 0; line-height: 1.55; }
   .v-rings { transform-origin: 120px 60px; animation: v-spin 22s linear infinite paused; }
   .v-orbiter { animation: v-orbit 6s linear infinite paused; }
   .v-line { animation: v-draw 5s var(--ease) infinite paused; animation-delay: var(--d); }
-  .sol.is-playing .sol-visual *, .sol:hover .sol-visual *, .sol:focus-within .sol-visual * { animation-play-state: running; }
+  .sol.is-playing .sol-visual *, .sol:hover .sol-visual *, .sol:focus-within .sol-visual *,
+  .sol.is-playing .chip-development::before, .sol:hover .chip-development::before, .sol:focus-within .chip-development::before { animation-play-state: running; }
 }
 @keyframes chip-pulse { 50% { opacity: .35; } }
 @keyframes v-scan { from { transform: translateX(6px); } to { transform: translateX(200px); } }

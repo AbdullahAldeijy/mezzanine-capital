@@ -74,5 +74,4 @@ html[dir="rtl"] body { line-height: 1.9; }
 @keyframes word-in { from { opacity: .35; transform: translateY(.22em); } }
 
 /* Motion budget: entrances play once ([data-reveal] -> .is-in); decorative loops run only briefly after entering view
-   ([data-loop] -> .is-playing for ~4 s, see js/app.js) or on hover / focus. The one endless animation on the site is the
-   small status-chip pulse (transform + opacity only). */
+   ([data-loop] -> .is-playing for ~4 s, see js/app.js) or on hover / focus. Nothing animates while the page is idle. */
