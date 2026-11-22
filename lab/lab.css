@@ -1,9 +1,0 @@
-/* lab-only chrome shared by all three prototypes (imported by each direction's style.css) */
-.lab-switch { position: fixed; z-index: 90; inset-inline: 0; bottom: max(12px, env(safe-area-inset-bottom)); margin-inline: auto; width: max-content; max-width: calc(100% - 24px);
-  display: flex; gap: 4px; padding: 4px; border-radius: 12px; background: rgba(8, 14, 24, .8); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, .14); font: 500 12px/1 system-ui, sans-serif; direction: ltr; overflow-x: auto; }
-.lab-switch a { color: rgba(255, 255, 255, .75); text-decoration: none; padding: 9px 11px; border-radius: 8px; white-space: nowrap; }
-.lab-switch a b { color: #fff; margin-right: 4px; }
-.lab-switch a[aria-current="page"] { background: rgba(255, 255, 255, .16); color: #fff; }
-.lab-switch a:focus-visible { outline: 2px solid #7FF3FF; outline-offset: 2px; }
-@media (max-width: 420px) { .lab-switch a { padding: 8px 8px; } }

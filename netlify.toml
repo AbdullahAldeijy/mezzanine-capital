@@ -32,9 +32,3 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
     Access-Control-Allow-Origin = "*"
-
-# design-lab prototypes are never indexed
-[[headers]]
-  for = "/lab/*"
-  [headers.values]
-    X-Robots-Tag = "noindex, nofollow"
