@@ -1,7 +1,7 @@
-// Shared building blocks for the v2 pages. All copy is passed in from i18n.
+// Shared building blocks for the pages. All copy is passed in from i18n.
 import { pageUrl } from '../shell.mjs';
-import { words } from '../shell-v2.mjs';
-import { rng } from '../../v2/city-data.js';
+import { words } from '../layout.mjs';
+import { rng } from '../../js/city-data.js';
 
 // Inner-page header: headline (word spans, visible at once) over a faint perspective grid and teal glow.
 export function pageHead(esc, title, lede = '') {

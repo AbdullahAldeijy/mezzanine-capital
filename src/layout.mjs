@@ -1,8 +1,8 @@
-// Redesigned shell ("Capital Flow"): glass nav, sticky CTA bar, footer with a city-line glow.
-// Reuses the SEO <head>, cookie banner and URL helpers from shell.mjs. All copy comes from i18n/<lang>/site.mjs.
+// Page layout ("Capital Flow"): glass nav, sheet menu, sticky CTA bar, footer with a city-line glow.
+// The SEO <head>, cookie banner and URL helpers live in shell.mjs. All copy comes from i18n/<lang>/site.mjs.
 import { PAGES } from './pages.mjs';
 import { head, pageUrl, socials, cookie, MAPS, PHONE_TEL } from './shell.mjs';
-import { silhouettePath } from '../v2/city-data.js';
+import { silhouettePath } from '../js/city-data.js';
 
 // Lab B typography: Alexandria only, one variable file per script
 const FONT_PRELOAD = { en: ['alexandria-latin-wght-normal.woff2'], ar: ['alexandria-arabic-wght-normal.woff2'] };
@@ -83,17 +83,17 @@ function footer(t, { lang, esc, rtl }) {
 </footer>`;
 }
 
-export function layoutV2(t, ctx, body) {
+export function layout(t, ctx, body) {
   const { lang, rtl, esc, page } = ctx;
   const assets = `${FONT_PRELOAD[lang].map((f) => `<link rel="preload" as="font" type="font/woff2" href="/fonts/${f}" crossorigin>`).join('\n  ')}
-  <link rel="stylesheet" href="/v2.css">
-  <link rel="modulepreload" href="/v2/app.js">`;
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="modulepreload" href="/js/app.js">`;
   // `motion` = JS is on and the visitor has not asked for reduced motion
   const headJs = "(function(d){d.classList.add('js');if(!matchMedia('(prefers-reduced-motion: reduce)').matches)d.classList.add('motion')})(document.documentElement);";
   return `<!DOCTYPE html>
 <html lang="${lang}" dir="${rtl ? 'rtl' : 'ltr'}">
 ${head(t, ctx, { assets, headJs, theme: '#060E1A' })}
-<body class="v2${page.noCta ? '' : ' has-cta'}" data-page="${page.key}">
+<body class="${page.noCta ? '' : 'has-cta'}" data-page="${page.key}">
 <a href="#main" class="skip">${esc(t.site.skip)}</a>
 ${nav(t, ctx)}
 <main id="main">
@@ -104,7 +104,7 @@ ${page.noCta ? '' : ctaBar(t, ctx)}
 ${cookie(t, ctx)}
 <button type="button" id="to-top" class="to-top" aria-label="${esc(t.site.nav.backToTop)}"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M9 15V3M3.5 8.5L9 3l5.5 5.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
 <script src="/analytics.js" defer></script>
-<script type="module" src="/v2/app.js"></script>
+<script type="module" src="/js/app.js"></script>
 </body>
 </html>
 `;

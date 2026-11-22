@@ -1,18 +1,13 @@
-import { pageHead, icon } from '../ui.mjs';
+// Ecosystem: the intelligence core and its four activities. Selecting a node lights its link and reveals its details.
+import { pageHead, network } from './parts.mjs';
 
-export default function ecosystem(t, { esc }) {
+export default function ecosystem(t, ctx) {
   const e = t.ecosystem;
-  return `${pageHead(esc, e.title, e.intro)}
-<section class="section">
-  <div class="container">
-    <div class="cards cards-2">
-      ${e.items.map((it, i) => `<article class="card act rv" id="${it.id}" style="--d:${(i * 0.06).toFixed(2)}s">
-        <div class="act-top"><span class="num act-n">0${i + 1}</span>${icon(it.id)}</div>
-        <h2 class="h3">${esc(it.name)}</h2>
-        <p class="act-tag">${esc(it.tagline)}</p>
-        <p>${esc(it.text)}</p>
-      </article>`).join('\n      ')}
-    </div>
+  return `${pageHead(ctx.esc, e.title, e.intro)}
+
+<section class="section eco eco-page" aria-label="${ctx.esc(e.title)}">
+  <div class="wrap eco-grid">
+${network(t, ctx, { page: true, headingLevel: 'h1' })}
   </div>
 </section>`;
 }
