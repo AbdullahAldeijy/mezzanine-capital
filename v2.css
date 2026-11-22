@@ -266,3 +266,53 @@ html[dir="rtl"] .aud-name { line-height: 1.45; letter-spacing: 0; }
 .band-title { max-width: 10em; }
 
 @media (prefers-reduced-motion: reduce) { .aud-row, .aud-row::after, .net-dot { transition: none; } }
+
+/* --- Inner page header ------------------------------------------------------------ */
+.phead { position: relative; overflow: hidden; isolation: isolate; padding: clamp(150px, 20vh, 220px) 0 clamp(56px, 7vw, 96px);
+  background: radial-gradient(70% 70% at 50% 0%, rgba(18, 224, 207, .14), transparent 62%), linear-gradient(var(--night), var(--night-2)); }
+/* a floor grid in perspective, fading into the distance: the same ground the city stands on */
+.phead-grid { position: absolute; inset-inline: -20%; bottom: 0; height: 70%; z-index: -1; pointer-events: none; transform: perspective(520px) rotateX(62deg); transform-origin: 50% 100%;
+  background: repeating-linear-gradient(90deg, rgba(124, 247, 255, .14) 0 1px, transparent 1px 64px), repeating-linear-gradient(0deg, rgba(124, 247, 255, .14) 0 1px, transparent 1px 64px);
+  -webkit-mask-image: linear-gradient(to top, #000 0%, transparent 85%); mask-image: linear-gradient(to top, #000 0%, transparent 85%); }
+@media (prefers-reduced-motion: no-preference) { .phead-grid { animation: grid-drift 14s linear infinite; } }
+@keyframes grid-drift { to { background-position: 64px 64px, 64px 64px; } }
+html[dir="rtl"] .phead-grid { animation-direction: reverse; }
+.phead-title { font-family: var(--display); font-weight: 800; font-size: clamp(2.9rem, 7.4vw, 7.2rem); line-height: .92; letter-spacing: -.045em; color: var(--ice); max-width: 9em; text-wrap: balance; text-shadow: 0 0 70px rgba(124, 247, 255, .22); }
+html[dir="rtl"] .phead-title { letter-spacing: 0; line-height: 1.2; }
+.phead-lede { margin-top: clamp(18px, 2.4vw, 28px); }
+
+/* --- About ------------------------------------------------------------------------- */
+.statement { display: grid; gap: 22px 64px; }
+@media (min-width: 900px) { .statement { grid-template-columns: minmax(0, .8fr) minmax(0, 1.6fr); align-items: start; } }
+.statement-text { font-size: clamp(1.3rem, 2.3vw, 2rem); line-height: 1.5; color: var(--ice); font-weight: 300; letter-spacing: -.01em; max-width: 30em; }
+html[dir="rtl"] .statement-text { line-height: 1.8; letter-spacing: 0; }
+
+.vm { display: grid; gap: 18px; }
+@media (min-width: 820px) { .vm { grid-template-columns: 1fr 1fr; gap: 22px; } }
+.vm .panel { padding: clamp(28px, 4vw, 52px); min-height: 240px; display: flex; flex-direction: column; justify-content: space-between; gap: 28px; overflow: hidden; }
+.vm .panel::after { content: ""; position: absolute; inset-inline-end: -30%; top: -40%; width: 70%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, rgba(18, 224, 207, .18), transparent 65%); pointer-events: none; }
+.vm-text { font-size: clamp(1.2rem, 1.9vw, 1.6rem); line-height: 1.55; color: var(--ice); font-weight: 300; }
+html[dir="rtl"] .vm-text { line-height: 1.85; }
+
+/* values as glowing glass monoliths: light rises from the base; hover sends a pulse up the edge */
+.monoliths { display: grid; gap: 16px; margin-top: clamp(32px, 4vw, 56px); }
+@media (min-width: 760px) { .monoliths { grid-template-columns: repeat(3, 1fr); gap: 20px; align-items: end; } }
+.mono { position: relative; display: flex; flex-direction: column; justify-content: flex-end; min-height: 220px; padding: 28px; border-radius: 6px 6px 2px 2px; overflow: hidden;
+  background: linear-gradient(to top, rgba(18, 224, 207, .22), rgba(18, 224, 207, .04) 55%, rgba(232, 251, 255, .02)); box-shadow: 0 30px 60px -30px rgba(18, 224, 207, .55);
+  transition: box-shadow .5s var(--ease), transform .5s var(--ease); }
+@media (min-width: 760px) { .mono { min-height: 340px; } .mono:nth-child(2) { min-height: 420px; } .mono:nth-child(3) { min-height: 380px; } }
+.mono::after { content: ""; position: absolute; inset-inline-start: 0; bottom: 0; width: 2px; height: 0; background: linear-gradient(to top, transparent, var(--cyan)); box-shadow: 0 0 14px var(--cyan); transition: height .9s var(--ease); }
+.mono:hover { box-shadow: 0 40px 80px -24px rgba(124, 247, 255, .7); transform: translateY(-4px); }
+.mono:hover::after { height: 100%; }
+.mono h3 { position: relative; }
+.mono p { margin-top: 10px; color: var(--soft); }
+
+/* --- Prose (privacy) ---------------------------------------------------------------- */
+.prose { max-width: 44em; }
+.prose h2 { margin: 2.4em 0 .5em; }
+.prose p { font-size: 1.06rem; line-height: 1.8; color: var(--soft); }
+html[dir="rtl"] .prose p { line-height: 2; }
+.prose a { color: var(--cyan); border-bottom: 1px solid currentColor; }
+.draft-note { padding: 16px 20px; border-radius: 14px; border-inline-start: 3px solid var(--teal); background: rgba(18, 224, 207, .07); color: var(--ice); font-weight: 400; }
+
+@media (prefers-reduced-motion: reduce) { .mono, .mono::after { transition: none; } }
