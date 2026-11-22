@@ -2,8 +2,9 @@
 // key  -> src/pages/<key>.mjs and i18n/<lang>/<key>.mjs
 // slug -> URL (EN at /<slug>/, AR at /ar/<slug>/)
 // nav  -> key in site.nav (omit to keep out of the main nav)
+// v2   -> page already uses the redesigned ("Capital Flow") templates in src/pages-v2 + src/shell-v2.mjs
 export const PAGES = [
-  { key: 'home', slug: '', nav: 'home' },
+  { key: 'home', slug: '', nav: 'home', v2: true },
   { key: 'about', slug: 'about', nav: 'about' },
   { key: 'ecosystem', slug: 'ecosystem', nav: 'ecosystem' },
   { key: 'how', slug: 'how-we-work', nav: 'how' },

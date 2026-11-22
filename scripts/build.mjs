@@ -5,6 +5,7 @@ import { readdirSync, readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { join } from 'node:path';
 import { layout, pageUrl, SITE } from '../src/shell.mjs';
+import { layoutV2 } from '../src/shell-v2.mjs';
 import { PAGES } from '../src/pages.mjs';
 
 const root = fileURLToPath(new URL('..', import.meta.url));
@@ -39,15 +40,17 @@ function write(path, data) {
 }
 
 for (const page of PAGES) {
-  const render = (await imp(`src/pages/${page.key}.mjs`)).default;
+  // pages flagged v2 in src/pages.mjs use the redesigned templates (src/pages-v2) and shell
+  const render = (await imp(`src/${page.v2 ? 'pages-v2' : 'pages'}/${page.key}.mjs`)).default;
   for (const [lang, t] of [['en', en], ['ar', ar]]) {
     const ctx = { lang, rtl: lang === 'ar', esc, page, path: pageUrl(lang, page.slug) };
-    write(ctx.path.slice(1) + 'index.html', layout(t, ctx, render(t, ctx)));
+    write(ctx.path.slice(1) + 'index.html', (page.v2 ? layoutV2 : layout)(t, ctx, render(t, ctx)));
   }
 }
 
 // Concatenate CSS and JS (single request each)
 write('styles.css', list('styles', '.css').map((f) => readFileSync(join(root, 'styles', f), 'utf8')).join('\n'));
+write('v2.css', list('styles-v2', '.css').map((f) => readFileSync(join(root, 'styles-v2', f), 'utf8')).join('\n'));
 write('app.js', '(function () {\n"use strict";\n' + list('js', '.js').map((f) => readFileSync(join(root, 'js', f), 'utf8')).join('\n') + '\n})();\n');
 
 // sitemap (pages flagged noindex are excluded)

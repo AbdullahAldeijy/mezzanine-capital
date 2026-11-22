@@ -7,7 +7,7 @@ export const SITE = 'https://mezzanine.sa';
 // configured social profiles (config/site.mjs); entries without a URL are skipped
 export const socials = (t) => Object.entries(SOCIAL).filter(([, url]) => url).map(([key, url]) => ({ key, url, label: t.site.social[key] }));
 export const MAPS = 'https://www.google.com/maps/search/?api=1&query=King+Abdullah+Financial+District+Riyadh';
-const PHONE_TEL = '+966544043103';
+export const PHONE_TEL = '+966544043103';
 
 export const pageUrl = (lang, slug) => `/${lang === 'ar' ? 'ar/' : ''}${slug ? slug + '/' : ''}`;
 
@@ -19,7 +19,8 @@ const ICON_OPEN = '<svg class="i-open" fill="none" stroke="currentColor" viewBox
 const ICON_CLOSE = '<svg class="i-close" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/></svg>';
 const FAVICON = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2316233F'/%3E%3Cpath d='M16 7l9 18H7z' fill='none' stroke='%23F6F1E3' stroke-width='2.4' stroke-linejoin='round'/%3E%3Cpath d='M12.5 21.5h7L16 14.5z' fill='%234FA8AC'/%3E%3C/svg%3E";
 
-function head(t, { lang, rtl, esc, page, path }) {
+// `v2` (optional): { assets, theme, headJs } lets the redesigned pages swap fonts/styles while reusing all SEO tags.
+export function head(t, { lang, rtl, esc, page, path }, v2 = null) {
   const m = t[page.key].meta;
   const title = page.key === 'home' ? `${m.title} | ${t.site.name}` : `${m.title} | ${t.site.name}`;
   const canonical = SITE + path;
@@ -62,16 +63,16 @@ function head(t, { lang, rtl, esc, page, path }) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>${esc(title)}</title>
   <meta name="description" content="${esc(m.description)}">
-  <meta name="theme-color" content="#F6F1E3">
+  <meta name="theme-color" content="${v2 ? v2.theme : '#F6F1E3'}">
   ${page.noindex ? '<meta name="robots" content="noindex">' : ''}
   <link rel="canonical" href="${canonical}">${social}
   <link rel="icon" href="${FAVICON}">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
+  ${v2 ? v2.assets : `<link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="${FONTS[lang]}">
-  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/styles.css">`}
   ${GA4_ID ? `<meta name="mz-ga4" content="${esc(GA4_ID)}">` : ''}
-  <script>document.documentElement.classList.add('js');${redirect}</script>
+  <script>${v2 ? v2.headJs : "document.documentElement.classList.add('js');"}${redirect}</script>
   ${page.key === 'home' ? `<script type="application/ld+json">${JSON.stringify(jsonld)}</script>` : ''}
 </head>`;
 }
@@ -156,7 +157,7 @@ function footer(t, { lang, esc }) {
 </footer>`;
 }
 
-function cookie(t, { lang, esc }) {
+export function cookie(t, { lang, esc }) {
   if (!GA4_ID) return '';   // no analytics configured -> no consent banner
   const k = t.site.cookie;
   return `

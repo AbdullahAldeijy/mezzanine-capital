@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Commercial Credit Intelligence | Mezzanine / ميزانين</title>
   <meta name="description" content="We connect business data with financial, investment and technology solutions to build an ecosystem that supports the sustainability of small and medium enterprises and strengthens funders' confidence.">
-  <meta name="theme-color" content="#F6F1E3">
+  <meta name="theme-color" content="#060E1A">
   
   <link rel="canonical" href="https://mezzanine.sa/">
   <link rel="alternate" hreflang="en" href="https://mezzanine.sa/">
@@ -28,20 +28,19 @@
   <meta name="twitter:image" content="https://mezzanine.sa/images/og-hero.jpg">
   <meta name="twitter:image:alt" content="The Riyadh skyline at the King Abdullah Financial District (KAFD)">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2316233F'/%3E%3Cpath d='M16 7l9 18H7z' fill='none' stroke='%23F6F1E3' stroke-width='2.4' stroke-linejoin='round'/%3E%3Cpath d='M12.5 21.5h7L16 14.5z' fill='%234FA8AC'/%3E%3C/svg%3E">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
-  <link rel="stylesheet" href="/styles.css">
+  <link rel="preload" as="font" type="font/woff2" href="/fonts/alexandria-latin-wght-normal.woff2" crossorigin>
+  <link rel="stylesheet" href="/v2.css">
+  <link rel="modulepreload" href="/v2/app.js">
   
-  <script>document.documentElement.classList.add('js');if(/[?&]lang=ar(&|$)/.test(location.search))location.replace('/ar/'+location.hash);</script>
+  <script>(function(d){d.classList.add('js');if(!matchMedia('(prefers-reduced-motion: reduce)').matches)d.classList.add('motion')})(document.documentElement);if(/[?&]lang=ar(&|$)/.test(location.search))location.replace('/ar/'+location.hash);</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Mezzanine / ميزانين","url":"https://mezzanine.sa/","logo":"https://mezzanine.sa/images/logo-wordmark.webp","email":"info@mezzanine.sa","telephone":"+966 54 404 3103","address":{"@type":"PostalAddress","streetAddress":"KAFD 4.07","addressLocality":"Riyadh","addressCountry":"SA"},"sameAs":["https://www.linkedin.com/company/mezzanineai"]}</script>
 </head>
-<body class="has-cta">
-<a href="#main" class="skip-link">Skip to main content</a>
+<body class="v2 has-cta" data-page="home">
+<a href="#main" class="skip">Skip to main content</a>
 
-<header class="site-nav">
-  <div class="container bar">
-    <a href="/" class="brand" aria-label="Mezzanine / ميزانين"><img src="/images/logo-wordmark.webp" alt="Mezzanine / ميزانين" width="540" height="71"></a>
+<header class="nav" id="nav">
+  <div class="nav-bar glass">
+    <a href="/" class="nav-brand" aria-label="Mezzanine / ميزانين"><img src="/images/logo-wordmark-light.webp" alt="Mezzanine / ميزانين" width="540" height="71"></a>
     <nav aria-label="Primary" class="nav-links">
       <a href="/" class="nav-link" aria-current="page">Home</a>
       <a href="/about/" class="nav-link">About Us</a>
@@ -49,175 +48,193 @@
       <a href="/how-we-work/" class="nav-link">How We Work</a>
       <a href="/who-we-serve/" class="nav-link">Who We Serve</a>
       <a href="/solutions/" class="nav-link">Solutions &amp; Products</a>
-      <a href="/contact/" class="nav-link nav-cta">Contact Us</a>
     </nav>
     <div class="nav-end">
-      <div class="lang-toggle"><span class="is-active tap-44" aria-current="true" lang="en">EN</span><span aria-hidden="true">/</span><a href="/ar/" hreflang="ar" lang="ar" class="tap-44" data-lang-switch="ar" aria-label="العربية">ع</a></div>
-      <button type="button" id="menu-btn" class="menu-btn tap-44" aria-label="Open menu" data-open="Open menu" data-close="Close menu" aria-expanded="false" aria-controls="mobile-panel"><svg class="i-open" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"/></svg><svg class="i-close" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/></svg></button>
+      <a href="/ar/" class="nav-lang" hreflang="ar" lang="ar" data-lang-switch="ar" aria-label="العربية">ع</a>
+      <a href="/contact/" class="nav-link is-cta" data-cta="nav">Contact Us</a>
+      <button type="button" id="menu-btn" class="nav-menu" aria-label="Open menu" data-open="Open menu" data-close="Close menu" aria-expanded="false" aria-controls="sheet"><svg class="i-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg><svg class="i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
     </div>
   </div>
 </header>
-<div id="mobile-overlay" class="mobile-overlay"></div>
-<div id="mobile-panel" class="mobile-panel" role="dialog" aria-modal="true" aria-label="Menu">
+<div id="sheet" class="sheet" role="dialog" aria-modal="true" aria-label="Menu">
   <nav aria-label="Mobile">
-    <a href="/" class="panel-link" aria-current="page">Home</a>
-    <a href="/about/" class="panel-link">About Us</a>
-    <a href="/ecosystem/" class="panel-link">Our Ecosystem</a>
-    <a href="/how-we-work/" class="panel-link">How We Work</a>
-    <a href="/who-we-serve/" class="panel-link">Who We Serve</a>
-    <a href="/solutions/" class="panel-link">Solutions &amp; Products</a>
-    <a href="/contact/" class="panel-link nav-cta">Contact Us</a>
+    <a style="--i:0" href="/" class="sheet-link" aria-current="page">Home</a>
+    <a style="--i:1" href="/about/" class="sheet-link">About Us</a>
+    <a style="--i:2" href="/ecosystem/" class="sheet-link">Our Ecosystem</a>
+    <a style="--i:3" href="/how-we-work/" class="sheet-link">How We Work</a>
+    <a style="--i:4" href="/who-we-serve/" class="sheet-link">Who We Serve</a>
+    <a style="--i:5" href="/solutions/" class="sheet-link">Solutions &amp; Products</a>
+    <a style="--i:6" href="/contact/" class="sheet-link is-cta" data-cta="nav">Contact Us</a>
   </nav>
 </div>
 <main id="main">
 
 <section class="hero" aria-labelledby="hero-title">
-  <div class="container">
-    <div class="hero-grid">
-      <div>
-        <h1 id="hero-title" class="h1 reveal reveal-1">Commercial Credit Intelligence</h1>
-        <p class="lede reveal reveal-2">We connect business data with financial, investment and technology solutions to build an ecosystem that supports the sustainability of small and medium enterprises and strengthens funders' confidence.</p>
-        <div class="hero-cta reveal reveal-3">
-          <a href="/contact/" class="btn btn-primary" data-cta="hero">Contact us</a>
-          <a href="/who-we-serve/" class="btn btn-ghost" data-cta="hero">Explore collaboration opportunities</a>
-        </div>
-      </div>
-      <div class="hero-img reveal reveal-4">
-        <picture>
-          <source type="image/avif" srcset="/images/hero-640.avif 640w, /images/hero-1024.avif 1024w, /images/hero-1600.avif 1600w" sizes="(min-width: 1280px) 600px, (min-width: 1024px) 46vw, 100vw">
-          <source type="image/webp" srcset="/images/hero-640.webp 640w, /images/hero-1024.webp 1024w, /images/hero-1600.webp 1600w" sizes="(min-width: 1280px) 600px, (min-width: 1024px) 46vw, 100vw">
-          <img src="/images/hero-1024.webp" width="1600" height="900" alt="The Riyadh skyline at the King Abdullah Financial District (KAFD)" fetchpriority="high" decoding="async">
-        </picture>
-      </div>
+  <div class="hero-city" id="city" data-city aria-hidden="true"
+       style="--poster-wide:url('/images/city-poster-wide-ltr.webp');--poster-tall:url('/images/city-poster-tall-ltr.webp')"></div>
+  <div class="hero-inner">
+    <h1 id="hero-title" class="hero-title"><span class="word" style="--i:0">Commercial</span> <span class="word" style="--i:1">Credit</span> <span class="word" style="--i:2">Intelligence</span></h1>
+    <p class="hero-lede">We connect business data with financial, investment and technology solutions to build an ecosystem that supports the sustainability of small and medium enterprises and strengthens funders' confidence.</p>
+    <div class="hero-cta">
+      <a href="/contact/" class="btn btn-primary" data-cta="hero" data-magnetic>Contact us</a>
+      <a href="/who-we-serve/" class="btn btn-glass" data-cta="hero">Explore collaboration opportunities</a>
     </div>
   </div>
 </section>
 
-<section class="section" aria-label="About Us">
-  <div class="container">
-    <div class="duo">
-      <article class="card rv"><h2 class="h3">The Challenge</h2><p>Enterprises need to prove the sustainability and readiness of their businesses, while funders need clearer data that helps them understand enterprises and assess risk.</p></article>
-      <article class="card card-accent rv" style="--d:.08s"><h2 class="h3">The Solution</h2><p>An ecosystem that brings together market and technical knowledge, data analysis, and financial and investment solutions in one connected path.</p></article>
-    </div>
-    <p class="more rv"><a class="link-arrow" href="/about/">Learn more about Mezzanine <svg class="arr" viewBox="0 0 18 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M1 6h15M11 1l5 5-5 5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p>
+<section class="section signals" aria-label="About Us" data-progress>
+  <div class="wrap signals-grid">
+    <article class="panel glass signals-from">
+      <h2 class="h3">The Challenge</h2>
+      <p>Enterprises need to prove the sustainability and readiness of their businesses, while funders need clearer data that helps them understand enterprises and assess risk.</p>
+    </article>
+    <div class="signals-field"><svg class="sig" viewBox="0 0 400 320" aria-hidden="true">
+        <path class="sig-link" pathLength="1" d="M50 70H130"/><path class="sig-link" pathLength="1" d="M130 70H210"/><path class="sig-link" pathLength="1" d="M210 70H290"/><path class="sig-link" pathLength="1" d="M50 160H130"/><path class="sig-link" pathLength="1" d="M130 160H210"/><path class="sig-link" pathLength="1" d="M210 160H290"/><path class="sig-link" pathLength="1" d="M50 250H130"/><path class="sig-link" pathLength="1" d="M130 250H210"/><path class="sig-link" pathLength="1" d="M210 250H290"/><path class="sig-link" pathLength="1" d="M290 70C330 70 330 160 372 160"/><path class="sig-link" pathLength="1" d="M290 160C330 160 330 160 372 160"/><path class="sig-link" pathLength="1" d="M290 250C330 250 330 160 372 160"/>
+        <circle class="sig-node" cx="50" cy="70" r="5" style="--dx:-28;--dy:60"/><circle class="sig-node" cx="130" cy="70" r="5" style="--dx:-11;--dy:26"/><circle class="sig-node" cx="210" cy="70" r="5" style="--dx:-19;--dy:3"/><circle class="sig-node" cx="290" cy="70" r="5" style="--dx:-29;--dy:10"/><circle class="sig-node" cx="50" cy="160" r="5" style="--dx:-43;--dy:-3"/><circle class="sig-node" cx="130" cy="160" r="5" style="--dx:34;--dy:54"/><circle class="sig-node" cx="210" cy="160" r="5" style="--dx:51;--dy:-14"/><circle class="sig-node" cx="290" cy="160" r="5" style="--dx:-19;--dy:-34"/><circle class="sig-node" cx="50" cy="250" r="5" style="--dx:34;--dy:-31"/><circle class="sig-node" cx="130" cy="250" r="5" style="--dx:-44;--dy:16"/><circle class="sig-node" cx="210" cy="250" r="5" style="--dx:28;--dy:-12"/><circle class="sig-node" cx="290" cy="250" r="5" style="--dx:29;--dy:-49"/>
+        <circle class="sig-core" cx="372" cy="160" r="11"/>
+      </svg></div>
+    <article class="panel glass signals-to">
+      <h2 class="h3">The Solution</h2>
+      <p>An ecosystem that brings together market and technical knowledge, data analysis, and financial and investment solutions in one connected path.</p>
+      <a class="text-link" href="/about/">Learn more about Mezzanine</a>
+    </article>
   </div>
 </section>
 
-<section class="section" aria-labelledby="home-eco">
-  <div class="container">
-    <div class="section-head rv"><h2 id="home-eco" class="h2">Our Ecosystem and the Four Activities</h2></div>
-    <div class="cards cards-4">
-      <a class="card card-link rv" style="--d:0.00s" href="/ecosystem/#technology" data-cta="card">
-        <svg class="act-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"/></svg>
+<section class="section eco" aria-labelledby="eco-title">
+  <div class="wrap eco-grid">
+    <header class="eco-head">
+      <h2 id="eco-title" class="h2">Our Ecosystem and the Four Activities</h2>
+      <p class="lede">Four activities working together as one connected ecosystem.</p>
+    </header>
+    <div class="net" data-net>
+      <svg class="net-wires" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+        <path class="net-wire" data-i="0" d="M50 50 Q 39 34 16 18"/><path class="net-flow" data-i="0" d="M50 50 Q 39 34 16 18"/>
+        <path class="net-wire" data-i="1" d="M50 50 Q 61 34 84 18"/><path class="net-flow" data-i="1" d="M50 50 Q 61 34 84 18"/>
+        <path class="net-wire" data-i="2" d="M50 50 Q 73 66 84 82"/><path class="net-flow" data-i="2" d="M50 50 Q 73 66 84 82"/>
+        <path class="net-wire" data-i="3" d="M50 50 Q 27 66 16 82"/><path class="net-flow" data-i="3" d="M50 50 Q 27 66 16 82"/>
+      </svg>
+      <div class="net-core" aria-hidden="true"><span>Commercial Credit Intelligence</span></div>
+      <button type="button" class="net-node" data-i="0" style="--x:16%;--y:18%" aria-controls="net-detail" aria-pressed="true"><span class="net-dot"></span><span class="net-name">Technology</span></button>
+      <button type="button" class="net-node" data-i="1" style="--x:84%;--y:18%" aria-controls="net-detail" aria-pressed="false"><span class="net-dot"></span><span class="net-name">Finance</span></button>
+      <button type="button" class="net-node" data-i="2" style="--x:84%;--y:82%" aria-controls="net-detail" aria-pressed="false"><span class="net-dot"></span><span class="net-name">Investment</span></button>
+      <button type="button" class="net-node" data-i="3" style="--x:16%;--y:82%" aria-controls="net-detail" aria-pressed="false"><span class="net-dot"></span><span class="net-name">Marketing</span></button>
+    </div>
+    <div class="net-detail" id="net-detail" aria-live="polite">
+      <article class="panel glass net-item is-on" data-i="0">
         <h3 class="h3">Technology</h3>
-        <p>Technology that connects business to finance</p>
-      </a>
-      <a class="card card-link rv" style="--d:0.06s" href="/ecosystem/#finance" data-cta="card">
-        <svg class="act-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+        <p class="net-tag">Technology that connects business to finance</p>
+        <p>A B2B platform, data integration, APIs, a reporting engine, artificial intelligence, and software for credit, sukuk and impact measurement.</p>
+        <a class="text-link" href="/ecosystem/#technology" data-cta="card">Our Ecosystem</a>
+      </article>
+      <article class="panel glass net-item" data-i="1">
         <h3 class="h3">Finance</h3>
-        <p>Smarter financial and credit solutions</p>
-      </a>
-      <a class="card card-link rv" style="--d:0.12s" href="/ecosystem/#investment" data-cta="card">
-        <svg class="act-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        <p class="net-tag">Smarter financial and credit solutions</p>
+        <p>Credit assessment, facility design and structuring, working capital, treasury management, and collection.</p>
+        <a class="text-link" href="/ecosystem/#finance" data-cta="card">Our Ecosystem</a>
+      </article>
+      <article class="panel glass net-item" data-i="2">
         <h3 class="h3">Investment</h3>
-        <p>Connecting capital to opportunities</p>
-      </a>
-      <a class="card card-link rv" style="--d:0.18s" href="/ecosystem/#marketing" data-cta="card">
-        <svg class="act-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+        <p class="net-tag">Connecting capital to opportunities</p>
+        <p>Credit portfolios, capital allocation, sukuk, and investment and asset management.</p>
+        <a class="text-link" href="/ecosystem/#investment" data-cta="card">Our Ecosystem</a>
+      </article>
+      <article class="panel glass net-item" data-i="3">
         <h3 class="h3">Marketing</h3>
-        <p>Market knowledge and sustainable growth</p>
-      </a>
+        <p class="net-tag">Market knowledge and sustainable growth</p>
+        <p>Market research, market intelligence, attracting customers, enterprises and funders, growth strategies, and impact measurement.</p>
+        <a class="text-link" href="/ecosystem/#marketing" data-cta="card">Our Ecosystem</a>
+      </article>
     </div>
   </div>
 </section>
 
-<section class="section" aria-labelledby="home-serve">
-  <div class="container">
-    <div class="section-head rv"><h2 id="home-serve" class="h2">Who We Serve</h2></div>
-    <div class="cards cards-5">
-      <a class="card card-link aud rv" style="--d:0.00s" href="/who-we-serve/#enterprise" data-cta="card">
-        <h3 class="h3">Small and Medium Enterprises</h3>
-        <p>Your business deserves greater opportunities to grow.</p>
-      </a>
-      <a class="card card-link aud rv" style="--d:0.05s" href="/who-we-serve/#funder" data-cta="card">
-        <h3 class="h3">Banks and Funding Institutions</h3>
-        <p>Clearer visibility of enterprises and better support for credit decisions.</p>
-      </a>
-      <a class="card card-link aud rv" style="--d:0.10s" href="/who-we-serve/#investor" data-cta="card">
-        <h3 class="h3">Investors</h3>
-        <p>We are developing an ecosystem and opening new horizons for investment.</p>
-      </a>
-      <a class="card card-link aud rv" style="--d:0.15s" href="/who-we-serve/#partner" data-cta="card">
-        <h3 class="h3">Partners</h3>
-        <p>Integration creates opportunities beyond the limits of individual work.</p>
-      </a>
-      <a class="card card-link aud rv" style="--d:0.20s" href="/who-we-serve/#government" data-cta="card">
-        <h3 class="h3">Government and Institutional Entities</h3>
-        <p>Deeper market knowledge and measurable impact.</p>
-      </a>
-    </div>
+<section class="section aud" aria-labelledby="aud-title">
+  <div class="wrap">
+    <h2 id="aud-title" class="h2">Who We Serve</h2>
+    <ul class="aud-list">
+      <li><a class="aud-row" href="/who-we-serve/#enterprise" data-cta="card">
+        <span class="aud-name">Small and Medium Enterprises</span>
+        <span class="aud-text">Your business deserves greater opportunities to grow.</span>
+      </a></li>
+      <li><a class="aud-row" href="/who-we-serve/#funder" data-cta="card">
+        <span class="aud-name">Banks and Funding Institutions</span>
+        <span class="aud-text">Clearer visibility of enterprises and better support for credit decisions.</span>
+      </a></li>
+      <li><a class="aud-row" href="/who-we-serve/#investor" data-cta="card">
+        <span class="aud-name">Investors</span>
+        <span class="aud-text">We are developing an ecosystem and opening new horizons for investment.</span>
+      </a></li>
+      <li><a class="aud-row" href="/who-we-serve/#partner" data-cta="card">
+        <span class="aud-name">Partners</span>
+        <span class="aud-text">Integration creates opportunities beyond the limits of individual work.</span>
+      </a></li>
+      <li><a class="aud-row" href="/who-we-serve/#government" data-cta="card">
+        <span class="aud-name">Government and Institutional Entities</span>
+        <span class="aud-text">Deeper market knowledge and measurable impact.</span>
+      </a></li>
+    </ul>
   </div>
 </section>
 
-<section class="section final-cta on-dark" aria-labelledby="home-final">
-  <div class="container final-inner">
-    <h2 id="home-final" class="h2 rv">Every opportunity has a beginning… start yours with Mezzanine.</h2>
-    <div class="hero-cta rv">
-      <a href="/contact/" class="btn btn-light" data-cta="final">Contact us</a>
-      <a href="/who-we-serve/" class="btn btn-outline-light" data-cta="final">Explore collaboration opportunities</a>
+<section class="band" aria-labelledby="band-title">
+  <svg class="band-city" viewBox="0 0 1000 200" preserveAspectRatio="none" aria-hidden="true"><path d="M0 200 L0 200.0 L24 200.0 L24 178.9 L30 178.9 L30 176.4 L32 176.4 L32 165.3 L80 165.3 L80 166.8 L82 166.8 L82 164.0 L126 164.0 L126 175.4 L132 175.4 L132 182.3 L136 182.3 L136 170.8 L144 170.8 L144 167.6 L146 167.6 L146 161.6 L186 161.6 L186 167.6 L192 167.6 L192 176.0 L200 176.0 L200 148.8 L248 148.8 L248 177.2 L252 177.2 L252 166.0 L258 166.0 L258 145.1 L304 145.1 L304 152.8 L306 152.8 L306 134.2 L318 134.2 L318 132.5 L358 132.5 L358 163.1 L360 163.1 L360 172.8 L362 172.8 L362 143.2 L364 143.2 L364 138.5 L366 138.5 L366 120.4 L368 120.4 L368 102.3 L370 102.3 L370 84.2 L372 84.2 L372 66.1 L374 66.1 L374 61.0 L404 61.0 L404 67.3 L406 67.3 L406 85.4 L408 85.4 L408 103.5 L410 103.5 L410 121.6 L412 121.6 L412 139.7 L414 139.7 L414 157.8 L416 157.8 L416 175.9 L418 175.9 L418 151.3 L422 151.3 L422 120.5 L428 120.5 L428 119.0 L440 119.0 L440 117.6 L442 117.6 L442 100.3 L444 100.3 L444 83.0 L446 83.0 L446 80.4 L480 80.4 L480 96.7 L482 96.7 L482 114.0 L484 114.0 L484 114.9 L496 114.9 L496 113.0 L498 113.0 L498 94.7 L500 94.7 L500 76.3 L502 76.3 L502 58.0 L504 58.0 L504 39.7 L506 39.7 L506 21.3 L508 21.3 L508 14.1 L528 14.1 L528 16.9 L530 16.9 L530 35.3 L532 35.3 L532 53.6 L534 53.6 L534 71.9 L536 71.9 L536 90.2 L538 90.2 L538 108.6 L540 108.6 L540 126.9 L542 126.9 L542 138.5 L580 138.5 L580 139.2 L582 139.2 L582 200.0 L596 200.0 L596 185.2 L598 185.2 L598 168.2 L600 168.2 L600 151.1 L602 151.1 L602 134.1 L604 134.1 L604 117.0 L606 117.0 L606 100.0 L608 100.0 L608 82.9 L610 82.9 L610 65.9 L612 65.9 L612 48.8 L614 48.8 L614 48.0 L638 48.0 L638 48.8 L640 48.8 L640 65.9 L642 65.9 L642 82.9 L644 82.9 L644 100.0 L646 100.0 L646 117.0 L648 117.0 L648 134.1 L650 134.1 L650 143.1 L674 143.1 L674 142.3 L676 142.3 L676 124.4 L678 124.4 L678 106.5 L680 106.5 L680 90.1 L718 90.1 L718 101.6 L720 101.6 L720 119.4 L722 119.4 L722 137.3 L724 137.3 L724 151.1 L748 151.1 L748 161.9 L750 161.9 L750 167.1 L752 167.1 L752 200.0 L754 200.0 L754 170.0 L756 170.0 L756 161.9 L758 161.9 L758 158.6 L794 158.6 L794 161.9 L796 161.9 L796 163.5 L802 163.5 L802 166.3 L804 166.3 L804 184.5 L806 184.5 L806 200.0 L866 200.0 L866 172.4 L872 172.4 L872 165.6 L874 165.6 L874 165.3 L916 165.3 L916 177.2 L918 177.2 L918 200.0 L922 200.0 L922 188.2 L934 188.2 L934 184.0 L972 184.0 L972 200.0 L1000 200.0 L1000 200 Z"/></svg>
+  <div class="wrap band-inner">
+    <h2 id="band-title" class="h2 band-title">Every opportunity has a beginning… start yours with Mezzanine.</h2>
+    <div class="hero-cta">
+      <a href="/contact/" class="btn btn-primary" data-cta="final" data-magnetic>Contact us</a>
+      <a href="/who-we-serve/" class="btn btn-glass" data-cta="final">Explore collaboration opportunities</a>
     </div>
   </div>
 </section>
 </main>
 
-<footer class="site-footer on-dark">
-  <div class="container">
-    <svg class="skyline-rule" viewBox="0 0 800 40" preserveAspectRatio="none" fill="none" stroke="var(--teal)" stroke-width="1" aria-hidden="true">
-      <path d="M0 38 L40 38 L40 20 L55 20 L55 10 L70 10 L70 38 L110 38 L110 25 L125 25 L125 5 L140 5 L140 25 L155 25 L155 38 L210 38 L210 15 L230 15 L230 38 L280 38 L280 28 L300 28 L300 12 L320 12 L320 28 L340 28 L340 38 L400 38 L400 8 L415 8 L415 22 L430 22 L430 38 L480 38 L480 18 L500 18 L500 38 L560 38 L560 25 L580 25 L580 2 L600 2 L600 25 L620 25 L620 38 L680 38 L680 15 L700 15 L700 30 L720 30 L720 38 L800 38"/>
-    </svg>
-    <div class="footer-grid">
-      <div>
-        <p class="h3 footer-brand">Mezzanine / ميزانين</p>
-        <p class="footer-muted">Commercial Credit Intelligence</p>
-      </div>
-      <nav aria-label="Quick links">
-        <h2 class="footer-h">Quick links</h2>
-        <ul class="footer-links">
-          <li><a href="/">Home</a></li>
-          <li><a href="/about/">About Us</a></li>
-          <li><a href="/ecosystem/">Our Ecosystem</a></li>
-          <li><a href="/how-we-work/">How We Work</a></li>
-          <li><a href="/who-we-serve/">Who We Serve</a></li>
-          <li><a href="/solutions/">Solutions &amp; Products</a></li>
-          <li><a href="/contact/" data-cta="footer">Contact Us</a></li>
-          <li><a href="/privacy/">Privacy Policy</a></li>
-        </ul>
-      </nav>
-      <div>
-        <h2 class="footer-h">Contact</h2>
-        <a href="https://www.google.com/maps/search/?api=1&query=King+Abdullah+Financial+District+Riyadh" target="_blank" rel="noopener" class="footer-muted footer-line">KAFD 4.07, Riyadh, Kingdom of Saudi Arabia</a>
-        <a href="mailto:info@mezzanine.sa" class="footer-accent footer-line">info@mezzanine.sa</a>
-        <a href="tel:+966544043103" class="footer-accent footer-line" dir="ltr">+966 54 404 3103</a>
-        <a href="https://www.linkedin.com/company/mezzanineai" target="_blank" rel="noopener" class="footer-accent footer-line">LinkedIn</a>
-      </div>
+<footer class="footer">
+  <svg class="footer-city" viewBox="0 0 1000 120" preserveAspectRatio="none" aria-hidden="true"><path d="M0 120 L0 120.0 L24 120.0 L24 107.6 L30 107.6 L30 106.2 L32 106.2 L32 99.6 L80 99.6 L80 100.5 L82 100.5 L82 98.8 L126 98.8 L126 105.5 L132 105.5 L132 109.6 L136 109.6 L136 102.8 L144 102.8 L144 101.0 L146 101.0 L146 97.4 L186 97.4 L186 101.0 L192 101.0 L192 105.9 L200 105.9 L200 89.9 L248 89.9 L248 106.6 L252 106.6 L252 100.0 L258 100.0 L258 87.7 L304 87.7 L304 92.2 L306 92.2 L306 81.3 L318 81.3 L318 80.3 L358 80.3 L358 98.3 L360 98.3 L360 104.0 L362 104.0 L362 86.6 L364 86.6 L364 83.8 L366 83.8 L366 73.2 L368 73.2 L368 62.6 L370 62.6 L370 51.9 L372 51.9 L372 41.3 L374 41.3 L374 38.3 L404 38.3 L404 42.0 L406 42.0 L406 52.7 L408 52.7 L408 63.3 L410 63.3 L410 73.9 L412 73.9 L412 84.6 L414 84.6 L414 95.2 L416 95.2 L416 105.8 L418 105.8 L418 91.4 L422 91.4 L422 73.3 L428 73.3 L428 72.4 L440 72.4 L440 71.6 L442 71.6 L442 61.4 L444 61.4 L444 51.2 L446 51.2 L446 49.7 L480 49.7 L480 59.3 L482 59.3 L482 69.5 L484 69.5 L484 70.0 L496 70.0 L496 68.9 L498 68.9 L498 58.1 L500 58.1 L500 47.3 L502 47.3 L502 36.6 L504 36.6 L504 25.8 L506 25.8 L506 15.0 L508 15.0 L508 10.8 L528 10.8 L528 12.4 L530 12.4 L530 23.2 L532 23.2 L532 34.0 L534 34.0 L534 44.7 L536 44.7 L536 55.5 L538 55.5 L538 66.3 L540 66.3 L540 77.1 L542 77.1 L542 83.9 L580 83.9 L580 84.3 L582 84.3 L582 120.0 L596 120.0 L596 111.3 L598 111.3 L598 101.3 L600 101.3 L600 91.3 L602 91.3 L602 81.3 L604 81.3 L604 71.2 L606 71.2 L606 61.2 L608 61.2 L608 51.2 L610 51.2 L610 41.2 L612 41.2 L612 31.2 L614 31.2 L614 30.7 L638 30.7 L638 31.2 L640 31.2 L640 41.2 L642 41.2 L642 51.2 L644 51.2 L644 61.2 L646 61.2 L646 71.2 L648 71.2 L648 81.3 L650 81.3 L650 86.6 L674 86.6 L674 86.1 L676 86.1 L676 75.6 L678 75.6 L678 65.0 L680 65.0 L680 55.4 L718 55.4 L718 62.1 L720 62.1 L720 72.7 L722 72.7 L722 83.2 L724 83.2 L724 91.3 L748 91.3 L748 97.6 L750 97.6 L750 100.7 L752 100.7 L752 120.0 L754 120.0 L754 102.4 L756 102.4 L756 97.6 L758 97.6 L758 95.6 L794 95.6 L794 97.6 L796 97.6 L796 98.5 L802 98.5 L802 100.2 L804 100.2 L804 110.9 L806 110.9 L806 120.0 L866 120.0 L866 103.8 L872 103.8 L872 99.8 L874 99.8 L874 99.6 L916 99.6 L916 106.6 L918 106.6 L918 120.0 L922 120.0 L922 113.1 L934 113.1 L934 110.6 L972 110.6 L972 120.0 L1000 120.0 L1000 120 Z"/></svg>
+  <div class="wrap footer-grid">
+    <div>
+      <img class="footer-logo" src="/images/logo-wordmark-light.webp" alt="Mezzanine / ميزانين" width="540" height="71" loading="lazy">
+      <p class="footer-tag">Commercial Credit Intelligence</p>
     </div>
-    <p class="footer-rights">© 2026 Mezzanine / ميزانين. All rights reserved.</p>
+    <nav aria-label="Quick links">
+      <h2 class="footer-h">Quick links</h2>
+      <ul class="footer-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/about/">About Us</a></li>
+        <li><a href="/ecosystem/">Our Ecosystem</a></li>
+        <li><a href="/how-we-work/">How We Work</a></li>
+        <li><a href="/who-we-serve/">Who We Serve</a></li>
+        <li><a href="/solutions/">Solutions &amp; Products</a></li>
+        <li><a href="/contact/" data-cta="footer">Contact Us</a></li>
+        <li><a href="/privacy/">Privacy Policy</a></li>
+      </ul>
+    </nav>
+    <div>
+      <h2 class="footer-h">Contact</h2>
+      <ul class="footer-contact">
+        <li><a href="https://www.google.com/maps/search/?api=1&query=King+Abdullah+Financial+District+Riyadh" target="_blank" rel="noopener">KAFD 4.07, Riyadh, Kingdom of Saudi Arabia</a></li>
+        <li><a href="mailto:info@mezzanine.sa">info@mezzanine.sa</a></li>
+        <li><a href="tel:+966544043103" dir="ltr">+966 54 404 3103</a></li>
+        <li><a href="https://www.linkedin.com/company/mezzanineai" target="_blank" rel="noopener">LinkedIn</a></li>
+      </ul>
+    </div>
   </div>
+  <p class="wrap footer-rights">© 2026 Mezzanine / ميزانين. All rights reserved.</p>
 </footer>
 
-<aside id="cta-bar" class="cta-bar on-dark" aria-label="Call to action">
-  <div class="container cta-inner">
-    <p class="cta-text">Have an opportunity to grow or collaborate with Mezzanine?</p>
-    <div class="cta-btns">
-      <a href="/contact/" class="btn btn-sm btn-light" data-cta="sticky">Contact us</a>
+<aside id="cta-bar" class="cta-bar" aria-label="Call to action">
+  <div class="cta-bar-inner glass">
+    <p>Have an opportunity to grow or collaborate with Mezzanine?</p>
+    <div class="cta-bar-btns">
+      <a href="/contact/" class="btn btn-primary btn-sm" data-cta="sticky">Contact us</a>
       <!-- TODO(phase2): repoint to the partnership-opportunities page once it exists -->
-      <a href="/who-we-serve/" class="btn btn-sm btn-outline-light" data-cta="sticky">Explore collaboration opportunities</a>
+      <a href="/who-we-serve/" class="btn btn-glass btn-sm" data-cta="sticky">Explore collaboration opportunities</a>
     </div>
   </div>
 </aside>
 
 <button type="button" id="to-top" class="to-top" aria-label="Back to top"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M9 15V3M3.5 8.5L9 3l5.5 5.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
 <script src="/analytics.js" defer></script>
-<script src="/app.js" defer></script>
+<script type="module" src="/v2/app.js"></script>
 </body>
 </html>
