@@ -2,6 +2,12 @@
 // Towers grow in reading direction, then the camera drifts in a slow orbit with subtle cursor parallax.
 // Glass faces with lit cells, glowing edges with pulses travelling upward, data arcs between towers,
 // a teal ground glow, a fading grid and distance fog. Paused when off-screen or when the tab is hidden.
+//
+// Performance: every layer is ONE merged mesh = one draw call (faces, edges with their pulses, data arcs, beacons,
+// ground glow, grid; + rings and beam on Contact). Growth and pulses run in the shaders from a time uniform: no
+// per-frame geometry updates and no per-frame allocations. The canvas is opaque (no alpha compositing), tower
+// faces are opaque, back-face culled and drawn first so the depth test rejects everything hidden behind them, and the
+// backing store is capped (DPR 1.5 desktop / 1 mobile, plus a pixel budget for very wide screens).
 import { Renderer, Camera, Transform, Program, Mesh, Geometry } from '/vendor/ogl-1.0.11.min.mjs';
 import { buildCity } from './city-data.js';
 
@@ -26,7 +32,7 @@ void main() {
 }`;
 const FACE_F = /* glsl */ `
 precision highp float;
-uniform float uTime;
+uniform float uTime; uniform vec3 uBg;
 varying float vY, vH, vShade, vSeed, vFog, vU;
 float hash(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
 void main() {
@@ -40,7 +46,7 @@ void main() {
   col *= .82 + .18 * smoothstep(.0, .12, fract(floors));                            // faint floor lines
   col += vec3(.04, .42, .48) * smoothstep(.5, 1., vY) * .12;                        // cool rim toward the top
   col += vec3(.0, .3, .3) * (1. - vY) * .12;                                        // ground glow bouncing up
-  gl_FragColor = vec4(col, vFog);
+  gl_FragColor = vec4(mix(uBg, col, vFog), 1.);                                   // opaque: fog blends to the background
 }`;
 
 const EDGE_V = /* glsl */ `
@@ -117,20 +123,29 @@ const SIDES = [
 const CORNERS = [[-1, 0, -1], [1, 0, -1], [1, 0, 1], [-1, 0, 1], [-1, 1, -1], [1, 1, -1], [1, 1, 1], [-1, 1, 1]];
 const EDGES = [[0, 1, 0], [1, 2, 0], [2, 3, 0], [3, 0, 0], [4, 5, 0], [5, 6, 0], [6, 7, 0], [7, 4, 0], [0, 4, 1], [1, 5, 1], [2, 6, 1], [3, 7, 1]];
 
+const BG = [0.024, 0.063, 0.098];   // #061019: the night behind the city (also the fog colour)
 let shared = null;   // { renderer, gl } — one WebGL context for the whole page
 
 export function mountCity(host, { rtl = false, poster = false, pointer = null, beacon = false, onSlow = null } = {}) {
   if (!shared) {
-    const renderer = new Renderer({ dpr: 1, alpha: true, antialias: true, premultipliedAlpha: false, preserveDrawingBuffer: poster });
+    // opaque canvas: the compositor never has to blend (or convert) a transparent WebGL layer every frame
+    // MSAA only where the backing store is small (it is the most expensive part of a frame on weaker GPUs);
+    // on dense or very wide screens the pixel density already smooths the edges
+    const w = host.clientWidth, px = w * host.clientHeight * Math.min(window.devicePixelRatio || 1, 1.5) ** 2;
+    const renderer = new Renderer({ dpr: 1, alpha: false, antialias: poster || (w >= 760 && px <= 1.4e6), depth: true, powerPreference: 'high-performance', preserveDrawingBuffer: poster });
     shared = { renderer, gl: renderer.gl };
-    shared.gl.clearColor(0, 0, 0, 0);
+    shared.gl.clearColor(BG[0], BG[1], BG[2], 1);
     shared.gl.enable(shared.gl.POLYGON_OFFSET_FILL); shared.gl.polygonOffset(1, 1);   // keeps edge lines crisp on top of faces
   }
   const { renderer, gl } = shared;
   host.appendChild(gl.canvas);
 
   const mobile = host.clientWidth < 760;
-  renderer.dpr = Math.min(window.devicePixelRatio || 1, mobile ? 1.5 : 2);
+  const maxDpr = Math.min(window.devicePixelRatio || 1, mobile ? 1 : 1.5);
+  // pixel budget: very wide screens render at a lower internal resolution (scaled up by the browser)
+  const BUDGET = mobile ? 0.9e6 : 2.4e6;
+  const fitDpr = () => Math.min(maxDpr, Math.sqrt(BUDGET / Math.max(1, host.clientWidth * host.clientHeight)));
+  renderer.dpr = fitDpr();
   const A0 = 0.62;                                             // starting orbit angle
   const { towers, links, radius } = buildCity({ radius: mobile ? 7.5 : 11 });
   const camera = new Camera(gl, { fov: 30, near: 0.5, far: 160 });
@@ -157,7 +172,8 @@ export function mountCity(host, { rtl = false, poster = false, pointer = null, b
   const uFog = { value: [20, 60] }, uTime = { value: 0 };
   const faces = new Mesh(gl, {
     geometry: new Geometry(gl, { position: { size: 3, data: new Float32Array(fp) }, aLot: { size: 4, data: new Float32Array(fl) }, aMeta: { size: 4, data: new Float32Array(fm) }, aU: { size: 1, data: new Float32Array(fu) } }),
-    program: new Program(gl, { vertex: FACE_V, fragment: FACE_F, transparent: true, cullFace: false, uniforms: { uTime, uFog } }),
+    // opaque, back faces culled; the RTL mirror (scale.x = -1) flips the winding, so the front face flips too
+    program: new Program(gl, { vertex: FACE_V, fragment: FACE_F, cullFace: gl.BACK, frontFace: rtl ? gl.CW : gl.CCW, uniforms: { uTime, uFog, uBg: { value: BG } } }),
   });
   const edges = new Mesh(gl, {
     mode: gl.LINES,
@@ -168,7 +184,7 @@ export function mountCity(host, { rtl = false, poster = false, pointer = null, b
 
   // data arcs between tower tops
   const ap = [], aa = [], SEG = 22;
-  links.forEach(([i, j], n) => {
+  (mobile ? [] : links).forEach(([i, j], n) => {               // the lighter mobile city has no data lines
     const a = towers[i], b = towers[j], lift = 1.6 + Math.hypot(a.x - b.x, a.z - b.z) * 0.32, d = Math.max(delayOf(a), delayOf(b)) + 1.2;
     const pt = (u) => [a.x + (b.x - a.x) * u, a.h + (b.h - a.h) * u + Math.sin(u * Math.PI) * lift, a.z + (b.z - a.z) * u];
     for (let s = 0; s < SEG; s++) { const u0 = s / SEG, u1 = (s + 1) / SEG; ap.push(...pt(u0), ...pt(u1)); aa.push(u0, n * 0.37 % 1, d, u1, n * 0.37 % 1, d); }
@@ -194,7 +210,7 @@ export function mountCity(host, { rtl = false, poster = false, pointer = null, b
   const G = radius * 2.1;
   const glow = new Mesh(gl, {
     geometry: new Geometry(gl, { position: { size: 3, data: new Float32Array([-G, 0, -G, G, 0, -G, G, 0, G, -G, 0, -G, G, 0, G, -G, 0, G]) }, uv: { size: 2, data: new Float32Array([-1, -1, 1, -1, 1, 1, -1, -1, 1, 1, -1, 1]) } }),
-    program: new Program(gl, { vertex: GROUND_V, fragment: GLOW_F, transparent: true, depthTest: false, depthWrite: false, cullFace: false, uniforms: { uTime } }),
+    program: new Program(gl, { vertex: GROUND_V, fragment: GLOW_F, transparent: true, depthWrite: false, cullFace: false, uniforms: { uTime } }),
   });
   glow.program.setBlendFunc(gl.SRC_ALPHA, gl.ONE);
   const gp = [], GR = radius * 1.7;
@@ -202,10 +218,12 @@ export function mountCity(host, { rtl = false, poster = false, pointer = null, b
   const grid = new Mesh(gl, {
     mode: gl.LINES,
     geometry: new Geometry(gl, { position: { size: 3, data: new Float32Array(gp) } }),
-    program: new Program(gl, { vertex: GRID_V, fragment: GRID_F, transparent: true, depthTest: false, depthWrite: false, uniforms: { uR: { value: GR } } }),
+    program: new Program(gl, { vertex: GRID_V, fragment: GRID_F, transparent: true, depthWrite: false, uniforms: { uR: { value: GR } } }),
   });
   grid.program.setBlendFunc(gl.SRC_ALPHA, gl.ONE);
-  const layers = [glow, grid, faces, edges, arcs, dots];
+  // opaque faces first, so the depth test rejects ground, edges and arcs hidden behind towers
+  const layers = [faces, glow, grid, edges, arcs, dots];
+  if (mobile) layers.splice(layers.indexOf(arcs), 1);
 
   // beacon (Contact page): rings pulse out across the ground from the tallest landmark, and a beam rises from its top
   if (beacon) {
@@ -247,6 +265,7 @@ export function mountCity(host, { rtl = false, poster = false, pointer = null, b
   let dist = 30, targetY = 6;
   function resize() {
     const w = host.clientWidth, h = host.clientHeight; if (!w || !h) return;
+    renderer.dpr = fitDpr();
     renderer.setSize(w, h);
     const aspect = w / h;
     camera.perspective({ aspect });
@@ -257,42 +276,52 @@ export function mountCity(host, { rtl = false, poster = false, pointer = null, b
   resize();
   addEventListener('resize', resize);
 
-  const look = { x: 0, y: 0 };
+  const look = { x: 0, y: 0 }, target = [0, 0, 0];             // reused every frame: no per-frame allocation
+  const opts = { scene, camera, sort: false, frustumCull: false };   // layer order is fixed above; nothing to sort
   function render(e) {
     if (pointer && !poster) { look.x += ((pointer.active ? pointer.x : 0) - look.x) * 0.04; look.y += ((pointer.active ? pointer.y : 0) - look.y) * 0.04; }
     const a = (rtl ? -1 : 1) * (A0 + (poster ? 0 : e * 0.021) + look.x * 0.07);       // slow orbit + cursor parallax
     camera.position.set(Math.sin(a) * dist, targetY + dist * 0.045 + look.y * 0.9, Math.cos(a) * dist);
-    camera.lookAt([0, targetY, 0]);
+    target[1] = targetY; camera.lookAt(target);
     uTime.value = e;
-    renderer.render({ scene, camera });
+    renderer.render(opts);
   }
 
   if (poster) { render(9); return { canvas: gl.canvas, render }; }
 
   // rAF loop, paused when the host is off-screen or the tab is hidden
   let vis = true, raf = 0, t0 = null, live = false;
-  // Frame-rate guard: GL work runs asynchronously on the GPU, so the real cost shows up as the time between frames.
-  // Measured once the towers have grown (2.2-3.6 s; earlier frames are cheap and include shader compilation):
-  // if most frames arrive slower than ~22 fps (a weak or throttled GPU), stop for good and show the static poster.
-  let seen = 0, slow = 0, last = 0, stopped = false;
+  // Frame-rate guard. GL work runs asynchronously on the GPU, so the real cost shows up as the time between frames.
+  // It is measured only once the city has fully grown (4-6 s after start: towers, then data lines) and it falls back
+  // to the static poster only if the MEDIAN frame interval stays above 50 ms (below ~20 fps, sustained).
+  const GUARD_FROM = 4, GUARD_TO = 6, intervals = new Float32Array(240);
+  let n = 0, last = 0, stopped = false, judged = false;
   const tick = (now) => {
     raf = 0; if (stopped || !vis || document.hidden) { last = 0; return; }
     if (t0 === null) t0 = now;
     const e = (now - t0) / 1000;
-    if (last && e > 2.2 && e < 3.6) { seen++; if (now - last > 45) slow++; }
+    if (last && e > GUARD_FROM && e < GUARD_TO && n < intervals.length) intervals[n++] = now - last;
     last = now;
     render(e);
-    if (onSlow && e >= 3.6 && seen >= 4 && slow / seen > 0.6) {
-      stopped = true; host.classList.remove('is-live'); gl.canvas.remove();
-      const lose = gl.getExtension('WEBGL_lose_context'); if (lose) lose.loseContext();
-      onSlow();
-      return;
+    if (!judged && e >= GUARD_TO) {
+      judged = true;
+      const median = n >= 10 ? intervals.subarray(0, n).sort()[n >> 1] : 0;
+      if (onSlow && median > 50) {
+        stopped = true; host.classList.remove('is-live'); document.documentElement.classList.remove('city-in-view'); gl.canvas.remove();
+        const lose = gl.getExtension('WEBGL_lose_context'); if (lose) lose.loseContext();
+        onSlow();
+        return;
+      }
     }
     if (!live) { live = true; host.classList.add('is-live'); }
     raf = requestAnimationFrame(tick);
   };
   const wake = () => { if (!raf && vis && !document.hidden) raf = requestAnimationFrame(tick); };
-  new IntersectionObserver((en) => { vis = en[0].isIntersecting; wake(); }, { rootMargin: '60px' }).observe(host);
+  new IntersectionObserver((en) => {
+    vis = en[0].isIntersecting;
+    document.documentElement.classList.toggle('city-in-view', vis);   // glass over the city drops its backdrop blur
+    wake();
+  }, { rootMargin: '60px' }).observe(host);
   document.addEventListener('visibilitychange', wake);
   wake();
   return { canvas: gl.canvas, render };

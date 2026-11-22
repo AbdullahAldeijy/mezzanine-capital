@@ -7,13 +7,13 @@
 /* the poster image is only requested when it is actually shown (no JS, reduced motion, or the live scene cannot run) */
 html:not(.motion) .hero-city::before, .hero-city.is-static::before { background-image: var(--poster-wide); }
 @media (max-aspect-ratio: 1/1) { html:not(.motion) .hero-city::before, .hero-city.is-static::before { background-image: var(--poster-tall); } }
-.hero-city canvas { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; transition: opacity .9s var(--ease); }
+.hero-city canvas { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; transition: opacity .9s var(--ease); background: #061019; }
 .hero-city.is-live canvas { opacity: 1; }
 /* dark gradient behind the copy keeps the headline readable over the city */
 .hero::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
   background: radial-gradient(64% 40% at 50% 30%, rgba(6, 14, 26, .86), rgba(6, 14, 26, .5) 55%, transparent 80%), linear-gradient(to bottom, rgba(6, 14, 26, .8), transparent 30%), linear-gradient(to top, var(--night) 1%, transparent 14%); }
 .hero-inner { width: 100%; max-width: 1040px; padding: clamp(128px, 17vh, 190px) var(--gutter) 0; display: grid; justify-items: center; align-content: start; }
-.hero-title { font-family: var(--display); font-weight: 800; font-size: clamp(3.3rem, 10.8vw, 10.6rem); line-height: .9; letter-spacing: -.045em; color: var(--ice); max-width: 7.4em; text-wrap: balance; text-shadow: 0 0 70px rgba(124, 247, 255, .22); }
+.hero-title { font-family: var(--display); font-weight: 800; font-size: clamp(3.3rem, 10.8vw, 10.6rem); line-height: .9; letter-spacing: -.045em; color: var(--ice); max-width: 7.4em; text-wrap: balance; }   /* no glow blur over the live canvas */
 html[dir="rtl"] .hero-title { letter-spacing: 0; line-height: 1.18; font-size: clamp(3.2rem, 10.2vw, 10rem); }
 .hero-lede { margin-top: clamp(20px, 2.6vw, 30px); max-width: 33em; font-size: clamp(1.05rem, 1.3vw, 1.22rem); line-height: 1.7; color: var(--soft); }
 html[dir="rtl"] .hero-lede { line-height: 1.95; }
@@ -94,3 +94,8 @@ html[dir="rtl"] .aud-name { line-height: 1.45; letter-spacing: 0; }
 .band-title { max-width: 10em; }
 
 @media (prefers-reduced-motion: reduce) { .aud-row, .aud-row::after, .net-dot { transition: none; } }
+
+/* Nothing with a backdrop blur may sit over the live city: the browser would re-blur the moving canvas every frame.
+   While the city is on screen (.city-in-view, set by js/scene.js) the glass nav and sticky bar use a solid tint. */
+.hero .btn-glass { backdrop-filter: none; -webkit-backdrop-filter: none; background: rgba(6, 14, 26, .6); }
+.city-in-view .nav-bar, .city-in-view .cta-bar-inner, .city-in-view .to-top, .city-in-view .sheet { backdrop-filter: none; -webkit-backdrop-filter: none; background: rgba(6, 14, 26, .88); }
