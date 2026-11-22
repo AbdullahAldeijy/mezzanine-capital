@@ -1,5 +1,6 @@
 // The data city: one shared WebGL renderer (OGL), loaded lazily after first paint.
-// Towers grow in reading direction, then the camera drifts in a slow orbit with subtle cursor parallax.
+// Towers grow in reading direction; afterwards the frame is held and the camera moves (slow orbit + cursor parallax)
+// only while the cursor moves.
 // Glass faces with lit cells, glowing edges with pulses travelling upward, data arcs between towers,
 // a teal ground glow, a fading grid and distance fog. Paused when off-screen or when the tab is hidden.
 //
@@ -291,56 +292,47 @@ export function mountCity(host, { rtl = false, poster = false, pointer = null, b
 
   // ---- When to draw (light by default) ----
   // - intro (first INTRO seconds): continuous, capped at 30 fps, while the towers grow and the links appear
-  // - afterwards: hold the last frame. Draw only while the cursor moves (+ a short settle), or a brief burst every
-  //   ORBIT_EVERY seconds that advances the slow orbit. Between draws there is no animation-frame loop at all.
-  // - nothing at all while the hero is off-screen or the tab is hidden
-  // The scene clock (pulses, orbit) advances only while drawing, so motion resumes smoothly instead of jumping.
-  const INTRO = 3.6, FRAME_MS = 1000 / 30, ORBIT_EVERY = 2500, BURST_MS = 700, SETTLE_MS = 450;
-  let vis = true, raf = 0, timer = 0, live = false, stopped = false;
+  // - afterwards the last frame is held: the animation-frame loop stays alive (no cancel / restart, no timers) but makes
+  //   no GL calls; it draws again only while the cursor moves (+ a short settle). There is no periodic redraw.
+  // - the loop stops only while the hero is off-screen or the tab is hidden
+  // Nothing is created, uploaded, resized or measured when drawing resumes: buffers and programs are built once above,
+  // and the canvas is sized only on window resize. The scene clock advances only while drawing.
+  const INTRO = 3.6, FRAME_MS = 1000 / 30, SETTLE_MS = 450;
+  let vis = true, raf = 0, live = false, stopped = false;
   let clock = 0, lastNow = 0, lastDraw = 0, activeUntil = 0, introLeft = true;
   // frame-rate guard: during the last part of the intro (city grown); fall back below ~20 fps sustained (median > 50 ms)
   const intervals = new Float32Array(120); let n = 0, judged = false;
 
-  const schedule = () => {                                     // next orbit burst, only when visible
-    clearTimeout(timer);
-    if (!stopped && vis && !document.hidden && !introLeft) timer = setTimeout(() => { activeUntil = performance.now() + BURST_MS; wake(); }, ORBIT_EVERY);
-  };
   const tick = (now) => {
     raf = 0;
-    if (stopped || !vis || document.hidden) { lastNow = 0; return; }
-    const inIntro = introLeft;
-    if (!inIntro && now > activeUntil) { lastNow = 0; schedule(); return; }      // idle: hold the last frame
-    raf = requestAnimationFrame(tick);
-    if (now - lastDraw < FRAME_MS - 2) return;                                   // 30 fps cap (every other frame at 60 Hz)
+    if (stopped || !vis || document.hidden) { lastNow = 0; return; }           // off-screen / hidden: loop stops
+    raf = requestAnimationFrame(tick);                                          // otherwise the loop stays alive
+    if (!introLeft && now > activeUntil) { lastNow = 0; return; }               // idle: hold the last frame, no GL calls
+    if (now - lastDraw < FRAME_MS - 2) return;                                  // 30 fps cap (every other frame at 60 Hz)
     const dt = lastNow ? Math.min((now - lastNow) / 1000, 0.1) : 0;
-    if (inIntro && lastNow && clock > 2.2 && n < intervals.length) intervals[n++] = now - lastDraw;
+    if (introLeft && lastNow && clock > 2.2 && n < intervals.length) intervals[n++] = now - lastDraw;
     lastNow = now; lastDraw = now; clock += dt;
     render(clock);
     if (!live) { live = true; host.classList.add('is-live'); }
-    if (inIntro && clock >= INTRO) {
+    if (introLeft && clock >= INTRO) {
       introLeft = false;
       if (!judged) {
         judged = true;
         const median = n >= 8 ? intervals.subarray(0, n).sort()[n >> 1] : 0;
         if (onSlow && median > 50) {
-          stopped = true; cancelAnimationFrame(raf); raf = 0; clearTimeout(timer);
+          stopped = true; cancelAnimationFrame(raf); raf = 0;
           host.classList.remove('is-live'); gl.canvas.remove();
           const lose = gl.getExtension('WEBGL_lose_context'); if (lose) lose.loseContext();
           onSlow();
-          return;
         }
       }
-      schedule();
     }
   };
   const wake = () => { if (!raf && !stopped && vis && !document.hidden) raf = requestAnimationFrame(tick); };
-  // cursor parallax: draw while the pointer moves over the page, then settle
-  if (pointer) addEventListener('pointermove', () => { if (!introLeft) { activeUntil = Math.max(activeUntil, performance.now() + SETTLE_MS); wake(); } }, { passive: true });
-  new IntersectionObserver((en) => {
-    vis = en[0].isIntersecting;
-    if (vis) { activeUntil = performance.now() + BURST_MS; wake(); schedule(); } else clearTimeout(timer);
-  }, { rootMargin: '0px' }).observe(host);
-  document.addEventListener('visibilitychange', () => { if (document.hidden) clearTimeout(timer); else { activeUntil = performance.now() + BURST_MS; wake(); schedule(); } });
+  // cursor parallax: draw while the pointer moves, then settle and hold
+  if (pointer) addEventListener('pointermove', () => { activeUntil = performance.now() + SETTLE_MS; wake(); }, { passive: true });
+  new IntersectionObserver((en) => { vis = en[0].isIntersecting; wake(); }, { rootMargin: '0px' }).observe(host);
+  document.addEventListener('visibilitychange', wake);
   wake();
   return { canvas: gl.canvas, render };
 }
