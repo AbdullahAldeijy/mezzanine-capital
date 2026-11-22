@@ -68,7 +68,16 @@ $$('[data-net]').forEach((net) => {
     n.addEventListener('focus', () => select(n.dataset.i));
     n.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') select(n.dataset.i); });
   });
-  select('0');
+  // /ecosystem/#finance etc.: open the activity named in the URL (links from Home point here)
+  const fromHash = () => {
+    const n = nodes.find((x) => x.dataset.id && `#${x.dataset.id}` === location.hash);
+    if (!n) return false;
+    select(n.dataset.i);
+    net.scrollIntoView({ block: 'center', behavior: reduce ? 'auto' : 'smooth' });
+    return true;
+  };
+  if (!fromHash()) select('0');
+  addEventListener('hashchange', fromHash);
 });
 
 // ---- the data city (WebGL): lazy, after first paint; static poster when it cannot or should not run ----
