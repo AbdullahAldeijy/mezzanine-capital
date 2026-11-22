@@ -27,6 +27,7 @@ export default {
     text: 'Have an opportunity to grow or collaborate with Mezzanine?',
     contact: 'Contact us',
     explore: 'Explore collaboration opportunities',
+    whatsapp: 'Chat on WhatsApp',
   },
   cookie: {
     label: 'Cookies',
@@ -40,6 +41,7 @@ export default {
     quickLinks: 'Quick links',
     contact: 'Contact',
     privacy: 'Privacy Policy',
+    whatsapp: 'WhatsApp',
     rights: '© 2026 Mezzanine / ميزانين. All rights reserved.',
   },
   social: { linkedin: 'LinkedIn', x: 'X', instagram: 'Instagram', youtube: 'YouTube' },

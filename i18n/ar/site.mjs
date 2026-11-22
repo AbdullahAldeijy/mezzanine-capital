@@ -27,6 +27,7 @@ export default {
     text: 'لديك فرصة للنمو أو التعاون مع ميزانين؟',
     contact: 'تواصل معنا',
     explore: 'استكشف فرص التعاون',
+    whatsapp: 'تواصل عبر واتساب',
   },
   cookie: {
     label: 'ملفات تعريف الارتباط',
@@ -40,6 +41,7 @@ export default {
     quickLinks: 'روابط سريعة',
     contact: 'تواصل معنا',
     privacy: 'سياسة الخصوصية',
+    whatsapp: 'واتساب',
     rights: '© 2026 Mezzanine / ميزانين. جميع الحقوق محفوظة.',
   },
   social: { linkedin: 'لينكد إن', x: 'إكس (X)', instagram: 'إنستغرام', youtube: 'يوتيوب' },

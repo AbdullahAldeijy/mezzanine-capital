@@ -1,12 +1,13 @@
 // Shared head (SEO, social, hreflang, JSON-LD), cookie banner and URL helpers. Layout chrome is in src/layout.mjs.
 // All copy comes from i18n/<lang>/site.mjs (+ each page's own meta).
-import { SOCIAL, GA4_ID } from '../config/site.mjs';
+import { SOCIAL, GA4_ID, WHATSAPP } from '../config/site.mjs';
 
 export const SITE = 'https://mezzanine.sa';
 // configured social profiles (config/site.mjs); entries without a URL are skipped
 export const socials = (t) => Object.entries(SOCIAL).filter(([, url]) => url).map(([key, url]) => ({ key, url, label: t.site.social[key] }));
 export const MAPS = 'https://www.google.com/maps/search/?api=1&query=King+Abdullah+Financial+District+Riyadh';
-export const PHONE_TEL = '+966544043103';
+// WhatsApp chat with the page-language message prefilled (config/site.mjs)
+export const whatsappUrl = (lang) => `https://wa.me/${WHATSAPP.number}?text=${encodeURIComponent(WHATSAPP.message[lang])}`;
 
 export const pageUrl = (lang, slug) => `/${lang === 'ar' ? 'ar/' : ''}${slug ? slug + '/' : ''}`;
 

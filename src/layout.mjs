@@ -1,7 +1,8 @@
 // Page layout ("Capital Flow"): glass nav, sheet menu, sticky CTA bar, footer with a city-line glow.
 // The SEO <head>, cookie banner and URL helpers live in shell.mjs. All copy comes from i18n/<lang>/site.mjs.
 import { PAGES } from './pages.mjs';
-import { head, pageUrl, socials, cookie, MAPS, PHONE_TEL } from './shell.mjs';
+import { head, pageUrl, socials, cookie, MAPS, whatsappUrl } from './shell.mjs';
+import { brand } from './icons.mjs';
 import { silhouettePath } from '../js/city-data.js';
 
 // Lab B typography: Alexandria only, one variable file per script
@@ -47,6 +48,7 @@ function ctaBar(t, { lang, esc }) {
       <a href="${pageUrl(lang, 'contact')}" class="btn btn-primary btn-sm" data-cta="sticky">${esc(c.contact)}</a>
       <!-- TODO(phase2): repoint to the partnership-opportunities page once it exists -->
       <a href="${pageUrl(lang, 'who-we-serve')}" class="btn btn-glass btn-sm" data-cta="sticky">${esc(c.explore)}</a>
+      <a href="${whatsappUrl(lang)}" class="btn btn-glass btn-sm btn-wa" target="_blank" rel="noopener" data-cta="sticky-whatsapp" aria-label="${esc(c.whatsapp)}" title="${esc(c.whatsapp)}">${brand('whatsapp')}</a>
     </div>
   </div>
 </aside>`;
@@ -74,8 +76,8 @@ function footer(t, { lang, esc, rtl }) {
       <ul class="footer-contact">
         <li><a href="${MAPS}" target="_blank" rel="noopener">${esc(c.address)}</a></li>
         <li><a href="mailto:${c.email}">${c.email}</a></li>
-        <li><a href="tel:${PHONE_TEL}" dir="ltr">${c.phone}</a></li>
-        ${socials(t).map((x) => `<li><a href="${x.url}" target="_blank" rel="noopener">${esc(x.label)}</a></li>`).join('\n        ')}
+        <li><a href="${whatsappUrl(lang)}" class="footer-ico" target="_blank" rel="noopener" data-cta="footer-whatsapp" aria-label="${esc(f.whatsapp)} ${c.phone}">${brand('whatsapp')}<span dir="ltr">${c.phone}</span></a></li>
+        ${socials(t).map((x) => `<li><a href="${x.url}" class="footer-ico" target="_blank" rel="noopener">${brand(x.key)}<span>${esc(x.label)}</span></a></li>`).join('\n        ')}
       </ul>
     </div>
   </div>

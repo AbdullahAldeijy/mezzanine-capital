@@ -175,6 +175,14 @@ body:has(.band) .footer { padding-top: clamp(56px, 7vw, 90px); }
   .btn, .to-top { transition: none; }
 }
 
+/* WhatsApp + social links with brand glyphs */
+.brand-icon { width: 1.15em; height: 1.15em; flex: none; }
+.footer-ico { display: inline-flex !important; align-items: center; gap: 10px; }
+.footer-ico .brand-icon { color: var(--teal); }
+.cta-bar-btns { grid-template-columns: 1fr 1fr auto; }
+.btn-wa { padding-inline: 0 !important; width: 42px; flex: none; color: #25D366; }
+.btn-wa .brand-icon { width: 20px; height: 20px; }
+
 /* --- Hero: headline above, the data city behind and below it ------------------- */
 .hero { position: relative; min-height: max(720px, 100svh); display: flex; justify-content: center; isolation: isolate; overflow: hidden; text-align: center;
   background: radial-gradient(90% 55% at 50% 100%, rgba(18, 224, 207, .16), transparent 62%), linear-gradient(var(--night), #071A26); }

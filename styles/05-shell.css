@@ -96,3 +96,11 @@ body:has(.band) .footer { padding-top: clamp(56px, 7vw, 90px); }
   .sheet-link { opacity: 1; transform: none; }
   .btn, .to-top { transition: none; }
 }
+
+/* WhatsApp + social links with brand glyphs */
+.brand-icon { width: 1.15em; height: 1.15em; flex: none; }
+.footer-ico { display: inline-flex !important; align-items: center; gap: 10px; }
+.footer-ico .brand-icon { color: var(--teal); }
+.cta-bar-btns { grid-template-columns: 1fr 1fr auto; }
+.btn-wa { padding-inline: 0 !important; width: 42px; flex: none; color: #25D366; }
+.btn-wa .brand-icon { width: 20px; height: 20px; }
