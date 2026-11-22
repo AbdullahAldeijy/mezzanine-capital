@@ -9,7 +9,7 @@ export const PAGES = [
   { key: 'ecosystem', slug: 'ecosystem', nav: 'ecosystem', v2: true },
   { key: 'how', slug: 'how-we-work', nav: 'how', v2: true },
   { key: 'serve', slug: 'who-we-serve', nav: 'serve', v2: true },
-  { key: 'solutions', slug: 'solutions', nav: 'solutions' },
+  { key: 'solutions', slug: 'solutions', nav: 'solutions', v2: true },
   { key: 'contact', slug: 'contact', nav: 'contact', noCta: true, navButton: true },
   { key: 'privacy', slug: 'privacy' },
 ];
