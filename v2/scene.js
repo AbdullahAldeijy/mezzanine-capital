@@ -119,7 +119,7 @@ const EDGES = [[0, 1, 0], [1, 2, 0], [2, 3, 0], [3, 0, 0], [4, 5, 0], [5, 6, 0],
 
 let shared = null;   // { renderer, gl } — one WebGL context for the whole page
 
-export function mountCity(host, { rtl = false, poster = false, pointer = null } = {}) {
+export function mountCity(host, { rtl = false, poster = false, pointer = null, beacon = false } = {}) {
   if (!shared) {
     const renderer = new Renderer({ dpr: 1, alpha: true, antialias: true, premultipliedAlpha: false, preserveDrawingBuffer: poster });
     shared = { renderer, gl: renderer.gl };
@@ -205,7 +205,43 @@ export function mountCity(host, { rtl = false, poster = false, pointer = null } 
     program: new Program(gl, { vertex: GRID_V, fragment: GRID_F, transparent: true, depthTest: false, depthWrite: false, uniforms: { uR: { value: GR } } }),
   });
   grid.program.setBlendFunc(gl.SRC_ALPHA, gl.ONE);
-  [glow, grid, faces, edges, arcs, dots].forEach((m, i) => { m.renderOrder = i; m.setParent(scene); });
+  const layers = [glow, grid, faces, edges, arcs, dots];
+
+  // beacon (Contact page): rings pulse out across the ground from the tallest landmark, and a beam rises from its top
+  if (beacon) {
+    const kafd = towers.filter((t) => t.landmark).sort((a, b) => b.h - a.h)[0];
+    const rp = [], ro = [], SEGS = 72;
+    [0, 0.5].forEach((off) => {
+      for (let i = 0; i < SEGS; i++) {
+        const a0 = (i / SEGS) * Math.PI * 2, a1 = ((i + 1) / SEGS) * Math.PI * 2;
+        rp.push(Math.cos(a0), 0.02, Math.sin(a0), Math.cos(a1), 0.02, Math.sin(a1)); ro.push(off, off);
+      }
+    });
+    const rings = new Mesh(gl, {
+      mode: gl.LINES,
+      geometry: new Geometry(gl, { position: { size: 3, data: new Float32Array(rp) }, aOff: { size: 1, data: new Float32Array(ro) } }),
+      program: new Program(gl, {
+        vertex: `attribute vec3 position; attribute float aOff; uniform mat4 modelViewMatrix, projectionMatrix; uniform float uTime; uniform vec2 uC; varying float vA;
+          void main() { float k = fract(uTime * .32 + aOff); vA = (1. - k) * smoothstep(2.2, 3.2, uTime);
+            vec3 p = vec3(uC.x + position.x * (.8 + k * 5.5), position.y, uC.y + position.z * (.8 + k * 5.5)); gl_Position = projectionMatrix * modelViewMatrix * vec4(p, 1.); }`,
+        fragment: `precision highp float; varying float vA; void main() { gl_FragColor = vec4(.49, .97, 1., vA * .9); }`,
+        transparent: true, depthTest: false, depthWrite: false, uniforms: { uTime, uC: { value: [kafd.x, kafd.z] } },
+      }),
+    });
+    rings.program.setBlendFunc(gl.SRC_ALPHA, gl.ONE);
+    const beam = new Mesh(gl, {
+      mode: gl.LINES,
+      geometry: new Geometry(gl, { position: { size: 3, data: new Float32Array([kafd.x, kafd.h, kafd.z, kafd.x, kafd.h + 9, kafd.z]) }, aY: { size: 1, data: new Float32Array([0, 1]) } }),
+      program: new Program(gl, {
+        vertex: 'attribute vec3 position; attribute float aY; uniform mat4 modelViewMatrix, projectionMatrix; varying float vY; void main() { vY = aY; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.); }',
+        fragment: 'precision highp float; uniform float uTime; varying float vY; void main() { float a = (1. - vY) * (.55 + .45 * sin(uTime * 2.4)) * smoothstep(2.2, 3.2, uTime); gl_FragColor = vec4(.75, 1., 1., a); }',
+        transparent: true, depthTest: false, depthWrite: false, uniforms: { uTime },
+      }),
+    });
+    beam.program.setBlendFunc(gl.SRC_ALPHA, gl.ONE);
+    layers.push(rings, beam);
+  }
+  layers.forEach((m, i) => { m.renderOrder = i; m.setParent(scene); });
 
   // ---- camera framing: the city sits in the lower part of the frame, below the headline ----
   let dist = 30, targetY = 6;

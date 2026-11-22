@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Contact Us | Mezzanine / ميزانين</title>
   <meta name="description" content="Get in touch with Mezzanine by email, phone or LinkedIn, or visit us at KAFD, Riyadh.">
-  <meta name="theme-color" content="#F6F1E3">
+  <meta name="theme-color" content="#060E1A">
   
   <link rel="canonical" href="https://mezzanine.sa/contact/">
   <link rel="alternate" hreflang="en" href="https://mezzanine.sa/contact/">
@@ -28,20 +28,19 @@
   <meta name="twitter:image" content="https://mezzanine.sa/images/og-hero.jpg">
   <meta name="twitter:image:alt" content="The Riyadh skyline at the King Abdullah Financial District (KAFD)">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2316233F'/%3E%3Cpath d='M16 7l9 18H7z' fill='none' stroke='%23F6F1E3' stroke-width='2.4' stroke-linejoin='round'/%3E%3Cpath d='M12.5 21.5h7L16 14.5z' fill='%234FA8AC'/%3E%3C/svg%3E">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
-  <link rel="stylesheet" href="/styles.css">
+  <link rel="preload" as="font" type="font/woff2" href="/fonts/alexandria-latin-wght-normal.woff2" crossorigin>
+  <link rel="stylesheet" href="/v2.css">
+  <link rel="modulepreload" href="/v2/app.js">
   
-  <script>document.documentElement.classList.add('js');</script>
+  <script>(function(d){d.classList.add('js');if(!matchMedia('(prefers-reduced-motion: reduce)').matches)d.classList.add('motion')})(document.documentElement);</script>
   
 </head>
-<body class="">
-<a href="#main" class="skip-link">Skip to main content</a>
+<body class="v2" data-page="contact">
+<a href="#main" class="skip">Skip to main content</a>
 
-<header class="site-nav">
-  <div class="container bar">
-    <a href="/" class="brand" aria-label="Mezzanine / ميزانين"><img src="/images/logo-wordmark.webp" alt="Mezzanine / ميزانين" width="540" height="71"></a>
+<header class="nav" id="nav">
+  <div class="nav-bar glass">
+    <a href="/" class="nav-brand" aria-label="Mezzanine / ميزانين"><img src="/images/logo-wordmark-light.webp" alt="Mezzanine / ميزانين" width="540" height="71"></a>
     <nav aria-label="Primary" class="nav-links">
       <a href="/" class="nav-link">Home</a>
       <a href="/about/" class="nav-link">About Us</a>
@@ -49,85 +48,83 @@
       <a href="/how-we-work/" class="nav-link">How We Work</a>
       <a href="/who-we-serve/" class="nav-link">Who We Serve</a>
       <a href="/solutions/" class="nav-link">Solutions &amp; Products</a>
-      <a href="/contact/" class="nav-link nav-cta" aria-current="page">Contact Us</a>
     </nav>
     <div class="nav-end">
-      <div class="lang-toggle"><span class="is-active tap-44" aria-current="true" lang="en">EN</span><span aria-hidden="true">/</span><a href="/ar/contact/" hreflang="ar" lang="ar" class="tap-44" data-lang-switch="ar" aria-label="العربية">ع</a></div>
-      <button type="button" id="menu-btn" class="menu-btn tap-44" aria-label="Open menu" data-open="Open menu" data-close="Close menu" aria-expanded="false" aria-controls="mobile-panel"><svg class="i-open" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"/></svg><svg class="i-close" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/></svg></button>
+      <a href="/ar/contact/" class="nav-lang" hreflang="ar" lang="ar" data-lang-switch="ar" aria-label="العربية">ع</a>
+      <a href="/contact/" class="nav-link is-cta" aria-current="page" data-cta="nav">Contact Us</a>
+      <button type="button" id="menu-btn" class="nav-menu" aria-label="Open menu" data-open="Open menu" data-close="Close menu" aria-expanded="false" aria-controls="sheet"><svg class="i-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg><svg class="i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
     </div>
   </div>
 </header>
-<div id="mobile-overlay" class="mobile-overlay"></div>
-<div id="mobile-panel" class="mobile-panel" role="dialog" aria-modal="true" aria-label="Menu">
+<div id="sheet" class="sheet" role="dialog" aria-modal="true" aria-label="Menu">
   <nav aria-label="Mobile">
-    <a href="/" class="panel-link">Home</a>
-    <a href="/about/" class="panel-link">About Us</a>
-    <a href="/ecosystem/" class="panel-link">Our Ecosystem</a>
-    <a href="/how-we-work/" class="panel-link">How We Work</a>
-    <a href="/who-we-serve/" class="panel-link">Who We Serve</a>
-    <a href="/solutions/" class="panel-link">Solutions &amp; Products</a>
-    <a href="/contact/" class="panel-link nav-cta" aria-current="page">Contact Us</a>
+    <a style="--i:0" href="/" class="sheet-link">Home</a>
+    <a style="--i:1" href="/about/" class="sheet-link">About Us</a>
+    <a style="--i:2" href="/ecosystem/" class="sheet-link">Our Ecosystem</a>
+    <a style="--i:3" href="/how-we-work/" class="sheet-link">How We Work</a>
+    <a style="--i:4" href="/who-we-serve/" class="sheet-link">Who We Serve</a>
+    <a style="--i:5" href="/solutions/" class="sheet-link">Solutions &amp; Products</a>
+    <a style="--i:6" href="/contact/" class="sheet-link is-cta" aria-current="page" data-cta="nav">Contact Us</a>
   </nav>
 </div>
 <main id="main">
 
-<header class="page-head">
-  <div class="container">
-    <h1 class="h1 page-title reveal reveal-1">Contact Us</h1>
-    <p class="contact-lead reveal reveal-2">Every opportunity has a beginning… start yours with Mezzanine.</p>
-    <p class="lede reveal reveal-2">Whether you are an enterprise looking for financial solutions, a funding institution exploring new opportunities, an investor seeking investment opportunities, or a partner wishing to integrate with us, contact us through the channels below and the specialized team will follow up on your request.</p>
+<section class="hero hero-contact" aria-labelledby="contact-title">
+  <div class="hero-city" id="city" data-city data-beacon aria-hidden="true"
+       style="--poster-wide:url('/images/city-poster-wide-ltr.webp');--poster-tall:url('/images/city-poster-tall-ltr.webp')"></div>
+  <div class="hero-inner">
+    <h1 id="contact-title" class="hero-title contact-title"><span class="word" style="--i:0">Contact</span> <span class="word" style="--i:1">Us</span></h1>
+    <p class="contact-lead">Every opportunity has a beginning… start yours with Mezzanine.</p>
+    <p class="hero-lede">Whether you are an enterprise looking for financial solutions, a funding institution exploring new opportunities, an investor seeking investment opportunities, or a partner wishing to integrate with us, contact us through the channels below and the specialized team will follow up on your request.</p>
   </div>
-</header>
-<section class="section" aria-label="Contact Us">
-  <div class="container">
-    <div class="contact-cards">
-      <a class="card contact-card rv" href="mailto:info@mezzanine.sa"><svg class="ci" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg><span class="cc-label">Email</span><span class="cc-value" dir="ltr">info@mezzanine.sa</span></a>
-      <a class="card contact-card rv" href="tel:+966544043103"><svg class="ci" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg><span class="cc-label">Phone</span><span class="cc-value" dir="ltr">+966 54 404 3103</span></a>
-      <a class="card contact-card rv" href="https://www.linkedin.com/company/mezzanineai" target="_blank" rel="noopener"><svg class="ci" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M19 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2zM8 10v7M8 7v.01M12 17v-4a2 2 0 014 0v4M12 10v7"/></svg><span class="cc-label">LinkedIn</span><span class="cc-value" dir="ltr">linkedin.com/company/mezzanineai</span></a>
-      <a class="card contact-card rv" href="https://www.google.com/maps/search/?api=1&query=King+Abdullah+Financial+District+Riyadh" target="_blank" rel="noopener"><svg class="ci" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/></svg><span class="cc-label">Address</span><span class="cc-value">KAFD 4.07, Riyadh, Kingdom of Saudi Arabia</span></a>
-    </div>
+</section>
+
+<section class="section contact-cards-wrap" aria-label="Contact Us">
+  <div class="wrap contact-cards">
+    <a class="cc glass" href="mailto:info@mezzanine.sa"><svg class="cc-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg><span class="cc-label">Email</span><span class="cc-value" dir="ltr">info@mezzanine.sa</span></a>
+    <a class="cc glass" href="tel:+966544043103"><svg class="cc-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg><span class="cc-label">Phone</span><span class="cc-value" dir="ltr">+966 54 404 3103</span></a>
+    <a class="cc glass" href="https://www.linkedin.com/company/mezzanineai" target="_blank" rel="noopener"><svg class="cc-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M19 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2zM8 10v7M8 7v.01M12 17v-4a2 2 0 014 0v4M12 10v7"/></svg><span class="cc-label">LinkedIn</span><span class="cc-value" dir="ltr">linkedin.com/company/mezzanineai</span></a>
+    <a class="cc glass cc-kafd" href="https://www.google.com/maps/search/?api=1&query=King+Abdullah+Financial+District+Riyadh" target="_blank" rel="noopener"><svg class="cc-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/></svg><span class="cc-label">Address</span><span class="cc-value">KAFD 4.07, Riyadh, Kingdom of Saudi Arabia</span></a>
   </div>
 </section>
 </main>
 
-<footer class="site-footer on-dark">
-  <div class="container">
-    <svg class="skyline-rule" viewBox="0 0 800 40" preserveAspectRatio="none" fill="none" stroke="var(--teal)" stroke-width="1" aria-hidden="true">
-      <path d="M0 38 L40 38 L40 20 L55 20 L55 10 L70 10 L70 38 L110 38 L110 25 L125 25 L125 5 L140 5 L140 25 L155 25 L155 38 L210 38 L210 15 L230 15 L230 38 L280 38 L280 28 L300 28 L300 12 L320 12 L320 28 L340 28 L340 38 L400 38 L400 8 L415 8 L415 22 L430 22 L430 38 L480 38 L480 18 L500 18 L500 38 L560 38 L560 25 L580 25 L580 2 L600 2 L600 25 L620 25 L620 38 L680 38 L680 15 L700 15 L700 30 L720 30 L720 38 L800 38"/>
-    </svg>
-    <div class="footer-grid">
-      <div>
-        <p class="h3 footer-brand">Mezzanine / ميزانين</p>
-        <p class="footer-muted">Commercial Credit Intelligence</p>
-      </div>
-      <nav aria-label="Quick links">
-        <h2 class="footer-h">Quick links</h2>
-        <ul class="footer-links">
-          <li><a href="/">Home</a></li>
-          <li><a href="/about/">About Us</a></li>
-          <li><a href="/ecosystem/">Our Ecosystem</a></li>
-          <li><a href="/how-we-work/">How We Work</a></li>
-          <li><a href="/who-we-serve/">Who We Serve</a></li>
-          <li><a href="/solutions/">Solutions &amp; Products</a></li>
-          <li><a href="/contact/" data-cta="footer">Contact Us</a></li>
-          <li><a href="/privacy/">Privacy Policy</a></li>
-        </ul>
-      </nav>
-      <div>
-        <h2 class="footer-h">Contact</h2>
-        <a href="https://www.google.com/maps/search/?api=1&query=King+Abdullah+Financial+District+Riyadh" target="_blank" rel="noopener" class="footer-muted footer-line">KAFD 4.07, Riyadh, Kingdom of Saudi Arabia</a>
-        <a href="mailto:info@mezzanine.sa" class="footer-accent footer-line">info@mezzanine.sa</a>
-        <a href="tel:+966544043103" class="footer-accent footer-line" dir="ltr">+966 54 404 3103</a>
-        <a href="https://www.linkedin.com/company/mezzanineai" target="_blank" rel="noopener" class="footer-accent footer-line">LinkedIn</a>
-      </div>
+<footer class="footer">
+  <svg class="footer-city" viewBox="0 0 1000 120" preserveAspectRatio="none" aria-hidden="true"><path d="M0 120 L0 120.0 L24 120.0 L24 107.6 L30 107.6 L30 106.2 L32 106.2 L32 99.6 L80 99.6 L80 100.5 L82 100.5 L82 98.8 L126 98.8 L126 105.5 L132 105.5 L132 109.6 L136 109.6 L136 102.8 L144 102.8 L144 101.0 L146 101.0 L146 97.4 L186 97.4 L186 101.0 L192 101.0 L192 105.9 L200 105.9 L200 89.9 L248 89.9 L248 106.6 L252 106.6 L252 100.0 L258 100.0 L258 87.7 L304 87.7 L304 92.2 L306 92.2 L306 81.3 L318 81.3 L318 80.3 L358 80.3 L358 98.3 L360 98.3 L360 104.0 L362 104.0 L362 86.6 L364 86.6 L364 83.8 L366 83.8 L366 73.2 L368 73.2 L368 62.6 L370 62.6 L370 51.9 L372 51.9 L372 41.3 L374 41.3 L374 38.3 L404 38.3 L404 42.0 L406 42.0 L406 52.7 L408 52.7 L408 63.3 L410 63.3 L410 73.9 L412 73.9 L412 84.6 L414 84.6 L414 95.2 L416 95.2 L416 105.8 L418 105.8 L418 91.4 L422 91.4 L422 73.3 L428 73.3 L428 72.4 L440 72.4 L440 71.6 L442 71.6 L442 61.4 L444 61.4 L444 51.2 L446 51.2 L446 49.7 L480 49.7 L480 59.3 L482 59.3 L482 69.5 L484 69.5 L484 70.0 L496 70.0 L496 68.9 L498 68.9 L498 58.1 L500 58.1 L500 47.3 L502 47.3 L502 36.6 L504 36.6 L504 25.8 L506 25.8 L506 15.0 L508 15.0 L508 10.8 L528 10.8 L528 12.4 L530 12.4 L530 23.2 L532 23.2 L532 34.0 L534 34.0 L534 44.7 L536 44.7 L536 55.5 L538 55.5 L538 66.3 L540 66.3 L540 77.1 L542 77.1 L542 83.9 L580 83.9 L580 84.3 L582 84.3 L582 120.0 L596 120.0 L596 111.3 L598 111.3 L598 101.3 L600 101.3 L600 91.3 L602 91.3 L602 81.3 L604 81.3 L604 71.2 L606 71.2 L606 61.2 L608 61.2 L608 51.2 L610 51.2 L610 41.2 L612 41.2 L612 31.2 L614 31.2 L614 30.7 L638 30.7 L638 31.2 L640 31.2 L640 41.2 L642 41.2 L642 51.2 L644 51.2 L644 61.2 L646 61.2 L646 71.2 L648 71.2 L648 81.3 L650 81.3 L650 86.6 L674 86.6 L674 86.1 L676 86.1 L676 75.6 L678 75.6 L678 65.0 L680 65.0 L680 55.4 L718 55.4 L718 62.1 L720 62.1 L720 72.7 L722 72.7 L722 83.2 L724 83.2 L724 91.3 L748 91.3 L748 97.6 L750 97.6 L750 100.7 L752 100.7 L752 120.0 L754 120.0 L754 102.4 L756 102.4 L756 97.6 L758 97.6 L758 95.6 L794 95.6 L794 97.6 L796 97.6 L796 98.5 L802 98.5 L802 100.2 L804 100.2 L804 110.9 L806 110.9 L806 120.0 L866 120.0 L866 103.8 L872 103.8 L872 99.8 L874 99.8 L874 99.6 L916 99.6 L916 106.6 L918 106.6 L918 120.0 L922 120.0 L922 113.1 L934 113.1 L934 110.6 L972 110.6 L972 120.0 L1000 120.0 L1000 120 Z"/></svg>
+  <div class="wrap footer-grid">
+    <div>
+      <img class="footer-logo" src="/images/logo-wordmark-light.webp" alt="Mezzanine / ميزانين" width="540" height="71" loading="lazy">
+      <p class="footer-tag">Commercial Credit Intelligence</p>
     </div>
-    <p class="footer-rights">© 2026 Mezzanine / ميزانين. All rights reserved.</p>
+    <nav aria-label="Quick links">
+      <h2 class="footer-h">Quick links</h2>
+      <ul class="footer-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/about/">About Us</a></li>
+        <li><a href="/ecosystem/">Our Ecosystem</a></li>
+        <li><a href="/how-we-work/">How We Work</a></li>
+        <li><a href="/who-we-serve/">Who We Serve</a></li>
+        <li><a href="/solutions/">Solutions &amp; Products</a></li>
+        <li><a href="/contact/" data-cta="footer">Contact Us</a></li>
+        <li><a href="/privacy/">Privacy Policy</a></li>
+      </ul>
+    </nav>
+    <div>
+      <h2 class="footer-h">Contact</h2>
+      <ul class="footer-contact">
+        <li><a href="https://www.google.com/maps/search/?api=1&query=King+Abdullah+Financial+District+Riyadh" target="_blank" rel="noopener">KAFD 4.07, Riyadh, Kingdom of Saudi Arabia</a></li>
+        <li><a href="mailto:info@mezzanine.sa">info@mezzanine.sa</a></li>
+        <li><a href="tel:+966544043103" dir="ltr">+966 54 404 3103</a></li>
+        <li><a href="https://www.linkedin.com/company/mezzanineai" target="_blank" rel="noopener">LinkedIn</a></li>
+      </ul>
+    </div>
   </div>
+  <p class="wrap footer-rights">© 2026 Mezzanine / ميزانين. All rights reserved.</p>
 </footer>
 
 
 <button type="button" id="to-top" class="to-top" aria-label="Back to top"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M9 15V3M3.5 8.5L9 3l5.5 5.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
 <script src="/analytics.js" defer></script>
-<script src="/app.js" defer></script>
+<script type="module" src="/v2/app.js"></script>
 </body>
 </html>

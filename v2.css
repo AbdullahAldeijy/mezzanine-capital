@@ -458,3 +458,29 @@ html[dir="rtl"] .orbit-name { letter-spacing: 0; line-height: 1.55; }
 @keyframes v-orbit { to { offset-distance: 100%; } }
 @keyframes v-draw { 0% { stroke-dashoffset: 320; } 45%, 75% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: -320; } }
 @media (prefers-reduced-motion: reduce) { .sol { transition: none; } .v-gate { transform: translateY(-38px); opacity: .25; } .v-pulse { opacity: 1; transform: translateX(160px); } .v-orbiter { offset-distance: 30%; } }
+
+/* --- Contact: night city with a beacon at the KAFD landmark, then glass contact cards ---------- */
+.hero-contact { min-height: max(680px, 92svh); }
+.contact-title { font-size: clamp(3rem, 8.4vw, 8rem); }
+html[dir="rtl"] .contact-title { font-size: clamp(2.9rem, 8vw, 7.6rem); }
+.contact-lead { margin-top: clamp(18px, 2.4vw, 26px); font-family: var(--display); font-weight: 700; font-size: clamp(1.3rem, 2.4vw, 1.9rem); line-height: 1.3; letter-spacing: -.02em; color: var(--cyan); max-width: 22em; text-wrap: balance; }
+html[dir="rtl"] .contact-lead { letter-spacing: 0; line-height: 1.6; }
+.hero-contact .hero-lede { max-width: 38em; }
+
+.contact-cards-wrap { padding-top: clamp(40px, 5vw, 70px); }
+.contact-cards { display: grid; gap: 16px; }
+@media (min-width: 640px) { .contact-cards { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1100px) { .contact-cards { grid-template-columns: repeat(4, 1fr); } }
+.cc { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; padding: 28px; border-radius: 22px; min-height: 190px; transition: box-shadow .45s var(--ease), transform .45s var(--ease); }
+.cc:hover, .cc:focus-visible { box-shadow: 0 26px 60px -26px rgba(18, 224, 207, .7); transform: translateY(-3px); }
+.cc-icon { width: 26px; height: 26px; color: var(--cyan); margin-bottom: auto; padding-bottom: 18px; box-sizing: content-box; }
+.cc-label { font-size: .85rem; font-weight: 500; color: var(--teal); }
+.cc-value { font-size: 1.12rem; font-weight: 400; color: var(--ice); overflow-wrap: anywhere; background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; transition: background-size .45s var(--ease); }
+html[dir="rtl"] .cc-value[dir="ltr"] { text-align: right; }
+.cc:hover .cc-value { background-size: 100% 1px; }
+/* the address card carries the same beacon as the city */
+.cc-kafd .cc-icon { position: relative; overflow: visible; }
+.cc-kafd::after { content: ""; position: absolute; top: 34px; inset-inline-start: 34px; width: 14px; height: 14px; border-radius: 50%; box-shadow: 0 0 0 0 rgba(124, 247, 255, .6); pointer-events: none; }
+@media (prefers-reduced-motion: no-preference) { .cc-kafd::after { animation: beacon 2.6s ease-out infinite; } }
+@keyframes beacon { 0% { box-shadow: 0 0 0 0 rgba(124, 247, 255, .55); } 100% { box-shadow: 0 0 0 26px rgba(124, 247, 255, 0); } }
+@media (prefers-reduced-motion: reduce) { .cc { transition: none; } }

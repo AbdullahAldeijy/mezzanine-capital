@@ -138,7 +138,7 @@ if (city) {
   } else if (reduce || lowPower || !webglOK()) {
     city.classList.add('is-static');
   } else {
-    const start = () => import('./scene.js').then(({ mountCity }) => mountCity(city, { rtl, pointer })).catch(() => city.classList.add('is-static'));
+    const start = () => import('./scene.js').then(({ mountCity }) => mountCity(city, { rtl, pointer, beacon: city.hasAttribute('data-beacon') })).catch(() => city.classList.add('is-static'));
     const idle = () => (window.requestIdleCallback ? requestIdleCallback(start, { timeout: 1200 }) : setTimeout(start, 200));
     if (document.readyState === 'complete') idle(); else addEventListener('load', idle, { once: true });
   }
