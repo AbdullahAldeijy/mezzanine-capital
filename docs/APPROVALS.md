@@ -4,7 +4,8 @@ Tick each item once approved. Everything below is currently a **placeholder or d
 
 ## Brand / legal
 - [ ] **Official company name.** The site uses "Mezzanine / ميزانين" everywhere (logo alt, titles, footer ©, JSON-LD).
-      Search for `TODO(name-approval)` (i18n/*/site.mjs, src/shell.mjs). The logo image is the existing wordmark.
+      Search for `TODO(name-approval)` (i18n/*/site.mjs, src/shell.mjs). The logo is the existing wordmark, shown reversed
+      (off-white letters, teal kept) on the dark design: `images/logo-wordmark-light.webp`.
 - [ ] **Privacy policy text.** `/privacy/` is a clearly marked DRAFT (`TODO(legal)`), now written for a site with **no forms
       and no analytics**. Replace `i18n/*/privacy.mjs` and remove the draft note. Rewrite it when GA4 or forms are added.
 
@@ -34,9 +35,15 @@ Tick each item once approved. Everything below is currently a **placeholder or d
       Once set, the consent banner appears on every page and GA4 loads only after "Accept". Review the banner wording
       (i18n/*/site.mjs → `cookie`) and update the privacy text at that point.
 
+## Design (UI v2, "Capital Flow")
+- [ ] The visual direction: dark base, electric teal to cyan accents, glass panels, the generative 3D data city on Home
+      and Contact. The city is generative and only echoes KAFD's tapered towers; it is not a model of the real district.
+- [ ] Typography: Alexandria for both English and Arabic (self-hosted, `fonts/`, SIL Open Font License).
+- [ ] The KAFD photograph no longer appears on the site; it is still used for the social-sharing image (`images/og-hero.jpg`).
+
 ## Structure
 - [ ] The sticky bar's "Explore collaboration opportunities" button points to `/who-we-serve/` until the Phase 2
-      partnership page exists (`TODO(phase2)` in src/shell.mjs).
+      partnership page exists (`TODO(phase2)` in src/layout.mjs).
 - [ ] Phase 2 pages (partnership opportunities, roadmap, team, insights & knowledge) are intentionally not built or linked.
 - [ ] Arabic page canonicals are self-referencing (`/ar/...`), not pointing to the English page.
 
