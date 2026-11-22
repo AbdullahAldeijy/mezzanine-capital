@@ -95,6 +95,33 @@ $$('[data-net]').forEach((net) => {
   addEventListener('hashchange', fromHash);
 });
 
+// ---- Who We Serve orbit: hover / focus / tap reveals an audience's message in the centre ----
+$$('[data-orbit]').forEach((orbit) => {
+  const nodes = $$('.orbit-node', orbit), segs = $$('.seg', orbit.parentElement);
+  const select = (i) => {
+    nodes.forEach((n) => n.setAttribute('aria-pressed', String(n.dataset.i === i)));
+    $$('.orbit-spoke', orbit).forEach((l) => l.classList.toggle('is-on', l.dataset.i === i));
+    segs.forEach((s) => s.classList.toggle('is-on', s.dataset.i === i));
+  };
+  nodes.forEach((n) => {
+    n.addEventListener('click', () => select(n.dataset.i));
+    n.addEventListener('focus', () => select(n.dataset.i));
+    n.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') select(n.dataset.i); });
+  });
+  // /who-we-serve/#investor etc. (links from Home): select it, or bring its card into view in the scroller
+  const fromHash = () => {
+    const n = nodes.find((x) => `#${x.dataset.id}` === location.hash);
+    if (!n) return false;
+    select(n.dataset.i);
+    const seg = segs[+n.dataset.i];
+    if (getComputedStyle(orbit).display === 'none') seg.scrollIntoView({ block: 'center', inline: 'center', behavior: reduce ? 'auto' : 'smooth' });
+    else orbit.scrollIntoView({ block: 'center', behavior: reduce ? 'auto' : 'smooth' });
+    return true;
+  };
+  if (!fromHash()) select('0');
+  addEventListener('hashchange', fromHash);
+});
+
 // ---- the data city (WebGL): lazy, after first paint; static poster when it cannot or should not run ----
 const pointer = { x: 0, y: 0, active: false };
 if (finePointer) addEventListener('pointermove', (e) => { pointer.x = (e.clientX / innerWidth) * 2 - 1; pointer.y = -((e.clientY / innerHeight) * 2 - 1); pointer.active = true; }, { passive: true });
